@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/routes/app_routes.dart';
 
 class LandingScreen extends StatelessWidget {
   static const route = "/landing";
@@ -73,7 +75,9 @@ class LandingScreen extends StatelessWidget {
               ),
             ],
           ),
-          onPressed: () {},
+          onPressed: () {
+            context.router.push(const LoginRoute());
+          },
         ),
       ),
     );
