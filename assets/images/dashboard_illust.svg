@@ -1,0 +1,39 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="100" height="100" transform="matrix(0 1 1 0 200 0)" fill="#CCD3FA"/>
+<circle cx="225.25" cy="25.25" r="6.25" fill="#161622"/>
+<circle cx="250.25" cy="25.25" r="6.25" fill="#161622"/>
+<circle cx="275.25" cy="25.25" r="6.25" fill="#161622"/>
+<circle cx="225.25" cy="50.25" r="6.25" fill="#161622"/>
+<circle cx="250.25" cy="50.25" r="6.25" fill="#161622"/>
+<circle cx="275.25" cy="50.25" r="6.25" fill="#161622"/>
+<circle cx="225.25" cy="75.25" r="6.25" fill="#161622"/>
+<circle cx="250.25" cy="75.25" r="6.25" fill="#161622"/>
+<circle cx="275.25" cy="75.25" r="6.25" fill="#161622"/>
+<rect x="200" y="100" width="100" height="100" transform="rotate(-180 200 100)" fill="#CCD3FA"/>
+<path d="M200 0H100L150 50L200 0Z" fill="#161622"/>
+<path d="M100 0L100 100L150 50L100 0Z" fill="#161622"/>
+<path d="M100 100H200L150 50L100 100Z" fill="#CCF0FA"/>
+<path d="M200 100V0L150 50L200 100Z" fill="#CCD3FA"/>
+<rect width="100" height="100" transform="matrix(-1 0 0 1 300 100)" fill="#161622"/>
+<path d="M250 100C250 127.614 227.614 150 200 150V100H250Z" fill="#FEC391"/>
+<path d="M250 200C250 172.386 227.614 150 200 150V200H250Z" fill="#CCF0FA"/>
+<path d="M250 100C250 127.614 272.386 150 300 150V100H250Z" fill="#CCD3FA"/>
+<path d="M250 200C250 172.386 272.386 150 300 150V200H250Z" fill="#FEC391"/>
+<rect width="100" height="100" transform="matrix(-1 0 0 1 100 100)" fill="#CCD3FA"/>
+<path d="M100 200H0L50 150L100 200Z" fill="#FEC391"/>
+<path d="M0 200L0 100L50 150L0 200Z" fill="#CCF0FA"/>
+<path d="M0 100H100L50 150L0 100Z" fill="#161622"/>
+<path d="M100 100L100 200L50 150L100 100Z" fill="#CCD3FA"/>
+<rect width="100" height="100" transform="matrix(1 0 0 -1 0 100)" fill="#161622"/>
+<path d="M75 50C75 77.6142 52.6142 100 25 100L25 0C52.6142 0 75 22.3858 75 50Z" fill="#FEC391"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 6.68911L0 93.3109C7.35433 97.5651 15.8928 100 25 100L25 0C15.8928 0 7.35433 2.43486 0 6.68911Z" fill="#FEC391"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 6.68911L0 93.3109C14.945 84.6657 25 68.5071 25 50C25 31.4929 14.945 15.3343 0 6.68911Z" fill="#CCF0FA"/>
+<rect x="100" y="200" width="100" height="100" transform="rotate(-90 100 200)" fill="#CCF0FA"/>
+<path d="M100 200C100 186.868 102.587 173.864 107.612 161.732C112.638 149.599 120.003 138.575 129.289 129.289C138.575 120.003 149.599 112.638 161.732 107.612C173.864 102.587 186.868 100 200 100L200 200H100Z" fill="#FEC391"/>
+<rect x="200" y="300" width="100" height="100" transform="rotate(-90 200 300)" fill="#CCF0FA"/>
+<path d="M300 300V200L200 300H300Z" fill="#161622"/>
+<rect x="200" y="200" width="100" height="100" transform="rotate(90 200 200)" fill="#CCF0FA"/>
+<path d="M100 200V300L200 200H100Z" fill="#161622"/>
+<rect x="100" y="200" width="100" height="100" transform="rotate(90 100 200)" fill="#CCF0FA"/>
+<circle r="25" transform="matrix(-1 0 0 1 50 250)" fill="#161622"/>
+</svg>
