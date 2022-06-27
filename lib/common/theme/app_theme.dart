@@ -5,6 +5,5 @@ class AppTheme {
   static final darkTheme = ThemeData(
     canvasColor: AppColor.black,
     primaryColor: AppColor.primary,
-    fontFamily: "Gilroy",
   );
 }

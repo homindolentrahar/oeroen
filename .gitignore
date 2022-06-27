@@ -32,6 +32,11 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Generated Dart Files
+**/*.g.dart
+**/*.freezed.dart
+**/*.gr.dart
+
 # Web related
 lib/generated_plugin_registrant.dart
 
