@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/routes/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = "/login";
@@ -211,23 +213,26 @@ class _LoginPhoneState extends State<_LoginPhone> {
               ),
               const SizedBox(height: 48),
               RichText(
-                text: const TextSpan(
-                  style: TextStyle(
+                text: TextSpan(
+                  style: const TextStyle(
                     color: AppColor.light,
                     fontSize: 14,
                     fontFamily: AppFont.medium,
                   ),
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: "Belum memiliki akun?  ",
                     ),
                     TextSpan(
-                      text: "Buat Akun",
-                      style: TextStyle(
-                        color: AppColor.accent,
-                        fontFamily: AppFont.bold,
-                      ),
-                    ),
+                        text: "Buat Akun",
+                        style: const TextStyle(
+                          color: AppColor.accent,
+                          fontFamily: AppFont.bold,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.router.push(const RegisterRoute());
+                          }),
                   ],
                 ),
               ),
@@ -372,7 +377,7 @@ class _LoginEmailState extends State<_LoginEmail> {
                 ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
-                  FormBuilderValidators.email(),
+                  FormBuilderValidators.minLength(8),
                 ]),
               ),
               const SizedBox(height: 16),
@@ -444,7 +449,10 @@ class _LoginEmailState extends State<_LoginEmail> {
                         color: AppColor.accent,
                         fontFamily: AppFont.bold,
                       ),
-                      recognizer: TapGestureRecognizer()..onTap = () {},
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          context.router.push(const RegisterRoute());
+                        },
                     ),
                   ],
                 ),
