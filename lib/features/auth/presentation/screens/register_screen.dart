@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/presentation/widgets/app_primary_button.dart';
+import 'package:oeroen/routes/app_routes.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const route = "/register";
@@ -222,22 +224,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ]),
                         ),
                         const SizedBox(height: 32),
-                        MaterialButton(
-                          minWidth: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.all(16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          color: AppColor.primary,
-                          child: const Text(
-                            "Daftar",
-                            style: TextStyle(
-                              color: AppColor.black,
-                              fontSize: 16,
-                              fontFamily: AppFont.bold,
-                            ),
-                          ),
-                          onPressed: () {},
+                        AppPrimaryButton(
+                          text: "Daftar",
+                          onPressed: () {
+                            context.router.replaceAll([const UrunanRoute()]);
+                          },
                         ),
                         const SizedBox(height: 48),
                         RichText(

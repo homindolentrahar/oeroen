@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/presentation/widgets/app_primary_button.dart';
 import 'package:oeroen/routes/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -191,7 +192,9 @@ class _LoginPhoneState extends State<_LoginPhone> {
                     fontFamily: AppFont.bold,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.router.replaceAll([const UrunanRoute()]);
+                },
               ),
               const SizedBox(height: 24),
               GestureDetector(
@@ -398,22 +401,11 @@ class _LoginEmailState extends State<_LoginEmail> {
                 ),
               ),
               const SizedBox(height: 32),
-              MaterialButton(
-                minWidth: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                color: AppColor.primary,
-                child: const Text(
-                  "Masuk",
-                  style: TextStyle(
-                    color: AppColor.black,
-                    fontSize: 16,
-                    fontFamily: AppFont.bold,
-                  ),
-                ),
-                onPressed: () {},
+              AppPrimaryButton(
+                text: "Masuk",
+                onPressed: () {
+                  context.router.replaceAll([const UrunanRoute()]);
+                },
               ),
               const SizedBox(height: 24),
               GestureDetector(

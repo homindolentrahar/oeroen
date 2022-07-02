@@ -6,8 +6,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/features/auth/presentation/widgets/app_back_button.dart';
-import 'package:oeroen/features/auth/presentation/widgets/app_primary_button.dart';
+import 'package:oeroen/presentation/widgets/app_back_button.dart';
+import 'package:oeroen/presentation/widgets/app_primary_button.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const route = "/forgot-password";
