@@ -1,0 +1,6 @@
+<svg width="48" height="96" viewBox="0 0 48 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="48" width="48" height="48" transform="rotate(90 48 0)" fill="#CCF0FA"/>
+<path d="M0 0V48L48 0L0 0Z" fill="#212131"/>
+<rect y="96" width="48" height="48" transform="rotate(-90 0 96)" fill="#CCF0FA"/>
+<path d="M48 96V48L0 96H48Z" fill="#212131"/>
+</svg>

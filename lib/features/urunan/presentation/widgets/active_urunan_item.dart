@@ -17,9 +17,7 @@ class ActiveUrunanItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-        right: 16,
-      ),
+      margin: const EdgeInsets.only(right: 16),
       child: Material(
         color: AppColor.dark,
         borderRadius: BorderRadius.circular(16),

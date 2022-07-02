@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/features/urunan/presentation/framgents/beranda_fragment.dart';
+import 'package:oeroen/features/urunan/presentation/framgents/desaku_fragment.dart';
 
 class UrunanScreen extends StatefulWidget {
   static const route = "/urunan";
@@ -39,7 +40,7 @@ class _UrunanScreenState extends State<UrunanScreen> {
   ];
   final List<Widget> _fragments = [
     const BerandaFragment(),
-    const BerandaFragment(),
+    const DesakuFragment(),
     const BerandaFragment(),
     const BerandaFragment(),
   ];
