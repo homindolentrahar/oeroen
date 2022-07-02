@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:oeroen/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/landing_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/login_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
@@ -13,7 +14,8 @@ part 'app_routes.gr.dart';
     AutoRoute(page: SplashScreen, initial: true, path: SplashScreen.route),
     AutoRoute(page: LandingScreen, path: LandingScreen.route),
     AutoRoute(page: LoginScreen, path: LoginScreen.route),
-    AutoRoute(page: RegisterScreen,path: RegisterScreen.route),
+    AutoRoute(page: RegisterScreen, path: RegisterScreen.route),
+    AutoRoute(page: ForgotPasswordScreen, path: ForgotPasswordScreen.route),
   ],
 )
 class AppRouter extends _$AppRouter {}

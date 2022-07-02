@@ -392,7 +392,9 @@ class _LoginEmailState extends State<_LoginEmail> {
                       fontFamily: AppFont.bold,
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    context.router.push(const ForgotPasswordRoute());
+                  },
                 ),
               ),
               const SizedBox(height: 32),
