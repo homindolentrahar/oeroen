@@ -20,6 +20,8 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  var _selectedMethod = 0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -143,62 +145,89 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         child: ListView.builder(
                           itemCount: paymentMethods.length,
                           itemBuilder: (ctx, index) {
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 16),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.asset(
-                                      paymentMethods[index].image,
-                                      width: 40,
-                                      height: 40,
-                                      fit: BoxFit.cover,
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedMethod = index;
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 16),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.asset(
+                                        paymentMethods[index].image,
+                                        width: 40,
+                                        height: 40,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          paymentMethods[index].name,
-                                          style: const TextStyle(
-                                            color: AppColor.white,
-                                            fontSize: 16,
-                                            fontFamily: AppFont.semiBold,
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            paymentMethods[index].name,
+                                            style: const TextStyle(
+                                              color: AppColor.white,
+                                              fontSize: 16,
+                                              fontFamily: AppFont.semiBold,
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          paymentMethods[index].account,
-                                          style: const TextStyle(
-                                            color: AppColor.gray,
-                                            fontSize: 10,
-                                            fontFamily: AppFont.medium,
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            paymentMethods[index].account,
+                                            style: const TextStyle(
+                                              color: AppColor.gray,
+                                              fontSize: 10,
+                                              fontFamily: AppFont.medium,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Text(
-                                    NumberFormat.currency(
-                                      decimalDigits: 0,
-                                      symbol: "",
-                                    ).format(
-                                      paymentMethods[index].balance,
+                                    const SizedBox(width: 16),
+                                    Text(
+                                      NumberFormat.currency(
+                                        decimalDigits: 0,
+                                        symbol: "",
+                                      ).format(
+                                        paymentMethods[index].balance,
+                                      ),
+                                      style: const TextStyle(
+                                        color: AppColor.white,
+                                        fontSize: 16,
+                                        fontFamily: AppFont.bold,
+                                      ),
                                     ),
-                                    style: const TextStyle(
-                                      color: AppColor.white,
-                                      fontSize: 16,
-                                      fontFamily: AppFont.bold,
-                                    ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 16),
+                                    _selectedMethod == index
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(360),
+                                            child: SvgPicture.asset(
+                                              "assets/icons/success.svg",
+                                              width: 16,
+                                              height: 16,
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 16,
+                                            height: 16,
+                                            decoration: BoxDecoration(
+                                              color: AppColor.darker,
+                                              borderRadius:
+                                                  BorderRadius.circular(360),
+                                            ),
+                                          ),
+                                  ],
+                                ),
                               ),
                             );
                           },
