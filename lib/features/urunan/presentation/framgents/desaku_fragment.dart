@@ -158,7 +158,7 @@ class _DesakuFragmentState extends State<DesakuFragment> {
                   "Ganti",
                   style: TextStyle(
                     color: AppColor.black,
-                    fontSize: 10,
+                    fontSize: 12,
                     fontFamily: AppFont.bold,
                   ),
                 ),

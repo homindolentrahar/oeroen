@@ -9,6 +9,7 @@ import 'package:oeroen/features/urunan/data/urunan_data.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
 import 'package:oeroen/features/urunan/presentation/widgets/payment_method_item.dart';
 import 'package:oeroen/features/urunan/presentation/widgets/urunan_list_item.dart';
+import 'package:oeroen/routes/app_routes.dart';
 
 class DetailUrunanScreen extends StatefulWidget {
   static const route = "/detail-urunan";
@@ -63,7 +64,6 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
             Expanded(
               child: ListView(
                 physics: const BouncingScrollPhysics(),
@@ -227,7 +227,7 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
                                 "Ganti",
                                 style: TextStyle(
                                   color: AppColor.black,
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   fontFamily: AppFont.bold,
                                 ),
                               ),
@@ -312,7 +312,11 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
           padding: const EdgeInsets.all(32),
           elevation: 0,
           highlightElevation: 0,
-          onPressed: widget.item.completed ? null : () {},
+          onPressed: widget.item.completed
+              ? null
+              : () {
+                  context.router.push(PaymentRoute(item: widget.item));
+                },
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

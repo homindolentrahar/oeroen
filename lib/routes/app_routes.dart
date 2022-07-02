@@ -4,6 +4,7 @@ import 'package:oeroen/features/auth/presentation/screens/landing_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/login_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/detail_urunan_screen.dart';
+import 'package:oeroen/features/urunan/presentation/screens/payment_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/urunan_screen.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
 import 'package:oeroen/splash_screen.dart';
@@ -21,6 +22,7 @@ part 'app_routes.gr.dart';
     AutoRoute(page: ForgotPasswordScreen, path: ForgotPasswordScreen.route),
     AutoRoute(page: UrunanScreen, path: UrunanScreen.route),
     AutoRoute(page: DetailUrunanScreen, path: DetailUrunanScreen.route),
+    AutoRoute(page: PaymentScreen, path: PaymentScreen.route),
   ],
 )
 class AppRouter extends _$AppRouter {}
