@@ -15,7 +15,7 @@ final List<UrunanItem> activeUrunan = [
     type: UrunanType.Kebersihan,
     amount: 18000,
     timestamp: DateTime.now(),
-    completed: false,
+    completed: true,
   ),
   UrunanItem(
     id: "a88df718-5c0c-4a5d-ac99-d721aef29622",
@@ -23,7 +23,7 @@ final List<UrunanItem> activeUrunan = [
     type: UrunanType.Donasi,
     amount: 50000,
     timestamp: DateTime.now(),
-    completed: false,
+    completed: true,
   ),
   UrunanItem(
     id: "dd605891-9847-4a18-90a3-7fb874e2e3b5",

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oeroen/common/constant/constants.dart';
@@ -7,6 +8,7 @@ import 'package:oeroen/features/urunan/data/urunan_data.dart';
 import 'package:oeroen/features/urunan/presentation/widgets/active_urunan_item.dart';
 import 'package:oeroen/features/urunan/presentation/widgets/urunan_list_item.dart';
 import 'package:oeroen/presentation/widgets/app_icon_button.dart';
+import 'package:oeroen/routes/app_routes.dart';
 
 class BerandaFragment extends StatelessWidget {
   const BerandaFragment({Key? key}) : super(key: key);
@@ -104,6 +106,8 @@ class BerandaFragment extends StatelessWidget {
                 item: activeUrunan[index],
                 onPressed: (item) {
                   debugPrint("${item.id} clicked!");
+
+                  context.router.push(DetailUrunanRoute(item: item));
                 },
               );
             },
