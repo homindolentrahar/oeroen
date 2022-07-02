@@ -8,6 +8,7 @@ import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
+import 'package:oeroen/routes/app_routes.dart';
 
 class PaymentScreen extends StatefulWidget {
   static const route = "/payment";
@@ -380,7 +381,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
           padding: const EdgeInsets.all(32),
           elevation: 0,
           highlightElevation: 0,
-          onPressed: widget.item.completed ? null : () {},
+          onPressed: () {
+            context.router.push(const InvoiceRoute());
+          },
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
