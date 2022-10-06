@@ -38,6 +38,32 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
+  Future<Either<String, Unit>> verifyPhoneNumber(
+    String phoneNumber, {
+    void Function(PhoneAuthCredential credential)? verificationCompleted,
+    void Function(FirebaseAuthException exception)? verificationFailed,
+    void Function(String verificationId, int? resendToken)? codeSent,
+    void Function(String verificationId)? codeAutoRetrievalTimeout,
+  }) async {
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: verificationCompleted ?? (credential) {},
+        verificationFailed: verificationFailed ?? (exception) {},
+        codeSent: codeSent ?? (verificationId, resendToken) {},
+        codeAutoRetrievalTimeout:
+            codeAutoRetrievalTimeout ?? (String verificationId) {},
+      );
+
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(e.message.toString());
+    } on Exception catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  @override
   Future<Either<String, Unit>> createUserWithEmailAndPassword({
     required String email,
     required String password,
@@ -87,6 +113,40 @@ class AuthRepository implements IAuthRepository {
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
+      return left(e.message.toString());
+    } on Exception catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, Unit>> signInWithOtp({
+    required String verificationId,
+    required String otpCode,
+  }) async {
+    try {
+      final phoneCredential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: otpCode,
+      );
+
+      await _auth.signInWithCredential(phoneCredential);
+
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(e.message.toString());
+    } on Exception catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, Unit>> forgotPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+
+      return right(unit);
+    } on FirebaseException catch (e) {
       return left(e.message.toString());
     } on Exception catch (e) {
       return left(e.toString());
