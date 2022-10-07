@@ -1,7 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
-import 'package:oeroen/routes/app_routes.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class SplashScreen extends StatefulWidget {
   static const route = "/splash";
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       const Duration(milliseconds: 3000),
       () {
-        context.router.replace(const LandingRoute());
+        Get.offNamed(AppRoute.landingRoute);
       },
     );
 

@@ -1,4 +1,4 @@
-enum UrunanType { Keamanan, Kebersihan, Kas, Donasi }
+enum UrunanType { keamanan, kebersihan, kas, donasi }
 
 class UrunanItem {
   final String id;

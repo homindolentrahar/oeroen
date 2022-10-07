@@ -1,26 +1,26 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:oeroen/app_config.dart';
 import 'package:oeroen/common/theme/app_theme.dart';
-import 'package:oeroen/routes/app_routes.dart';
-
-final _appRouter = AppRouter();
+import 'package:oeroen/routes/app_route.dart';
 
 void main() {
-  runApp(const OeroenApp());
+  runApp(const App());
 }
 
-class OeroenApp extends StatelessWidget {
-  const OeroenApp({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Oeroen',
+      title: AppConfig.appName,
       theme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+      initialRoute: AppRoute.initialRoute,
+      getPages: AppRoute.routes,
       localizationsDelegates: const [
         FormBuilderLocalizations.delegate,
       ],

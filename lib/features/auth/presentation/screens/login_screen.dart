@@ -1,13 +1,13 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/presentation/widgets/app_primary_button.dart';
-import 'package:oeroen/routes/app_routes.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = "/login";
@@ -193,7 +193,7 @@ class _LoginPhoneState extends State<_LoginPhone> {
                   ),
                 ),
                 onPressed: () {
-                  context.router.replaceAll([const UrunanRoute()]);
+                  Get.offAllNamed(AppRoute.mainRoute);
                 },
               ),
               const SizedBox(height: 24),
@@ -234,7 +234,7 @@ class _LoginPhoneState extends State<_LoginPhone> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            context.router.push(const RegisterRoute());
+                            Get.toNamed(AppRoute.registerRoute);
                           }),
                   ],
                 ),
@@ -396,7 +396,7 @@ class _LoginEmailState extends State<_LoginEmail> {
                     ),
                   ),
                   onTap: () {
-                    context.router.push(const ForgotPasswordRoute());
+                    Get.toNamed(AppRoute.forgotPasswordRoute);
                   },
                 ),
               ),
@@ -404,7 +404,7 @@ class _LoginEmailState extends State<_LoginEmail> {
               AppPrimaryButton(
                 text: "Masuk",
                 onPressed: () {
-                  context.router.replaceAll([const UrunanRoute()]);
+                  Get.toNamed(AppRoute.mainRoute);
                 },
               ),
               const SizedBox(height: 24),
@@ -445,7 +445,7 @@ class _LoginEmailState extends State<_LoginEmail> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          context.router.push(const RegisterRoute());
+                          Get.toNamed(AppRoute.registerRoute);
                         },
                     ),
                   ],

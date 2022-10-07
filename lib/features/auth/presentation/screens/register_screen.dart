@@ -1,13 +1,13 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/presentation/widgets/app_primary_button.dart';
-import 'package:oeroen/routes/app_routes.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const route = "/register";
@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       color: AppColor.white,
                     ),
                     onPressed: () {
-                      context.router.navigateBack();
+                      Get.back();
                     },
                   ),
                 ),
@@ -227,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         AppPrimaryButton(
                           text: "Daftar",
                           onPressed: () {
-                            context.router.replaceAll([const UrunanRoute()]);
+                            Get.offAllNamed(AppRoute.mainRoute);
                           },
                         ),
                         const SizedBox(height: 48),
@@ -250,7 +250,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      context.router.navigateBack();
+                                      Get.back();
                                     }),
                             ],
                           ),

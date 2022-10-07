@@ -4,7 +4,7 @@ final List<UrunanItem> activeUrunan = [
   UrunanItem(
     id: "378c2c2b-71d7-451d-b049-f90c73956602",
     desaId: "desa1",
-    type: UrunanType.Keamanan,
+    type: UrunanType.keamanan,
     amount: 25000,
     timestamp: DateTime.now(),
     completed: false,
@@ -12,7 +12,7 @@ final List<UrunanItem> activeUrunan = [
   UrunanItem(
     id: "62de2b88-c8e6-4b83-a572-0cbec995d1e5",
     desaId: "desa1",
-    type: UrunanType.Kebersihan,
+    type: UrunanType.kebersihan,
     amount: 18000,
     timestamp: DateTime.now(),
     completed: true,
@@ -20,7 +20,7 @@ final List<UrunanItem> activeUrunan = [
   UrunanItem(
     id: "a88df718-5c0c-4a5d-ac99-d721aef29622",
     desaId: "desa1",
-    type: UrunanType.Donasi,
+    type: UrunanType.donasi,
     amount: 50000,
     timestamp: DateTime.now(),
     completed: true,
@@ -28,7 +28,7 @@ final List<UrunanItem> activeUrunan = [
   UrunanItem(
     id: "dd605891-9847-4a18-90a3-7fb874e2e3b5",
     desaId: "desa1",
-    type: UrunanType.Kas,
+    type: UrunanType.kas,
     amount: 10000,
     timestamp: DateTime.now(),
     completed: false,

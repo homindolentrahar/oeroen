@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:oeroen/errors/app_error.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
-import 'package:oeroen/features/errors/app_error.dart';
 
 class VerifyPhoneNumber {
   final IAuthRepository _repository;

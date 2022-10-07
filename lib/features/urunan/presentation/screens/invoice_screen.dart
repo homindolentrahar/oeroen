@@ -1,11 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/routes/app_routes.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class InvoiceScreen extends StatefulWidget {
   static const route = "/invoice";
@@ -32,7 +32,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      context.router.replaceAll([const UrunanRoute()]);
+                      Get.offAllNamed(AppRoute.mainRoute);
                     },
                     child: SvgPicture.asset(
                       "assets/icons/close.svg",
@@ -342,7 +342,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           elevation: 0,
           highlightElevation: 0,
           onPressed: () {
-            context.router.replaceAll([const UrunanRoute()]);
+            Get.offAllNamed(AppRoute.mainRoute);
           },
           child: const Text(
             "Kembali ke Beranda",
