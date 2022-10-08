@@ -25,6 +25,11 @@ class AuthRepository implements IAuthRepository {
     yield* _auth.authStateChanges().map(
       (user) {
         final user = _auth.currentUser;
+
+        if (user == null) {
+          return left<String, AuthUser>("User not found");
+        }
+
         final firebaseAuthUser = FirebaseAuthUser.fromUser(user);
         final authUser = firebaseAuthUser.toAuthUser();
 
