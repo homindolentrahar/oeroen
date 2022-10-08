@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,11 +10,15 @@ import 'package:rxdart/rxdart.dart';
 class AuthRepository implements IAuthRepository {
   final FirebaseAuth _auth;
   final GoogleSignIn _googleSignIn;
+  final FirebaseFirestore _firestore;
 
   AuthRepository(
-      {required FirebaseAuth auth, required GoogleSignIn googleSignIn})
+      {required FirebaseAuth auth,
+      required GoogleSignIn googleSignIn,
+      required FirebaseFirestore firestore})
       : _auth = auth,
-        _googleSignIn = googleSignIn;
+        _googleSignIn = googleSignIn,
+        _firestore = firestore;
 
   @override
   Stream<Either<String, AuthUser>> authStateChanges() async* {
