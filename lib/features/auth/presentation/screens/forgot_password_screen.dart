@@ -6,30 +6,18 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/features/auth/presentation/application/forgot_password_controller.dart';
 import 'package:oeroen/presentation/widgets/app_back_button.dart';
 import 'package:oeroen/presentation/widgets/app_primary_button.dart';
+import 'package:oeroen/utils/int_extensions.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  static const route = "/forgot-password";
-
+class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
-}
-
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  late GlobalKey<FormBuilderState> _formKey;
-
-  @override
-  void initState() {
-    _formKey = GlobalKey<FormBuilderState>();
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -83,7 +71,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                   const SizedBox(height: 32),
                   FormBuilder(
-                    key: _formKey,
+                    key: formKey,
                     autovalidateMode: AutovalidateMode.disabled,
                     autoFocusOnValidationFailure: true,
                     child: Column(
@@ -125,31 +113,39 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         const SizedBox(height: 32),
                         AppPrimaryButton(
                           text: "Kirim Email",
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.forgotPassword("");
+                          },
                         ),
                         const SizedBox(height: 48),
-                        RichText(
-                          text: TextSpan(
-                            style: const TextStyle(
-                              color: AppColor.light,
-                              fontSize: 14,
-                              fontFamily: AppFont.medium,
-                            ),
-                            children: [
-                              const TextSpan(
-                                text: "Belum menerima email?  ",
+                        Obx(
+                          () => RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                color: AppColor.light,
+                                fontSize: 14,
+                                fontFamily: AppFont.medium,
                               ),
-                              TextSpan(
-                                  text: "00:50",
-                                  style: const TextStyle(
-                                    color: AppColor.accent,
-                                    fontFamily: AppFont.semiBold,
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Get.back();
-                                    }),
-                            ],
+                              children: [
+                                const TextSpan(
+                                  text: "Belum menerima email?  ",
+                                ),
+                                TextSpan(
+                                    text: controller.timeout.value > 0
+                                        ? controller.timeout.value.formatTimer()
+                                        : "Kirim Ulang",
+                                    style: const TextStyle(
+                                      color: AppColor.accent,
+                                      fontFamily: AppFont.semiBold,
+                                    ),
+                                    recognizer: controller.timeout.value > 0
+                                        ? null
+                                        : TapGestureRecognizer()
+                                      ?..onTap = () {
+                                        controller.forgotPassword("");
+                                      }),
+                              ],
+                            ),
                           ),
                         ),
                       ],

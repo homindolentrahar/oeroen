@@ -7,5 +7,5 @@ class AuthStateChanges {
 
   AuthStateChanges(IAuthRepository repository) : _repository = repository;
 
-  Stream<Either<String, AuthUser>> call() => _repository.authStateChanges();
+  Stream<Option<AuthUser>> call() => _repository.authStateChanges();
 }

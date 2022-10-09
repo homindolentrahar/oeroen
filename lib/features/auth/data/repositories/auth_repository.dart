@@ -6,6 +6,7 @@ import 'package:oeroen/features/auth/data/remote/firebase/firebase_auth_user.dar
 import 'package:oeroen/features/auth/domain/models/auth_user.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:logger/logger.dart';
 
 class AuthRepository implements IAuthRepository {
   final FirebaseAuth _auth;
@@ -21,28 +22,31 @@ class AuthRepository implements IAuthRepository {
         _firestore = firestore;
 
   @override
-  Stream<Either<String, AuthUser>> authStateChanges() async* {
+  Stream<Option<AuthUser>> authStateChanges() async* {
     yield* _auth.authStateChanges().map(
       (user) {
-        final user = _auth.currentUser;
+        Logger().i("AuthStateChanges: ${user.toString()} ");
 
         if (user == null) {
-          return left<String, AuthUser>("User not found");
+          return none<AuthUser>();
         }
 
         final firebaseAuthUser = FirebaseAuthUser.fromUser(user);
         final authUser = firebaseAuthUser.toAuthUser();
 
-        return right<String, AuthUser>(authUser);
+        return some<AuthUser>(authUser);
       },
     ).onErrorReturnWith(
       (error, stackTrace) {
         if (error is FirebaseAuthException) {
-          return left(error.message.toString());
+          Logger().e(error.message.toString());
+          return none();
         } else if (error is FirebaseException) {
-          return left(error.message.toString());
+          Logger().e(error.message.toString());
+          return none();
         }
-        return left(error.toString());
+        Logger().e(error.toString());
+        return none();
       },
     );
   }

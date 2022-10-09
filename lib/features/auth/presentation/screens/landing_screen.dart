@@ -76,7 +76,7 @@ class LandingScreen extends StatelessWidget {
             ],
           ),
           onPressed: () {
-            Get.toNamed(AppRoute.loginRoute);
+            Get.toNamed(AppRoute.loginEmailRoute);
           },
         ),
       ),
