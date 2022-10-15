@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:oeroen/routes/app_route.dart';
 
-class ForgotPasswordController extends GetxController with StateMixin<String> {
+class ForgotPasswordController extends GetxController {
   final IAuthRepository _authRepository;
 
   ForgotPasswordController({
@@ -12,17 +14,21 @@ class ForgotPasswordController extends GetxController with StateMixin<String> {
   final Rx<int> timeout = 0.obs;
 
   Future<void> forgotPassword(String email) async {
-    change(null, status: RxStatus.loading());
-
     final result = await _authRepository.forgotPassword(email);
 
     result.fold(
       (error) {
-        change(null, status: RxStatus.error(error));
+        Logger().e(error);
+        Get.snackbar(
+          "Terjadi kesalahan",
+          "Tidak dapat mengeluarkan akun",
+          borderRadius: 8,
+        );
       },
       (_) {
+        //  Navigate to OTP screen & start timer
         _startTimeout();
-        change(email, status: RxStatus.success());
+        Get.toNamed(AppRoute.otpRoute);
       },
     );
   }

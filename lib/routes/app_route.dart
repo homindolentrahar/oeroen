@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/user_sign_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/landing_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/login_phone_screen.dart';
@@ -36,6 +37,7 @@ class AppRoute {
       name: authRoute,
       page: () => const AuthScreen(),
       transition: Transition.fadeIn,
+      binding: UserSignBinding(),
       children: [
         GetPage(
           name: loginEmailRoute,
@@ -52,6 +54,7 @@ class AppRoute {
     GetPage(
       name: registerRoute,
       page: () => const RegisterScreen(),
+      binding: UserSignBinding(),
     ),
     GetPage(
       name: forgotPasswordRoute,

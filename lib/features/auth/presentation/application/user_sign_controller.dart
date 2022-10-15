@@ -1,54 +1,53 @@
-import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-import 'package:oeroen/features/auth/domain/usecases/create_user_with_email_and_password.dart';
-import 'package:oeroen/features/auth/domain/usecases/sign_in_with_email_and_password.dart';
-import 'package:oeroen/features/auth/domain/usecases/sign_in_with_google.dart';
+import 'package:logger/logger.dart';
+import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:oeroen/routes/app_route.dart';
 
-class UserSignController extends GetxController with StateMixin<Unit> {
-  final SignInWithEmailAndPassword _signInWithEmailAndPassword;
-  final SignInWithGoogle _signInWithGoogle;
-  final CreateUserWithEmailAndPassword _createUserWithEmailAndPassword;
+class UserSignController extends GetxController {
+  final IAuthRepository _authRepository;
 
   UserSignController({
-    required SignInWithEmailAndPassword signInWithEmailAndPassword,
-    required SignInWithGoogle signInWithGoogle,
-    required CreateUserWithEmailAndPassword createUserWithEmailAndPassword,
-  })  : _signInWithEmailAndPassword = signInWithEmailAndPassword,
-        _signInWithGoogle = signInWithGoogle,
-        _createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+    required IAuthRepository authRepository,
+  }) : _authRepository = authRepository;
 
   Future<void> login({
     required String email,
     required String password,
   }) async {
-    change(null, status: RxStatus.loading());
-
-    final result = await _signInWithEmailAndPassword(
+    final result = await _authRepository.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
 
     result.fold(
       (error) {
-        change(null, status: RxStatus.error(error));
+        Logger().e(error);
+        Get.snackbar(
+          "Terjadi kesalahan",
+          "Tidak dapat mengeluarkan akun",
+          borderRadius: 8,
+        );
       },
-      (unit) {
-        change(unit, status: RxStatus.success());
+      (_) {
+        Get.offAllNamed(AppRoute.mainRoute);
       },
     );
   }
 
   Future<void> googleLogin() async {
-    change(null, status: RxStatus.loading());
-
-    final result = await _signInWithGoogle();
+    final result = await _authRepository.signInWithGoogle();
 
     result.fold(
       (error) {
-        change(null, status: RxStatus.error(error));
+        Logger().e(error);
+        Get.snackbar(
+          "Terjadi kesalahan",
+          "Tidak dapat mengeluarkan akun",
+          borderRadius: 8,
+        );
       },
       (unit) {
-        change(unit, status: RxStatus.success());
+        Get.offAllNamed(AppRoute.mainRoute);
       },
     );
   }
@@ -57,19 +56,22 @@ class UserSignController extends GetxController with StateMixin<Unit> {
     required String email,
     required String password,
   }) async {
-    change(null, status: RxStatus.loading());
-
-    final result = await _createUserWithEmailAndPassword(
+    final result = await _authRepository.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
     result.fold(
       (error) {
-        change(null, status: RxStatus.error(error));
+        Logger().e(error);
+        Get.snackbar(
+          "Terjadi kesalahan",
+          "Tidak dapat mengeluarkan akun",
+          borderRadius: 8,
+        );
       },
       (unit) {
-        change(unit, status: RxStatus.success());
+        Get.offAllNamed(AppRoute.mainRoute);
       },
     );
   }
