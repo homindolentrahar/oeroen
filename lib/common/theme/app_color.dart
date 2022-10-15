@@ -11,9 +11,9 @@ class AppColor {
   static const accent = Color(0xFFFEC391);
 
   static const red = Color(0xFFFACCCC);
-  static const red_fg = Color(0xFFF27D7D);
+  static const redFg = Color(0xFFF27D7D);
   static const green = Color(0xFFCCFAE7);
-  static const green_fg = Color(0xFF7DF2C1);
+  static const greenFg = Color(0xFF7DF2C1);
   static const keamanan = Color(0xFFCCF0FA);
   static const kebersihan = Color(0xFFCCD3FA);
   static const donasi = Color(0xFFEC91FE);

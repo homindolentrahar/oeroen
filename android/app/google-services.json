@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "157844578587",
+    "project_id": "oeroen-8e008",
+    "storage_bucket": "oeroen-8e008.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157844578587:android:aec6a969e13397a53a73be",
+        "android_client_info": {
+          "package_name": "com.homindolentrahar.oeroen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157844578587-gpfcc2ojvgg22u0u74eecrqtn2bucc7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACQhPfMxmluSUzNvrUgfm63yD2nVlacZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157844578587-gpfcc2ojvgg22u0u74eecrqtn2bucc7k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

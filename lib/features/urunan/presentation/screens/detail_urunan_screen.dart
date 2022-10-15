@@ -1,6 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
@@ -9,11 +9,11 @@ import 'package:oeroen/features/urunan/data/urunan_data.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
 import 'package:oeroen/features/urunan/presentation/widgets/payment_method_item.dart';
 import 'package:oeroen/features/urunan/presentation/widgets/urunan_list_item.dart';
-import 'package:oeroen/routes/app_routes.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class DetailUrunanScreen extends StatefulWidget {
   static const route = "/detail-urunan";
-  final UrunanItem item;
+  final UrunanItem? item;
 
   const DetailUrunanScreen({Key? key, required this.item}) : super(key: key);
 
@@ -36,7 +36,7 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      context.router.navigateBack();
+                      Get.back();
                     },
                     child: SvgPicture.asset(
                       "assets/icons/back.svg",
@@ -46,7 +46,7 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
                   const SizedBox(width: 16),
                   Expanded(
                     child: Text(
-                      "Urunan ${widget.item.type.name}",
+                      "Urunan ${widget.item?.type.name}",
                       style: const TextStyle(
                         color: AppColor.white,
                         fontSize: 16,
@@ -83,7 +83,7 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
                                 decimalDigits: 0,
                                 symbol: "Rp ",
                                 name: "IDR",
-                              ).format(widget.item.amount),
+                              ).format(widget.item?.amount),
                               style: const TextStyle(
                                 color: AppColor.white,
                                 fontFamily: AppFont.bold,
@@ -117,18 +117,18 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: (widget.item.completed
+                          color: (widget.item!.completed
                                   ? AppColor.green
                                   : AppColor.red)
                               .withOpacity(0.25),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          widget.item.completed ? "Lunas" : "Belum Lunas",
+                          widget.item!.completed ? "Lunas" : "Belum Lunas",
                           style: TextStyle(
-                            color: widget.item.completed
-                                ? AppColor.green_fg
-                                : AppColor.red_fg,
+                            color: widget.item!.completed
+                                ? AppColor.greenFg
+                                : AppColor.redFg,
                             fontSize: 12,
                             fontFamily: AppFont.bold,
                           ),
@@ -278,7 +278,7 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Riwayat Urunan ${widget.item.type.name}",
+                        "Riwayat Urunan ${widget.item?.type.name}",
                         style: const TextStyle(
                           color: AppColor.light,
                           fontSize: 14,
@@ -312,10 +312,10 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
           padding: const EdgeInsets.all(32),
           elevation: 0,
           highlightElevation: 0,
-          onPressed: widget.item.completed
+          onPressed: widget.item!.completed
               ? null
               : () {
-                  context.router.push(PaymentRoute(item: widget.item));
+                  Get.toNamed("${AppRoute.paymentRoute}/${widget.item?.id}");
                 },
           child: Row(
             mainAxisSize: MainAxisSize.max,
@@ -326,14 +326,14 @@ class _DetailUrunanScreenState extends State<DetailUrunanScreen> {
                 "Bayar",
                 style: TextStyle(
                   color:
-                      widget.item.completed ? AppColor.light : AppColor.black,
+                      widget.item!.completed ? AppColor.light : AppColor.black,
                   fontSize: 20,
                   fontFamily: AppFont.bold,
                 ),
               ),
               SvgPicture.asset(
                 "assets/icons/arrow_right.svg",
-                color: widget.item.completed ? AppColor.light : AppColor.black,
+                color: widget.item!.completed ? AppColor.light : AppColor.black,
               ),
             ],
           ),
