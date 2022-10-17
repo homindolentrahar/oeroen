@@ -83,6 +83,7 @@ class AppRoute {
     ),
     GetPage(
       name: mainRoute,
+      transition: Transition.fadeIn,
       page: () => const UrunanScreen(),
     ),
     GetPage(

@@ -1,6 +1,6 @@
 class AppFont {
-  static const regular = "Gilroy-Regular";
-  static const medium = "Gilroy-Medium";
-  static const semiBold = "Gilroy-SemiBold";
-  static const bold = "Gilroy-Bold";
+  static const regular = "Poppins-Regular";
+  static const medium = "Poppins-Medium";
+  static const semiBold = "Poppins-SemiBold";
+  static const bold = "Poppins-Bold";
 }

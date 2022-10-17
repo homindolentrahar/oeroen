@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:oeroen/routes/app_route.dart';
 
 class AuthScreen extends StatelessWidget {
-  static const String routeKey = "auth-route-key";
-
   const AuthScreen({Key? key}) : super(key: key);
 
   @override
