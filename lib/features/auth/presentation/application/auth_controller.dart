@@ -22,7 +22,11 @@ class AuthController extends GetxController {
           Get.offAllNamed(AppRoute.authRoute);
         },
         (authUser) {
-          Get.offAllNamed(AppRoute.mainRoute);
+          if (authUser.isVerified) {
+            Get.offAllNamed(AppRoute.mainRoute);
+          } else {
+            Get.offAllNamed(AppRoute.waitingVerificationRoute);
+          }
         },
       );
     }, time: const Duration(milliseconds: 2000));

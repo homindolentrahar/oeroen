@@ -9,6 +9,7 @@ import 'package:oeroen/features/auth/presentation/screens/login_email_screen.dar
 import 'package:oeroen/features/auth/presentation/screens/otp_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
+import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/detail_urunan_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/invoice_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/payment_screen.dart';
@@ -24,6 +25,7 @@ class AppRoute {
   static const String otpRoute = "/otp";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
+  static const String waitingVerificationRoute = "/waiting-verification";
   static const String urunanRoute = "/urunan";
   static const String paymentRoute = "/payment";
   static const String invoiceRoute = "/invoice";
@@ -78,12 +80,12 @@ class AppRoute {
       page: () => const RegisterScreen(),
     ),
     GetPage(
-      name: forgotPasswordRoute,
-      page: () => const ForgotPasswordScreen(),
-    ),
-    GetPage(
       name: mainRoute,
       page: () => const UrunanScreen(),
+    ),
+    GetPage(
+      name: waitingVerificationRoute,
+      page: () => const WaitingVerificationScreen(),
     ),
     GetPage(
       name: "$urunanRoute/:id",

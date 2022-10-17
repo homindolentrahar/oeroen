@@ -5,6 +5,8 @@ import 'package:oeroen/features/auth/domain/models/auth_user.dart';
 abstract class IAuthRepository {
   Stream<Option<AuthUser>> authStateChanges();
 
+  Option<AuthUser> get currentUser;
+
   Future<Either<String, Unit>> verifyPhoneNumber(
     String phoneNumber, {
     void Function(PhoneAuthCredential credential)? verificationCompleted,
@@ -31,6 +33,8 @@ abstract class IAuthRepository {
   });
 
   Future<Either<String, Unit>> forgotPassword(String email);
+
+  Future<Either<String, Unit>> sendVerificationEmail(String email);
 
   Future<Either<String, Unit>> signOut();
 }

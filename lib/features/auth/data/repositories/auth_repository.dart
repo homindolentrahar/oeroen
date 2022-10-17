@@ -34,6 +34,25 @@ class AuthRepository implements IAuthRepository {
         final firebaseAuthUser = FirebaseAuthUser.fromUser(user);
         final authUser = firebaseAuthUser.toAuthUser();
 
+        if (!authUser.isVerified) {
+          //  If user signed in with Email and the email is not verified
+          //  then sign send email verification
+          //
+          // EmailAuthProviderID: password
+          // PhoneAuthProviderID: phone
+          // GoogleAuthProviderID: google.com
+          // FacebookAuthProviderID: facebook.com
+          // TwitterAuthProviderID: twitter.com
+          // GitHubAuthProviderID: github.com
+          // AppleAuthProviderID: apple.com
+          // YahooAuthProviderID: yahoo.com
+          // MicrosoftAuthProviderID: hotmail.com
+          //
+          if (authUser.providerId == EmailAuthProvider.PROVIDER_ID) {
+            user.sendEmailVerification();
+          }
+        }
+
         return some<AuthUser>(authUser);
       },
     ).onErrorReturnWith(
@@ -50,6 +69,10 @@ class AuthRepository implements IAuthRepository {
       },
     );
   }
+
+  @override
+  Option<AuthUser> get currentUser => optionOf(_auth.currentUser)
+      .map((user) => FirebaseAuthUser.fromUser(user).toAuthUser());
 
   @override
   Future<Either<String, Unit>> verifyPhoneNumber(
@@ -168,10 +191,31 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
+  Future<Either<String, Unit>> sendVerificationEmail(String email) async {
+    try {
+      final currentUser = _auth.currentUser;
+
+      if (currentUser == null) {
+        return left("User is not authenticated");
+      }
+
+      await currentUser.sendEmailVerification();
+
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(e.message.toString());
+    } on Exception catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  @override
   Future<Either<String, Unit>> signOut() async {
     try {
-      await _auth.signOut();
-      await _googleSignIn.signOut();
+      await Future.wait([
+        _auth.signOut(),
+        _googleSignIn.signOut(),
+      ]);
 
       return right(unit);
     } on FirebaseAuthException catch (e) {

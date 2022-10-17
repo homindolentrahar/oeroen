@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
-import 'package:oeroen/routes/app_route.dart';
 
 class ForgotPasswordController extends GetxController {
   final IAuthRepository _authRepository;
@@ -26,9 +25,7 @@ class ForgotPasswordController extends GetxController {
         );
       },
       (_) {
-        //  Navigate to OTP screen & start timer
         _startTimeout();
-        Get.toNamed(AppRoute.otpRoute);
       },
     );
   }
