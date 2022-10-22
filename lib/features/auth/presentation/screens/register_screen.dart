@@ -6,7 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/presentation/widgets/app_primary_button.dart';
+import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/routes/app_route.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -224,7 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ]),
                         ),
                         const SizedBox(height: 32),
-                        AppPrimaryButton(
+                        AppFillButton(
                           text: "Daftar",
                           onPressed: () {
                             Get.offAllNamed(AppRoute.mainRoute);

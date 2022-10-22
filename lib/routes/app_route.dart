@@ -42,12 +42,12 @@ class AppRoute {
         GetPage(
           name: loginEmailRoute,
           page: () => const LoginEmailScreen(),
-          transition: Transition.fadeIn,
+          transition: Transition.rightToLeftWithFade,
         ),
         GetPage(
           name: loginPhoneRoute,
           page: () => const LoginPhoneScreen(),
-          transition: Transition.fadeIn,
+          transition: Transition.leftToRightWithFade,
         ),
       ],
     ),

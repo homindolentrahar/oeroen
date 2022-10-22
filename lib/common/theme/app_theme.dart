@@ -4,6 +4,6 @@ import 'package:oeroen/common/theme/app_color.dart';
 class AppTheme {
   static final defaultTheme = ThemeData(
     primaryColor: AppColor.primary,
-    canvasColor: AppColor.white,
+    canvasColor: AppColor.light,
   );
 }

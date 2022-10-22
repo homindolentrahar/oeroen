@@ -8,7 +8,7 @@ import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/features/auth/presentation/application/forgot_password_controller.dart';
 import 'package:oeroen/presentation/widgets/app_back_button.dart';
-import 'package:oeroen/presentation/widgets/app_primary_button.dart';
+import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/utils/int_extensions.dart';
 
 class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
@@ -111,7 +111,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                           ]),
                         ),
                         const SizedBox(height: 32),
-                        AppPrimaryButton(
+                        AppFillButton(
                           text: "Kirim Email",
                           onPressed: () {
                             controller.forgotPassword("");
