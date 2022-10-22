@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,260 +6,137 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
+import 'package:oeroen/presentation/widgets/app_text_button.dart';
+import 'package:oeroen/presentation/widgets/app_text_field.dart';
 import 'package:oeroen/routes/app_route.dart';
 
-class RegisterScreen extends StatefulWidget {
-  static const route = "/register";
-
+class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
-  late GlobalKey<FormBuilderState> _formKey;
-
-  @override
-  void initState() {
-    _formKey = GlobalKey<FormBuilderState>();
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
+    final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(32),
+          physics: const BouncingScrollPhysics(),
           children: [
             Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 32,
-                    top: 32,
-                  ),
-                  child: MaterialButton(
-                    minWidth: 40,
-                    height: 40,
-                    color: AppColor.dark,
-                    padding: const EdgeInsets.all(8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      side: const BorderSide(color: Colors.transparent),
-                    ),
-                    child: SvgPicture.asset(
-                      "assets/icons/back.svg",
-                      color: AppColor.white,
-                    ),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
+                SvgPicture.asset(
+                  "assets/icons/logo.svg",
+                  width: 48,
+                  height: 48,
                 ),
-                SvgPicture.asset("assets/images/register_illust.svg"),
               ],
             ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+            const SizedBox(height: 32),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "Halo Kamu!",
+                  style: TextStyle(
+                    fontFamily: AppFont.semiBold,
+                    fontSize: 32,
+                    color: AppColor.black,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  "Agar kita dapat lebih mengenal, yuk gabung dengan ratusan warga yang melek digital",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColor.dark,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            FormBuilder(
+              key: formKey,
+              autovalidateMode: AutovalidateMode.disabled,
+              autoFocusOnValidationFailure: true,
+              child: Column(
                 children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "Daftar",
-                        style: TextStyle(
-                          color: AppColor.white,
-                          fontSize: 32,
-                          fontFamily: AppFont.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "Bergabung bersama layanan urun yang praktis dan transparan",
-                        style: TextStyle(
-                          color: AppColor.light,
-                          fontSize: 14,
-                          fontFamily: AppFont.medium,
-                        ),
-                      ),
-                    ],
+                  AppTextField(
+                    name: 'email',
+                    hintText: "Alamat Email",
+                    prefix: SvgPicture.asset(
+                      "assets/icons/ic_email.svg",
+                      width: 16,
+                      height: 16,
+                      color: AppColor.gray,
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    action: TextInputAction.next,
+                    validators: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.email(),
+                    ]),
+                    onChanged: (value) {},
+                  ),
+                  const SizedBox(height: 24),
+                  AppTextField(
+                    name: "password",
+                    hintText: "Kata Sandi",
+                    prefix: SvgPicture.asset(
+                      "assets/icons/ic_password.svg",
+                      width: 16,
+                      height: 16,
+                      color: AppColor.gray,
+                    ),
+                    keyboardType: TextInputType.visiblePassword,
+                    action: TextInputAction.done,
+                    obscure: true,
+                    validators: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.minLength(8),
+                    ]),
+                    onChanged: (value) {},
+                  ),
+                  const SizedBox(height: 64),
+                  AppFillButton(
+                    text: "Masuk",
+                    onPressed: () {
+                      formKey.currentState?.validate();
+                    },
                   ),
                   const SizedBox(height: 32),
-                  FormBuilder(
-                    key: _formKey,
-                    autovalidateMode: AutovalidateMode.disabled,
-                    autoFocusOnValidationFailure: true,
-                    child: Column(
-                      children: [
-                        FormBuilderTextField(
-                          name: "name",
-                          keyboardType: TextInputType.name,
-                          textInputAction: TextInputAction.next,
-                          style: const TextStyle(
-                            color: AppColor.light,
-                            fontSize: 14,
-                            fontFamily: AppFont.medium,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Masukkan Nama Lengkap",
-                            hintStyle: const TextStyle(
-                              color: AppColor.gray,
-                              fontSize: 14,
-                              fontFamily: AppFont.regular,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  const BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  const BorderSide(color: AppColor.primary),
-                            ),
-                            filled: true,
-                            fillColor: AppColor.darker,
-                          ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.minLength(3),
-                          ]),
-                        ),
-                        const SizedBox(height: 16),
-                        FormBuilderTextField(
-                          name: "email",
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          style: const TextStyle(
-                            color: AppColor.light,
-                            fontSize: 14,
-                            fontFamily: AppFont.medium,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Masukkan Email",
-                            hintStyle: const TextStyle(
-                              color: AppColor.gray,
-                              fontSize: 14,
-                              fontFamily: AppFont.regular,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  const BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  const BorderSide(color: AppColor.primary),
-                            ),
-                            filled: true,
-                            fillColor: AppColor.darker,
-                          ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.email(),
-                          ]),
-                        ),
-                        const SizedBox(height: 16),
-                        FormBuilderTextField(
-                          name: "password",
-                          keyboardType: TextInputType.visiblePassword,
-                          textInputAction: TextInputAction.done,
-                          obscureText: true,
-                          style: const TextStyle(
-                            color: AppColor.light,
-                            fontSize: 14,
-                            fontFamily: AppFont.medium,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Masukkan Kata Sandi",
-                            hintStyle: const TextStyle(
-                              color: AppColor.gray,
-                              fontSize: 14,
-                              fontFamily: AppFont.regular,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  const BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  const BorderSide(color: AppColor.primary),
-                            ),
-                            filled: true,
-                            fillColor: AppColor.darker,
-                            suffixIcon: Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: GestureDetector(
-                                child: SvgPicture.asset(
-                                  "assets/icons/password_field.svg",
-                                  color: AppColor.gray,
-                                  width: 20,
-                                  height: 20,
-                                ),
-                              ),
-                            ),
-                            suffixIconConstraints: const BoxConstraints(
-                              minWidth: 0,
-                              minHeight: 0,
-                            ),
-                          ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.minLength(8),
-                          ]),
-                        ),
-                        const SizedBox(height: 32),
-                        AppFillButton(
-                          text: "Daftar",
-                          onPressed: () {
-                            Get.offAllNamed(AppRoute.mainRoute);
-                          },
-                        ),
-                        const SizedBox(height: 48),
-                        RichText(
-                          text: TextSpan(
-                            style: const TextStyle(
-                              color: AppColor.light,
-                              fontSize: 14,
-                              fontFamily: AppFont.medium,
-                            ),
-                            children: [
-                              const TextSpan(
-                                text: "Sudah memiliki akun?  ",
-                              ),
-                              TextSpan(
-                                  text: "Masuk Akun",
-                                  style: const TextStyle(
-                                    color: AppColor.accent,
-                                    fontFamily: AppFont.bold,
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Get.back();
-                                    }),
-                            ],
-                          ),
-                        ),
-                      ],
+                  Divider(
+                    thickness: 2,
+                    color: AppColor.gray.withOpacity(0.25),
+                    indent: 64,
+                    endIndent: 64,
+                  ),
+                  const SizedBox(height: 24),
+                  AppFillButton(
+                    icon: SvgPicture.asset(
+                      "assets/icons/ic_google.svg",
+                      width: 24,
+                      height: 24,
                     ),
+                    text: "Masuk dengan Google",
+                    textSize: 14,
+                    textColor: AppColor.black,
+                    color: AppColor.white,
+                    onPressed: () {},
+                  ),
+                  const SizedBox(height: 64),
+                  AppTextButton(
+                    text: "Sudah punya Akun",
+                    onPressed: () {
+                      Get.offNamed(AppRoute.authRoute);
+                    },
                   ),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),

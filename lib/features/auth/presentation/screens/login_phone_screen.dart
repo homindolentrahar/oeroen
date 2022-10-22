@@ -80,9 +80,7 @@ class LoginPhoneScreen extends StatelessWidget {
             AppTextButton(
               text: "Belum punya Akun",
               onPressed: () {
-                Get.rootDelegate.toNamed(
-                  "${AppRoute.authRoute}/${AppRoute.loginEmailRoute}",
-                );
+                Get.offNamed(AppRoute.registerRoute);
               },
             ),
           ],
