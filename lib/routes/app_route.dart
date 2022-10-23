@@ -25,6 +25,7 @@ class AppRoute {
   static const String forgotPasswordRoute = "/forgot-password";
   static const String otpRoute = "/otp";
   static const String codeDesaRoute = "/code-desa";
+  static const String waitingVerification = "/waiting-verification";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
   static const String waitingVerificationRoute = "/waiting-verification";
@@ -88,6 +89,10 @@ class AppRoute {
     GetPage(
       name: codeDesaRoute,
       page: () => const CodeDesaScreen(),
+    ),
+    GetPage(
+      name: waitingVerification,
+      page: () => const WaitingVerificationScreen(),
     ),
     GetPage(
       name: mainRoute,
