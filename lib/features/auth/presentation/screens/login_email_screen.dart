@@ -77,7 +77,7 @@ class LoginEmailScreen extends StatelessWidget {
                 AppFillButton(
                   text: "Masuk",
                   onPressed: () {
-                    formKey.currentState?.validate();
+                    Get.toNamed(AppRoute.codeDesaRoute);
                   },
                 ),
               ],

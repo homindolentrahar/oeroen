@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/user_sign_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/code_desa_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/landing_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/login_phone_screen.dart';
@@ -22,6 +23,7 @@ class AppRoute {
   static const String registerRoute = "/register";
   static const String forgotPasswordRoute = "/forgot-password";
   static const String otpRoute = "/otp";
+  static const String codeDesaRoute = "/code-desa";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
   static const String urunanRoute = "/urunan";
@@ -80,6 +82,10 @@ class AppRoute {
     GetPage(
       name: forgotPasswordRoute,
       page: () => const ForgotPasswordScreen(),
+    ),
+    GetPage(
+      name: codeDesaRoute,
+      page: () => const CodeDesaScreen(),
     ),
     GetPage(
       name: mainRoute,

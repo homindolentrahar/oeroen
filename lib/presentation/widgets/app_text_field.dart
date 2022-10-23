@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class AppTextField extends StatelessWidget {
   final String name;
@@ -89,6 +92,55 @@ class AppTextField extends StatelessWidget {
       ),
       validator: validators,
       inputFormatters: inputFormatters,
+    );
+  }
+}
+
+class PinTextField extends StatelessWidget {
+  final String name;
+  final TextInputType keyboardType;
+  final ValueChanged<String> onChanged;
+  final ValueChanged<String>? onCompleted;
+
+  const PinTextField({
+    Key? key,
+    required this.name,
+    this.keyboardType = TextInputType.text,
+    required this.onChanged,
+    this.onCompleted,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderField(
+      name: name,
+      builder: (field) {
+        return PinCodeTextField(
+          appContext: context,
+          length: 6,
+          obscureText: false,
+          keyboardType: keyboardType,
+          animationType: AnimationType.fade,
+          enableActiveFill: true,
+          pinTheme: PinTheme(
+            shape: PinCodeFieldShape.box,
+            inactiveFillColor: AppColor.white,
+            activeFillColor: AppColor.white,
+            selectedFillColor: AppColor.white,
+            inactiveColor: AppColor.gray.withOpacity(0.25),
+            activeColor: Get.theme.primaryColor,
+            borderWidth: 1,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          validator: FormBuilderValidators.compose([
+            FormBuilderValidators.required(),
+            FormBuilderValidators.numeric(),
+          ]),
+          errorTextSpace: 32,
+          onChanged: onChanged,
+          onCompleted: onCompleted,
+        );
+      },
     );
   }
 }

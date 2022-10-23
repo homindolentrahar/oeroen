@@ -72,7 +72,8 @@ class LoginPhoneScreen extends StatelessWidget {
                 AppFillButton(
                   text: "Masuk",
                   onPressed: () {
-                    formKey.currentState?.validate();
+                    // formKey.currentState?.validate();
+                    Get.toNamed(AppRoute.otpRoute);
                   },
                 ),
               ],
