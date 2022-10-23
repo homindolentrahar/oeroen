@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:oeroen/common/theme/app_color.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: Text(
-            "Oeroen",
-            style: TextStyle(
-              color: AppColor.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
+    return Scaffold(
+      backgroundColor: Get.theme.canvasColor,
+      body: SafeArea(
+        child: Center(
+          child: SvgPicture.asset(
+            "assets/icons/logo.svg",
           ),
         ),
       ),

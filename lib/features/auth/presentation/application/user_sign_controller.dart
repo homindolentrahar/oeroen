@@ -10,6 +10,17 @@ class UserSignController extends GetxController {
     required IAuthRepository authRepository,
   }) : _authRepository = authRepository;
 
+  final Rx<int> authNavIndex = 0.obs;
+
+  void changeNavIndex(int index) {
+    authNavIndex.value = index;
+
+    final route =
+        index == 0 ? AppRoute.loginPhoneRoute : AppRoute.loginEmailRoute;
+
+    Get.rootDelegate.toNamed(AppRoute.authRoute + route);
+  }
+
   Future<void> login({
     required String email,
     required String password,
