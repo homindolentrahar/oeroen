@@ -10,6 +10,7 @@ import 'package:oeroen/features/auth/presentation/screens/login_email_screen.dar
 import 'package:oeroen/features/auth/presentation/screens/otp_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
+import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/detail_urunan_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/invoice_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/payment_screen.dart';
@@ -24,6 +25,7 @@ class AppRoute {
   static const String forgotPasswordRoute = "/forgot-password";
   static const String otpRoute = "/otp";
   static const String codeDesaRoute = "/code-desa";
+  static const String waitingVerification = "/waiting-verification";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
   static const String urunanRoute = "/urunan";
@@ -86,6 +88,10 @@ class AppRoute {
     GetPage(
       name: codeDesaRoute,
       page: () => const CodeDesaScreen(),
+    ),
+    GetPage(
+      name: waitingVerification,
+      page: () => const WaitingVerificationScreen(),
     ),
     GetPage(
       name: mainRoute,

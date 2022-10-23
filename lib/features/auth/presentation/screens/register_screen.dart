@@ -102,9 +102,9 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 64),
                   AppFillButton(
-                    text: "Masuk",
+                    text: "Daftar",
                     onPressed: () {
-                      formKey.currentState?.validate();
+                      Get.toNamed(AppRoute.waitingVerification);
                     },
                   ),
                   const SizedBox(height: 32),
