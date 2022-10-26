@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/user_sign_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/waiting_verification_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/code_desa_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/landing_screen.dart';
@@ -25,7 +26,6 @@ class AppRoute {
   static const String forgotPasswordRoute = "/forgot-password";
   static const String otpRoute = "/otp";
   static const String codeDesaRoute = "/code-desa";
-  static const String waitingVerification = "/waiting-verification";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
   static const String waitingVerificationRoute = "/waiting-verification";
@@ -91,17 +91,14 @@ class AppRoute {
       page: () => const CodeDesaScreen(),
     ),
     GetPage(
-      name: waitingVerification,
+      name: waitingVerificationRoute,
       page: () => const WaitingVerificationScreen(),
+      binding: WaitingVerificationBinding(),
     ),
     GetPage(
       name: mainRoute,
       transition: Transition.fadeIn,
       page: () => const UrunanScreen(),
-    ),
-    GetPage(
-      name: waitingVerificationRoute,
-      page: () => const WaitingVerificationScreen(),
     ),
     GetPage(
       name: "$urunanRoute/:id",

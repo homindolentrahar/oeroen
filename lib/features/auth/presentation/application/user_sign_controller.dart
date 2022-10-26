@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:oeroen/routes/app_route.dart';
+import 'package:oeroen/utils/dialog_util.dart';
+import 'package:oeroen/utils/snackbar_util.dart';
 
 class UserSignController extends GetxController {
   final IAuthRepository _authRepository;
@@ -25,19 +27,19 @@ class UserSignController extends GetxController {
     required String email,
     required String password,
   }) async {
+    DialogUtil.showLoading();
+
     final result = await _authRepository.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
 
+    DialogUtil.hideLoading();
+
     result.fold(
       (error) {
         Logger().e(error);
-        Get.snackbar(
-          "Terjadi kesalahan",
-          "Tidak dapat mengeluarkan akun",
-          borderRadius: 8,
-        );
+        SnackBarUtil.showError(message: error);
       },
       (_) {
         Get.offAllNamed(AppRoute.mainRoute);
@@ -46,16 +48,16 @@ class UserSignController extends GetxController {
   }
 
   Future<void> googleLogin() async {
+    DialogUtil.showLoading();
+
     final result = await _authRepository.signInWithGoogle();
+
+    DialogUtil.hideLoading();
 
     result.fold(
       (error) {
         Logger().e(error);
-        Get.snackbar(
-          "Terjadi kesalahan",
-          "Tidak dapat mengeluarkan akun",
-          borderRadius: 8,
-        );
+        SnackBarUtil.showError(message: error);
       },
       (unit) {
         Get.offAllNamed(AppRoute.mainRoute);
@@ -67,22 +69,22 @@ class UserSignController extends GetxController {
     required String email,
     required String password,
   }) async {
+    DialogUtil.showLoading();
+
     final result = await _authRepository.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
+    DialogUtil.hideLoading();
+
     result.fold(
       (error) {
         Logger().e(error);
-        Get.snackbar(
-          "Terjadi kesalahan",
-          "Tidak dapat mengeluarkan akun",
-          borderRadius: 8,
-        );
+        SnackBarUtil.showError(message: error);
       },
       (unit) {
-        Get.offAllNamed(AppRoute.mainRoute);
+        Get.offAllNamed(AppRoute.waitingVerificationRoute);
       },
     );
   }

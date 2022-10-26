@@ -23,7 +23,7 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Stream<Option<AuthUser>> authStateChanges() async* {
-    yield* _auth.authStateChanges().map(
+    yield* _auth.userChanges().map(
       (user) {
         Logger().i("AuthStateChanges: ${user.toString()} ");
 
@@ -33,25 +33,6 @@ class AuthRepository implements IAuthRepository {
 
         final firebaseAuthUser = FirebaseAuthUser.fromUser(user);
         final authUser = firebaseAuthUser.toAuthUser();
-
-        if (!authUser.isVerified) {
-          //  If user signed in with Email and the email is not verified
-          //  then sign send email verification
-          //
-          // EmailAuthProviderID: password
-          // PhoneAuthProviderID: phone
-          // GoogleAuthProviderID: google.com
-          // FacebookAuthProviderID: facebook.com
-          // TwitterAuthProviderID: twitter.com
-          // GitHubAuthProviderID: github.com
-          // AppleAuthProviderID: apple.com
-          // YahooAuthProviderID: yahoo.com
-          // MicrosoftAuthProviderID: hotmail.com
-          //
-          if (authUser.providerId == EmailAuthProvider.PROVIDER_ID) {
-            user.sendEmailVerification();
-          }
-        }
 
         return some<AuthUser>(authUser);
       },
@@ -107,7 +88,9 @@ class AuthRepository implements IAuthRepository {
   }) async {
     try {
       await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
@@ -207,6 +190,14 @@ class AuthRepository implements IAuthRepository {
     } on Exception catch (e) {
       return left(e.toString());
     }
+  }
+
+  @override
+  Future<void> reload() async {
+    final currentUser = _auth.currentUser;
+    currentUser?.reload();
+
+    Logger().w("Reloading...");
   }
 
   @override

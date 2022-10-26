@@ -36,5 +36,7 @@ abstract class IAuthRepository {
 
   Future<Either<String, Unit>> sendVerificationEmail(String email);
 
+  Future<void> reload();
+
   Future<Either<String, Unit>> signOut();
 }
