@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
-import 'package:oeroen/features/auth/presentation/screens/bindings/user_sign_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/auth_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/otp_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/waiting_verification_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/code_desa_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/forgot_password_screen.dart';
@@ -42,7 +43,7 @@ class AppRoute {
       name: authRoute,
       page: () => const AuthScreen(),
       transition: Transition.fadeIn,
-      binding: UserSignBinding(),
+      binding: AuthBinding(),
       children: [
         GetPage(
           name: loginEmailRoute,
@@ -57,18 +58,30 @@ class AppRoute {
       ],
     ),
     GetPage(
+      name: otpRoute,
+      page: () {
+        final data = Get.arguments as Map<String, dynamic>;
+        final verificationId = data['verificationId'];
+        final phoneNumber = data['phone'];
+
+        return OtpScreen(
+          verificationId: verificationId,
+          phoneNumber: phoneNumber,
+        );
+      },
+      transition: Transition.rightToLeftWithFade,
+      binding: OtpBinding(),
+    ),
+    GetPage(
       name: registerRoute,
       page: () => const RegisterScreen(),
-      binding: UserSignBinding(),
+      binding: AuthBinding(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: forgotPasswordRoute,
       page: () => const ForgotPasswordScreen(),
       binding: ForgotPasswordBinding(),
-    ),
-    GetPage(
-      name: otpRoute,
-      page: () => const OtpScreen(),
     ),
     GetPage(
       name: landingRoute,

@@ -66,7 +66,10 @@ class AuthRepository implements IAuthRepository {
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
-        verificationCompleted: verificationCompleted ?? (credential) {},
+        verificationCompleted: verificationCompleted ??
+            (credential) async {
+              await _auth.signInWithCredential(credential);
+            },
         verificationFailed: verificationFailed ?? (exception) {},
         codeSent: codeSent ?? (verificationId, resendToken) {},
         codeAutoRetrievalTimeout:

@@ -33,7 +33,7 @@ class AuthController extends GetxController {
         },
         (authUser) {
           Logger().i("Auth User Verified: ${authUser.isVerified}");
-          if (authUser.isVerified) {
+          if (authUser.isVerified || authUser.providerId == 'phone') {
             Get.offAllNamed(AppRoute.mainRoute);
           } else {
             if (Get.currentRoute != AppRoute.waitingVerificationRoute) {

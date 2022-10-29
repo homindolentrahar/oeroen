@@ -31,7 +31,7 @@ class _WaitingVerificationScreenState extends State<WaitingVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return FocusDetector(
-      onFocusGained: () {
+      onForegroundGained: () {
         controller.reload();
       },
       child: Scaffold(

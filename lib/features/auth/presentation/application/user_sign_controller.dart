@@ -88,4 +88,38 @@ class UserSignController extends GetxController {
       },
     );
   }
+
+  Future<void> verifyPhoneNumber(String phoneNumber) async {
+    DialogUtil.showLoading();
+
+    final result = await _authRepository.verifyPhoneNumber(
+      "+62$phoneNumber",
+      codeSent: (String verificationId, int? resendToken) {
+        DialogUtil.hideLoading();
+
+        Get.toNamed(
+          AppRoute.otpRoute,
+          arguments: {
+            'verificationId': verificationId,
+            'phone': phoneNumber,
+          },
+        );
+      },
+      verificationFailed: (exception) {
+        Logger().e(exception.message);
+
+        DialogUtil.hideLoading();
+
+        SnackBarUtil.showError(message: exception.message.toString());
+      },
+    );
+
+    result.fold(
+      (error) {
+        Logger().e(error);
+        SnackBarUtil.showError(message: error);
+      },
+      (_) {},
+    );
+  }
 }
