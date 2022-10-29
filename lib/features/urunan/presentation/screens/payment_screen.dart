@@ -1,18 +1,18 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
-import 'package:oeroen/routes/app_routes.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class PaymentScreen extends StatefulWidget {
   static const route = "/payment";
-  final UrunanItem item;
+  final UrunanItem? item;
 
   const PaymentScreen({Key? key, required this.item}) : super(key: key);
 
@@ -37,7 +37,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      context.router.navigateBack();
+                      Get.back();
                     },
                     child: SvgPicture.asset(
                       "assets/icons/back.svg",
@@ -46,7 +46,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                   const SizedBox(width: 16),
                   Text(
-                    "Bayar Urunan ${widget.item.type.name}",
+                    "Bayar Urunan ${widget.item?.type.name}",
                     style: const TextStyle(
                       color: AppColor.white,
                       fontSize: 16,
@@ -75,7 +75,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 decimalDigits: 0,
                                 symbol: "Rp ",
                                 name: "IDR",
-                              ).format(widget.item.amount),
+                              ).format(widget.item?.amount),
                               style: const TextStyle(
                                 color: AppColor.white,
                                 fontFamily: AppFont.bold,
@@ -109,18 +109,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: (widget.item.completed
+                          color: (widget.item!.completed
                                   ? AppColor.green
                                   : AppColor.red)
                               .withOpacity(0.25),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          widget.item.completed ? "Lunas" : "Belum Lunas",
+                          widget.item!.completed ? "Lunas" : "Belum Lunas",
                           style: TextStyle(
-                            color: widget.item.completed
-                                ? AppColor.green_fg
-                                : AppColor.red_fg,
+                            color: widget.item!.completed
+                                ? AppColor.greenFg
+                                : AppColor.redFg,
                             fontSize: 12,
                             fontFamily: AppFont.bold,
                           ),
@@ -382,7 +382,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           elevation: 0,
           highlightElevation: 0,
           onPressed: () {
-            context.router.push(const InvoiceRoute());
+            Get.toNamed(AppRoute.invoiceRoute);
           },
           child: Row(
             mainAxisSize: MainAxisSize.max,
@@ -391,17 +391,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
             children: [
               Text(
                 NumberFormat.currency(symbol: "Rp ", decimalDigits: 0)
-                    .format(widget.item.amount),
+                    .format(widget.item?.amount),
                 style: TextStyle(
                   color:
-                      widget.item.completed ? AppColor.light : AppColor.black,
+                      widget.item!.completed ? AppColor.light : AppColor.black,
                   fontSize: 20,
                   fontFamily: AppFont.bold,
                 ),
               ),
               SvgPicture.asset(
                 "assets/icons/money.svg",
-                color: widget.item.completed ? AppColor.light : AppColor.black,
+                color: widget.item!.completed ? AppColor.light : AppColor.black,
               ),
             ],
           ),
