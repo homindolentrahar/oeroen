@@ -28,11 +28,13 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   late OtpSignController controller;
+  late GlobalKey<FormBuilderState> formKey;
 
   @override
   void initState() {
     controller = Get.find<OtpSignController>()
       ..setInitialVerificationId(widget.verificationId);
+    formKey = GlobalKey<FormBuilderState>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.startTimeOut();
     });
@@ -42,9 +44,6 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-    final controller = Get.find<OtpSignController>();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(

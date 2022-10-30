@@ -75,12 +75,13 @@ class AppRoute {
     GetPage(
       name: registerRoute,
       page: () => const RegisterScreen(),
-      binding: AuthBinding(),
       transition: Transition.fadeIn,
+      binding: AuthBinding(),
     ),
     GetPage(
       name: forgotPasswordRoute,
       page: () => const ForgotPasswordScreen(),
+      transition: Transition.rightToLeftWithFade,
       binding: ForgotPasswordBinding(),
     ),
     GetPage(

@@ -41,9 +41,7 @@ class UserSignController extends GetxController {
         Logger().e(error);
         SnackBarUtil.showError(message: error);
       },
-      (_) {
-        Get.offAllNamed(AppRoute.mainRoute);
-      },
+      (_) {},
     );
   }
 

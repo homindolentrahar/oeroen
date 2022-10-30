@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:oeroen/features/auth/domain/models/auth_user.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
@@ -9,10 +10,13 @@ import 'package:oeroen/utils/snackbar_util.dart';
 
 class AuthController extends GetxController {
   final IAuthRepository _authRepository;
+  final GetStorage _storage;
 
   AuthController({
     required IAuthRepository authRepository,
-  }) : _authRepository = authRepository;
+    required GetStorage storage,
+  })  : _authRepository = authRepository,
+        _storage = storage;
 
   final authStateChanges = Rx<Option<AuthUser>>(none());
 
@@ -57,7 +61,8 @@ class AuthController extends GetxController {
         Logger().e(error);
         SnackBarUtil.showError(message: error);
       },
-      (_) {
+      (_) async {
+        await _storage.write('verifAttempt', 0);
         Get.offAllNamed(AppRoute.authRoute);
       },
     );

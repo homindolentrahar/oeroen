@@ -9,13 +9,15 @@ import 'package:oeroen/features/auth/presentation/application/forgot_password_co
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_field.dart';
+import 'package:oeroen/utils/int_extensions.dart';
 
-class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
+class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+    final controller = Get.find<ForgotPasswordController>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -94,17 +96,55 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.email(),
                       ]),
-                      onChanged: (value) {},
                     ),
                     const SizedBox(height: 64),
-                    AppFillButton(
-                      text: "Kirim Email",
-                      onPressed: () {
-                        formKey.currentState?.validate();
-                      },
+                    Obx(
+                      () => AppFillButton(
+                        text: "Kirim Email",
+                        onPressed: controller.timeout.value > 0
+                            ? null
+                            : () {
+                                if (formKey.currentState!.saveAndValidate()) {
+                                  controller.sendResetPasswordEmail(
+                                    formKey.currentState!.value['email'],
+                                  );
+                                }
+                              },
+                      ),
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(height: 32),
+              Obx(
+                () => controller.timeout.value > 0
+                    ? Align(
+                        alignment: Alignment.center,
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: const TextStyle(
+                              color: AppColor.dark,
+                              fontSize: 14,
+                              fontFamily: AppFont.regular,
+                            ),
+                            children: [
+                              const TextSpan(
+                                text:
+                                    "Tunggu sebentar, kami sedang mengirimkan email kepadamu!",
+                              ),
+                              TextSpan(
+                                text: controller.timeout.value.formatTimer(),
+                                style: TextStyle(
+                                  color: Get.theme.primaryColor,
+                                  fontFamily: AppFont.semiBold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ),
             ],
           ),

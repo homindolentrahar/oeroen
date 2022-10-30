@@ -22,7 +22,7 @@ class LoginEmailScreen extends StatelessWidget {
       padding: const EdgeInsets.only(top: 32),
       child: FormBuilder(
         key: formKey,
-        autovalidateMode: AutovalidateMode.disabled,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         autoFocusOnValidationFailure: true,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,7 +44,6 @@ class LoginEmailScreen extends StatelessWidget {
                     FormBuilderValidators.required(),
                     FormBuilderValidators.email(),
                   ]),
-                  onChanged: (value) {},
                 ),
                 const SizedBox(height: 24),
                 AppTextField(
@@ -66,7 +65,6 @@ class LoginEmailScreen extends StatelessWidget {
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
                     ),
                   ]),
-                  onChanged: (value) {},
                 ),
                 const SizedBox(height: 16),
                 Align(

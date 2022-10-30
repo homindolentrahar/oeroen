@@ -4,6 +4,7 @@ import 'package:focus_detector/focus_detector.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/features/auth/presentation/application/auth_controller.dart';
 import 'package:oeroen/features/auth/presentation/application/waiting_verification_controller.dart';
 import 'package:oeroen/utils/int_extensions.dart';
 
@@ -64,31 +65,56 @@ class _WaitingVerificationScreenState extends State<WaitingVerificationScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: Obx(
-                    () => RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          color: AppColor.dark,
-                          fontSize: 14,
-                          fontFamily: AppFont.regular,
-                        ),
-                        children: [
-                          const TextSpan(text: "Belum menerima Email? "),
-                          TextSpan(
-                            text: controller.timeout.value > 0
-                                ? controller.timeout.value.formatTimer()
-                                : "Kirim Ulang",
-                            style: TextStyle(
-                              color: Get.theme.primaryColor,
-                              fontFamily: AppFont.semiBold,
+                    () => controller.showVerifAttempt.value
+                        ? RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                color: AppColor.dark,
+                                fontSize: 14,
+                                fontFamily: AppFont.regular,
+                              ),
+                              children: [
+                                const TextSpan(
+                                    text: "Masih Belum menerima Email? "),
+                                TextSpan(
+                                  text: "Masuk Ulang",
+                                  style: const TextStyle(
+                                    color: AppColor.red,
+                                    fontFamily: AppFont.semiBold,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Get.find<AuthController>().signOut();
+                                    },
+                                ),
+                              ],
                             ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                controller.sendVerificationEmail();
-                              },
+                          )
+                        : RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                color: AppColor.dark,
+                                fontSize: 14,
+                                fontFamily: AppFont.regular,
+                              ),
+                              children: [
+                                const TextSpan(text: "Belum menerima Email? "),
+                                TextSpan(
+                                  text: controller.timeout.value > 0
+                                      ? controller.timeout.value.formatTimer()
+                                      : "Kirim Ulang",
+                                  style: TextStyle(
+                                    color: Get.theme.primaryColor,
+                                    fontFamily: AppFont.semiBold,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      controller.sendVerificationEmail();
+                                    },
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
                   ),
                 ),
               ],
