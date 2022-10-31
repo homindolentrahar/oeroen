@@ -17,6 +17,7 @@ class OtpScreen extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: AppColor.light,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),

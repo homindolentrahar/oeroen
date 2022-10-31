@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class BerandaBanner extends StatelessWidget {
   const BerandaBanner({Key? key}) : super(key: key);
@@ -55,7 +56,7 @@ class BerandaBanner extends StatelessWidget {
                   style: TextStyle(fontSize: 32),
                 ),
                 TextSpan(
-                  text: "246,750",
+                  text: "246.750",
                   style: TextStyle(fontSize: 40),
                 ),
               ],
@@ -67,7 +68,9 @@ class BerandaBanner extends StatelessWidget {
             child: AppFillButton(
               text: "Lihat Rincian",
               textSize: 14,
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(AppRoute.wajibIuranRoute);
+              },
             ),
           ),
         ],

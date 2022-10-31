@@ -9,6 +9,8 @@ class WaitingVerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColor.light,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),

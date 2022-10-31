@@ -19,6 +19,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: AppColor.light,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),
