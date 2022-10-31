@@ -11,10 +11,11 @@ import 'package:oeroen/features/auth/presentation/screens/otp_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
+import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
+import 'package:oeroen/features/main_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/detail_urunan_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/invoice_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/payment_screen.dart';
-import 'package:oeroen/features/urunan/presentation/screens/urunan_screen.dart';
 
 class AppRoute {
   static const String initialRoute = "/";
@@ -28,6 +29,9 @@ class AppRoute {
   static const String waitingVerification = "/waiting-verification";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
+  static const String mainBerandaRoute = "/main/beranda";
+  static const String mainDesaRoute = "/main/desa";
+  static const String mainIuranRoute = "/main/iuran";
   static const String urunanRoute = "/urunan";
   static const String paymentRoute = "/payment";
   static const String invoiceRoute = "/invoice";
@@ -93,10 +97,21 @@ class AppRoute {
       name: waitingVerification,
       page: () => const WaitingVerificationScreen(),
     ),
+    // GetPage(
+    //   name: mainRoute,
+    //   transition: Transition.fadeIn,
+    //   page: () => const UrunanScreen(),
+    // ),
     GetPage(
       name: mainRoute,
       transition: Transition.fadeIn,
-      page: () => const UrunanScreen(),
+      page: () => const MainScreen(),
+      children: [
+        GetPage(
+          name: mainBerandaRoute,
+          page: () => const BerandaScreen(),
+        ),
+      ],
     ),
     GetPage(
       name: "$urunanRoute/:id",
