@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
-import 'package:oeroen/features/auth/presentation/screens/bindings/user_sign_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/auth_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/otp_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/waiting_verification_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/code_desa_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/landing_screen.dart';
@@ -25,9 +27,9 @@ class AppRoute {
   static const String forgotPasswordRoute = "/forgot-password";
   static const String otpRoute = "/otp";
   static const String codeDesaRoute = "/code-desa";
-  static const String waitingVerification = "/waiting-verification";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
+  static const String waitingVerificationRoute = "/waiting-verification";
   static const String urunanRoute = "/urunan";
   static const String paymentRoute = "/payment";
   static const String invoiceRoute = "/invoice";
@@ -41,7 +43,7 @@ class AppRoute {
       name: authRoute,
       page: () => const AuthScreen(),
       transition: Transition.fadeIn,
-      binding: UserSignBinding(),
+      binding: AuthBinding(),
       children: [
         GetPage(
           name: loginEmailRoute,
@@ -56,18 +58,31 @@ class AppRoute {
       ],
     ),
     GetPage(
+      name: otpRoute,
+      page: () {
+        final data = Get.arguments as Map<String, dynamic>;
+        final verificationId = data['verificationId'];
+        final phoneNumber = data['phone'];
+
+        return OtpScreen(
+          verificationId: verificationId,
+          phoneNumber: phoneNumber,
+        );
+      },
+      transition: Transition.rightToLeftWithFade,
+      binding: OtpBinding(),
+    ),
+    GetPage(
       name: registerRoute,
       page: () => const RegisterScreen(),
-      binding: UserSignBinding(),
+      transition: Transition.fadeIn,
+      binding: AuthBinding(),
     ),
     GetPage(
       name: forgotPasswordRoute,
       page: () => const ForgotPasswordScreen(),
+      transition: Transition.rightToLeftWithFade,
       binding: ForgotPasswordBinding(),
-    ),
-    GetPage(
-      name: otpRoute,
-      page: () => const OtpScreen(),
     ),
     GetPage(
       name: landingRoute,
@@ -90,8 +105,9 @@ class AppRoute {
       page: () => const CodeDesaScreen(),
     ),
     GetPage(
-      name: waitingVerification,
+      name: waitingVerificationRoute,
       page: () => const WaitingVerificationScreen(),
+      binding: WaitingVerificationBinding(),
     ),
     GetPage(
       name: mainRoute,

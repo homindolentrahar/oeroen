@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
+import 'package:oeroen/features/auth/presentation/application/user_sign_controller.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_field.dart';
@@ -15,12 +16,13 @@ class LoginEmailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+    final controller = Get.find<UserSignController>();
 
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: FormBuilder(
         key: formKey,
-        autovalidateMode: AutovalidateMode.disabled,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         autoFocusOnValidationFailure: true,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,7 +44,6 @@ class LoginEmailScreen extends StatelessWidget {
                     FormBuilderValidators.required(),
                     FormBuilderValidators.email(),
                   ]),
-                  onChanged: (value) {},
                 ),
                 const SizedBox(height: 24),
                 AppTextField(
@@ -60,8 +61,10 @@ class LoginEmailScreen extends StatelessWidget {
                   validators: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.minLength(8),
+                    FormBuilderValidators.match(
+                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
+                    ),
                   ]),
-                  onChanged: (value) {},
                 ),
                 const SizedBox(height: 16),
                 Align(
@@ -77,7 +80,12 @@ class LoginEmailScreen extends StatelessWidget {
                 AppFillButton(
                   text: "Masuk",
                   onPressed: () {
-                    Get.toNamed(AppRoute.codeDesaRoute);
+                    if (formKey.currentState!.saveAndValidate()) {
+                      controller.login(
+                        email: formKey.currentState!.value['email'],
+                        password: formKey.currentState!.value['password'],
+                      );
+                    }
                   },
                 ),
               ],

@@ -8,12 +8,12 @@ class AppFillButton extends StatelessWidget {
   final Color color;
   final double textSize;
   final Color textColor;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const AppFillButton({
     Key? key,
     required this.text,
-    required this.onPressed,
+    this.onPressed,
     this.icon,
     this.color = AppColor.primary,
     this.textSize = 16,
@@ -30,7 +30,7 @@ class AppFillButton extends StatelessWidget {
       elevation: 0,
       highlightElevation: 0,
       focusElevation: 0,
-      color: color,
+      color: onPressed == null ? AppColor.gray.withOpacity(0.75) : color,
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +43,7 @@ class AppFillButton extends StatelessWidget {
           Text(
             text,
             style: TextStyle(
-              color: textColor,
+              color: onPressed == null ? AppColor.gray : textColor,
               fontSize: textSize,
               fontFamily: AppFont.semiBold,
             ),

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:oeroen/app_config.dart';
 import 'package:oeroen/di/app_binding.dart';
 import 'package:oeroen/firebase_options.dart';
@@ -12,6 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await GetStorage.init();
 
   runApp(const App());
 }

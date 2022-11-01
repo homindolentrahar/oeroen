@@ -23,7 +23,7 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Stream<Option<AuthUser>> authStateChanges() async* {
-    yield* _auth.authStateChanges().map(
+    yield* _auth.userChanges().map(
       (user) {
         Logger().i("AuthStateChanges: ${user.toString()} ");
 
@@ -52,6 +52,10 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
+  Option<AuthUser> get currentUser => optionOf(_auth.currentUser)
+      .map((user) => FirebaseAuthUser.fromUser(user).toAuthUser());
+
+  @override
   Future<Either<String, Unit>> verifyPhoneNumber(
     String phoneNumber, {
     void Function(PhoneAuthCredential credential)? verificationCompleted,
@@ -62,7 +66,10 @@ class AuthRepository implements IAuthRepository {
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
-        verificationCompleted: verificationCompleted ?? (credential) {},
+        verificationCompleted: verificationCompleted ??
+            (credential) async {
+              await _auth.signInWithCredential(credential);
+            },
         verificationFailed: verificationFailed ?? (exception) {},
         codeSent: codeSent ?? (verificationId, resendToken) {},
         codeAutoRetrievalTimeout:
@@ -84,7 +91,9 @@ class AuthRepository implements IAuthRepository {
   }) async {
     try {
       await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
@@ -168,10 +177,39 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
+  Future<Either<String, Unit>> sendVerificationEmail(String email) async {
+    try {
+      final currentUser = _auth.currentUser;
+
+      if (currentUser == null) {
+        return left("User is not authenticated");
+      }
+
+      await currentUser.sendEmailVerification();
+
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(e.message.toString());
+    } on Exception catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  @override
+  Future<void> reload() async {
+    final currentUser = _auth.currentUser;
+    currentUser?.reload();
+
+    Logger().w("Reloading...");
+  }
+
+  @override
   Future<Either<String, Unit>> signOut() async {
     try {
-      await _auth.signOut();
-      await _googleSignIn.signOut();
+      await Future.wait([
+        _auth.signOut(),
+        _googleSignIn.signOut(),
+      ]);
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
