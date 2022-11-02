@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:oeroen/core/presentation/screens/iuran_list_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/user_sign_binding.dart';
@@ -34,6 +35,7 @@ class AppRoute {
   static const String mainDesaRoute = "/main/desa";
   static const String mainIuranRoute = "/main/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
+  static const String iuranListRoute = "/iuran-list";
   static const String urunanRoute = "/urunan";
   static const String paymentRoute = "/payment";
   static const String invoiceRoute = "/invoice";
@@ -101,6 +103,16 @@ class AppRoute {
     GetPage(
       name: wajibIuranRoute,
       page: () => const WajibIuranScreen(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: iuranListRoute,
+      page: () {
+        final Map<String, dynamic> data = Get.arguments;
+        final title = data['title'];
+
+        return IuranListScreen(title: title);
+      },
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(

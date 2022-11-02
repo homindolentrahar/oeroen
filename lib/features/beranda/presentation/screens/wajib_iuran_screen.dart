@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/features/beranda/presentation/widgets/iuran_list_item.dart';
+import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
 
 class WajibIuranScreen extends StatelessWidget {
   const WajibIuranScreen({Key? key}) : super(key: key);

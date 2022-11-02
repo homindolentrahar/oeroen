@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/features/beranda/presentation/widgets/beranda_banner.dart';
 import 'package:oeroen/features/beranda/presentation/widgets/beranda_category.dart';
-import 'package:oeroen/features/beranda/presentation/widgets/iuran_list_item.dart';
+import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class BerandaScreen extends StatelessWidget {
   const BerandaScreen({Key? key}) : super(key: key);
@@ -51,7 +53,14 @@ class BerandaScreen extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(
+                  AppRoute.iuranListRoute,
+                  arguments: {
+                    "title": "Pembayaran Terkini",
+                  },
+                );
+              },
               child: const Text(
                 "Selengkapnya",
                 style: TextStyle(

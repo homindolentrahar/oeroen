@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class BerandaCategory {
   final String name;
@@ -15,44 +17,44 @@ class BerandaCategory {
   });
 }
 
+final List<BerandaCategory> categoryItems = [
+  BerandaCategory(
+    name: "Kebersihan",
+    icon: "assets/icons/ic_kebersihan.svg",
+    route: "",
+  ),
+  BerandaCategory(
+    name: "Keamanan",
+    icon: "assets/icons/ic_keamanan.svg",
+    route: "",
+  ),
+  BerandaCategory(
+    name: "Kas",
+    icon: "assets/icons/ic_kas.svg",
+    route: "",
+  ),
+  BerandaCategory(
+    name: "Arisan",
+    icon: "assets/icons/ic_arisan.svg",
+    route: "",
+  ),
+  BerandaCategory(
+    name: "Sosial",
+    icon: "assets/icons/ic_sosial.svg",
+    route: "",
+  ),
+  BerandaCategory(
+    name: "Donasi",
+    icon: "assets/icons/ic_donasi.svg",
+    route: "",
+  ),
+];
+
 class BerandaCategoryTiles extends StatelessWidget {
   const BerandaCategoryTiles({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final List<BerandaCategory> items = [
-      BerandaCategory(
-        name: "Kebersihan",
-        icon: "assets/icons/ic_kebersihan.svg",
-        route: "",
-      ),
-      BerandaCategory(
-        name: "Keamanan",
-        icon: "assets/icons/ic_keamanan.svg",
-        route: "",
-      ),
-      BerandaCategory(
-        name: "Kas",
-        icon: "assets/icons/ic_kas.svg",
-        route: "",
-      ),
-      BerandaCategory(
-        name: "Arisan",
-        icon: "assets/icons/ic_arisan.svg",
-        route: "",
-      ),
-      BerandaCategory(
-        name: "Sosial",
-        icon: "assets/icons/ic_sosial.svg",
-        route: "",
-      ),
-      BerandaCategory(
-        name: "Donasi",
-        icon: "assets/icons/ic_donasi.svg",
-        route: "",
-      ),
-    ];
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Wrap(
@@ -61,8 +63,9 @@ class BerandaCategoryTiles extends StatelessWidget {
         alignment: WrapAlignment.center,
         runAlignment: WrapAlignment.center,
         crossAxisAlignment: WrapCrossAlignment.center,
-        children:
-            items.map((item) => BerandaCategoryTileItem(item: item)).toList(),
+        children: categoryItems
+            .map((item) => BerandaCategoryTileItem(item: item))
+            .toList(),
       ),
     );
   }
@@ -70,14 +73,25 @@ class BerandaCategoryTiles extends StatelessWidget {
 
 class BerandaCategoryTileItem extends StatelessWidget {
   final BerandaCategory item;
+  final bool showLabel;
 
-  const BerandaCategoryTileItem({Key? key, required this.item})
-      : super(key: key);
+  const BerandaCategoryTileItem({
+    Key? key,
+    required this.item,
+    this.showLabel = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed(
+          AppRoute.iuranListRoute,
+          arguments: {
+            "title": "Iuran ${item.name}",
+          },
+        );
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,15 +108,17 @@ class BerandaCategoryTileItem extends StatelessWidget {
               height: 20,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            item.name,
-            style: const TextStyle(
-              color: AppColor.dark,
-              fontSize: 12,
-              fontFamily: AppFont.regular,
+          if (showLabel) ...[
+            const SizedBox(height: 4),
+            Text(
+              item.name,
+              style: const TextStyle(
+                color: AppColor.dark,
+                fontSize: 12,
+                fontFamily: AppFont.regular,
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
