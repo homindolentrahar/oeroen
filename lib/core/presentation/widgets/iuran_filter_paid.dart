@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/domain/models/iuran_filter.dart';
 import 'package:oeroen/core/presentation/application/iuran_filter_controller.dart';
-
-const Map<PaidType, String> paidTypeTitle = {
-  PaidType.paid: "Lunas",
-  PaidType.due: "Belum Lunas",
-};
 
 class IuranFilterPaid extends StatelessWidget {
   final PaidType? type;
@@ -63,9 +59,9 @@ class IuranFilterPaidChip extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       color: selected
           ? type == PaidType.paid
-              ? AppColor.green
+              ? AppColor.green.withOpacity(0.25)
               : type == PaidType.due
-                  ? AppColor.red
+                  ? AppColor.red.withOpacity(0.25)
                   : AppColor.light
           : AppColor.light,
       child: InkWell(
@@ -74,9 +70,15 @@ class IuranFilterPaidChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Text(
-            paidTypeTitle[type] ?? "",
+            Constants.paidTypeTitle[type] ?? "",
             style: TextStyle(
-              color: selected ? AppColor.white : AppColor.gray,
+              color: selected
+                  ? type == PaidType.paid
+                      ? AppColor.green
+                      : type == PaidType.due
+                          ? AppColor.red
+                          : AppColor.gray
+                  : AppColor.gray,
               fontSize: 12,
               fontFamily: selected ? AppFont.semiBold : AppFont.medium,
             ),

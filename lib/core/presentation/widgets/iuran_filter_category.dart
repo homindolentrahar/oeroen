@@ -1,43 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/domain/models/iuran_category.dart';
 import 'package:oeroen/core/presentation/application/iuran_filter_controller.dart';
-
-final List<IuranCategory> filterCategories = [
-  IuranCategory(
-    categorySlug: "kebersihan",
-    categoryName: "Kebersihan",
-    categoryIcon: "assets/icons/ic_kebersihan.svg",
-  ),
-  IuranCategory(
-    categorySlug: "keamanan",
-    categoryName: "Keamanan",
-    categoryIcon: "assets/icons/ic_keamanan.svg",
-  ),
-  IuranCategory(
-    categorySlug: "kas",
-    categoryName: "Kas",
-    categoryIcon: "assets/icons/ic_kas.svg",
-  ),
-  IuranCategory(
-    categorySlug: "arisan",
-    categoryName: "Arisan",
-    categoryIcon: "assets/icons/ic_arisan.svg",
-  ),
-  IuranCategory(
-    categorySlug: "sosial",
-    categoryName: "Sosial",
-    categoryIcon: "assets/icons/ic_sosial.svg",
-  ),
-  IuranCategory(
-    categorySlug: "donasi",
-    categoryName: "Donasi",
-    categoryIcon: "assets/icons/ic_donasi.svg",
-  ),
-];
 
 class IuranFilterCategory extends StatelessWidget {
   final IuranCategory? category;
@@ -53,10 +21,9 @@ class IuranFilterCategory extends StatelessWidget {
       child: ListView.separated(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-
-        itemCount: filterCategories.length,
+        itemCount: Constants.iuranCategories.length,
         itemBuilder: (ctx, index) {
-          final item = filterCategories[index];
+          final item = Constants.iuranCategories[index];
           return IuranFilterCategoryItem(
             category: item,
             selected: item.categorySlug == category?.categorySlug,

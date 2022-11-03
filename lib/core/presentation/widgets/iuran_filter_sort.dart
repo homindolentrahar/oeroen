@@ -1,29 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/domain/models/iuran_sort.dart';
 import 'package:oeroen/core/presentation/application/iuran_filter_controller.dart';
-
-final List<IuranSort> filterSorts = [
-  IuranSort(
-    sortName: "Nominal Tertinggi",
-    sortSlug: "amount_desc",
-  ),
-  IuranSort(
-    sortName: "Nominal Terendah",
-    sortSlug: "amount_asc",
-  ),
-  IuranSort(
-    sortName: "Terbaru",
-    sortSlug: "latest",
-  ),
-  IuranSort(
-    sortName: "Terlama",
-    sortSlug: "oldest",
-  ),
-];
 
 class IuranFilterSort extends StatelessWidget {
   final IuranSort? sort;
@@ -44,7 +26,7 @@ class IuranFilterSort extends StatelessWidget {
         return Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: filterSorts
+          children: Constants.iuranSorts
               .map(
                 (item) => IuranFilterSortChip(
                   sort: item,
@@ -57,7 +39,6 @@ class IuranFilterSort extends StatelessWidget {
               .toList(),
         );
       },
-      valueTransformer: (sort) {},
     );
   }
 }
@@ -78,7 +59,8 @@ class IuranFilterSortChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(8),
-      color: selected ? Get.theme.primaryColor : AppColor.light,
+      color:
+          selected ? Get.theme.primaryColor.withOpacity(0.25) : AppColor.light,
       child: InkWell(
         onTap: () => onSelect(sort),
         borderRadius: BorderRadius.circular(8),
@@ -87,7 +69,7 @@ class IuranFilterSortChip extends StatelessWidget {
           child: Text(
             sort?.sortName ?? "",
             style: TextStyle(
-              color: selected ? AppColor.white : AppColor.gray,
+              color: selected ? Get.theme.primaryColor : AppColor.gray,
               fontSize: 12,
               fontFamily: selected ? AppFont.semiBold : AppFont.medium,
             ),

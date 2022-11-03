@@ -4,30 +4,16 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/domain/models/iuran_filter.dart';
-import 'package:oeroen/core/presentation/widgets/category_chip_item.dart';
+import 'package:oeroen/core/presentation/widgets/iuran_filter_chips.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_filter_sheet.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
 
-class IuranListFilter {
-  final String? name;
-  final String? categoryId;
-  final String? sort;
-
-  IuranListFilter({
-    this.name,
-    this.categoryId,
-    this.sort,
-  });
-}
-
 class IuranListScreen extends StatelessWidget {
   final String title;
-  final IuranListFilter? filter;
 
   const IuranListScreen({
     Key? key,
     required this.title,
-    this.filter,
   }) : super(key: key);
 
   @override
@@ -65,25 +51,7 @@ class IuranListScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 36,
-                      child: ListView.separated(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 3,
-                        itemBuilder: (ctx, index) {
-                          return const CategoryChipItem(
-                            title: "Keamanan",
-                            count: 9,
-                          );
-                        },
-                        separatorBuilder: (ctx, index) {
-                          return const SizedBox(width: 8);
-                        },
-                      ),
-                    ),
-                  ),
+                  const Expanded(child: IuranFilterChips()),
                   const SizedBox(width: 16),
                   Material(
                     color: AppColor.light,
@@ -95,6 +63,8 @@ class IuranListScreen extends StatelessWidget {
                         final IuranFilter? filter = await Get.bottomSheet(
                           const IuranFilterSheet(),
                         );
+
+                        if (filter != null) {}
                       },
                       child: Container(
                         padding: const EdgeInsets.all(16),

@@ -12,6 +12,10 @@ class IuranFilterController extends GetxController {
     _state.value = filter;
   }
 
+  void setFilter(IuranFilter filter) {
+    _emit(filter);
+  }
+
   void selectCategory(IuranCategory? category) {
     IuranCategory? currentCategory;
     if (state.category?.categorySlug == category?.categorySlug &&
