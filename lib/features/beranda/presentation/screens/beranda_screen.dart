@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/core/presentation/widgets/popup_menu_item_child.dart';
+import 'package:oeroen/features/auth/presentation/application/auth_controller.dart';
 import 'package:oeroen/features/beranda/presentation/widgets/beranda_banner.dart';
 import 'package:oeroen/features/beranda/presentation/widgets/beranda_category.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
@@ -26,12 +28,43 @@ class BerandaScreen extends StatelessWidget {
                 fontFamily: AppFont.semiBold,
               ),
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(360),
-              child: Image.asset(
-                "assets/images/img_placeholder_avatar.png",
-                width: 48,
-                height: 48,
+            PopupMenuButton(
+              color: AppColor.white,
+              position: PopupMenuPosition.under,
+              offset: const Offset(5, 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              itemBuilder: (context) => <PopupMenuItem>[
+                PopupMenuItem(
+                  value: 'profile',
+                  onTap: () {},
+                  padding: const EdgeInsets.all(0),
+                  child: const PopupMenuItemChild(
+                    icon: "assets/icons/ic_profile.svg",
+                    title: "Profil",
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'logout',
+                  onTap: () {
+                    Get.find<AuthController>().signOut();
+                  },
+                  padding: const EdgeInsets.all(0),
+                  child: const PopupMenuItemChild(
+                    icon: "assets/icons/ic_sign_out.svg",
+                    title: "Keluar",
+                    textColor: AppColor.red,
+                  ),
+                ),
+              ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(360),
+                child: Image.asset(
+                  "assets/images/img_placeholder_avatar.png",
+                  width: 48,
+                  height: 48,
+                ),
               ),
             ),
           ],

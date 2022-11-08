@@ -19,8 +19,8 @@ class AuthController extends GetxController {
     debounce(authStateChanges, (Option<AuthUser> authState) {
       authState.fold(
         () {
-          // TODO: In purpose of redesign UI,revert back to AppRoute.mainRoute
-          Get.offAllNamed(AppRoute.mainRoute);
+          // TODO: In purpose of redesign UI,revert back to AppRoute.authRoute
+          Get.offAllNamed(AppRoute.authRoute);
         },
         (authUser) {
           Get.offAllNamed(AppRoute.mainRoute);
@@ -43,7 +43,7 @@ class AuthController extends GetxController {
         );
       },
       (_) {
-        // Get.offAllNamed(AppRoute.authRoute);
+        Get.offAllNamed(AppRoute.authRoute);
       },
     );
   }
