@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/features/auth/presentation/application/user_sign_controller.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_field.dart';
@@ -16,12 +17,13 @@ class LoginPhoneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+    final controller = Get.find<UserSignController>();
 
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: FormBuilder(
         key: formKey,
-        autovalidateMode: AutovalidateMode.disabled,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         autoFocusOnValidationFailure: true,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +64,9 @@ class LoginPhoneScreen extends StatelessWidget {
                         action: TextInputAction.done,
                         validators: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
+                          FormBuilderValidators.match(
+                            r'^8[1-9][0-9]{7,10}$',
+                          ),
                         ]),
                       ),
                     ),
@@ -72,8 +76,10 @@ class LoginPhoneScreen extends StatelessWidget {
                 AppFillButton(
                   text: "Masuk",
                   onPressed: () {
-                    // formKey.currentState?.validate();
-                    Get.toNamed(AppRoute.otpRoute);
+                    if (formKey.currentState!.saveAndValidate()) {
+                      final phone = formKey.currentState!.value['phone'];
+                      controller.verifyPhoneNumber(phone);
+                    }
                   },
                 ),
               ],

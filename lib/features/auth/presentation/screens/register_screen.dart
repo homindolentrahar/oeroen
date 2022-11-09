@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/features/auth/presentation/application/user_sign_controller.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_field.dart';
@@ -16,6 +17,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+    final controller = Get.find<UserSignController>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -61,7 +63,7 @@ class RegisterScreen extends StatelessWidget {
             const SizedBox(height: 32),
             FormBuilder(
               key: formKey,
-              autovalidateMode: AutovalidateMode.disabled,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               autoFocusOnValidationFailure: true,
               child: Column(
                 children: [
@@ -98,6 +100,9 @@ class RegisterScreen extends StatelessWidget {
                     validators: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                       FormBuilderValidators.minLength(8),
+                      FormBuilderValidators.match(
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
+                      ),
                     ]),
                     onChanged: (value) {},
                   ),
@@ -105,7 +110,12 @@ class RegisterScreen extends StatelessWidget {
                   AppFillButton(
                     text: "Daftar",
                     onPressed: () {
-                      Get.toNamed(AppRoute.waitingVerification);
+                      if (formKey.currentState!.saveAndValidate()) {
+                        controller.register(
+                          email: formKey.currentState!.value['email'],
+                          password: formKey.currentState!.value['password'],
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 32),
@@ -126,7 +136,9 @@ class RegisterScreen extends StatelessWidget {
                     textSize: 14,
                     textColor: AppColor.black,
                     color: AppColor.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.googleLogin();
+                    },
                   ),
                   const SizedBox(height: 64),
                   AppTextButton(

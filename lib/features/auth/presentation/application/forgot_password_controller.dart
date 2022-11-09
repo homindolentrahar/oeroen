@@ -2,7 +2,8 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
-import 'package:oeroen/routes/app_route.dart';
+import 'package:oeroen/utils/dialog_util.dart';
+import 'package:oeroen/utils/snackbar_util.dart';
 
 class ForgotPasswordController extends GetxController {
   final IAuthRepository _authRepository;
@@ -13,27 +14,30 @@ class ForgotPasswordController extends GetxController {
 
   final Rx<int> timeout = 0.obs;
 
-  Future<void> forgotPassword(String email) async {
+  Future<void> sendResetPasswordEmail(String email) async {
+    DialogUtil.showLoading();
+
     final result = await _authRepository.forgotPassword(email);
+
+    DialogUtil.hideLoading();
 
     result.fold(
       (error) {
         Logger().e(error);
-        Get.snackbar(
-          "Terjadi kesalahan",
-          "Tidak dapat mengeluarkan akun",
-          borderRadius: 8,
-        );
+        SnackBarUtil.showError(message: error);
       },
       (_) {
-        //  Navigate to OTP screen & start timer
+        SnackBarUtil.showSuccess(
+          title: "Email berhasil terkirim!",
+          message:
+              "Kami telah mengirimkan email yang berisi tautan untuk mereset password akun anda",
+        );
         _startTimeout();
-        Get.toNamed(AppRoute.otpRoute);
       },
     );
   }
 
-  void _startTimeout({int duration = 15}) {
+  void _startTimeout({int duration = 60}) {
     timeout.value = duration;
     Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timeout.value > 0) {

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oeroen/features/auth/data/repositories/auth_repository.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
@@ -12,6 +13,7 @@ class AppBinding implements Bindings {
     Get.put<FirebaseAuth>(FirebaseAuth.instance, permanent: true);
     Get.put<FirebaseFirestore>(FirebaseFirestore.instance, permanent: true);
     Get.put<GoogleSignIn>(GoogleSignIn.standard(), permanent: true);
+    Get.put<GetStorage>(GetStorage(), permanent: true);
 
     Get.put<IAuthRepository>(
       AuthRepository(
@@ -24,6 +26,7 @@ class AppBinding implements Bindings {
     Get.put<AuthController>(
       AuthController(
         authRepository: Get.find<IAuthRepository>(),
+        storage: Get.find<GetStorage>(),
       ),
       permanent: true,
     );

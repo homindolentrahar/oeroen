@@ -1,63 +1,88 @@
-import 'package:get/get.dart';
-import 'package:oeroen/common/errors/app_error.dart';
-import 'package:oeroen/features/auth/domain/usecases/sign_in_with_otp.dart';
-import 'package:oeroen/features/auth/domain/usecases/verify_phone_number.dart';
-import 'package:oeroen/features/auth/presentation/application/otp_sign_state.dart';
+import 'dart:async';
 
-class OtpSignController extends GetxController with StateMixin<OtpSignState> {
-  final VerifyPhoneNumber _verifyPhoneNumber;
-  final SignInWithOtp _signInWithOtp;
+import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:oeroen/routes/app_route.dart';
+import 'package:oeroen/utils/dialog_util.dart';
+import 'package:oeroen/utils/snackbar_util.dart';
+
+class OtpSignController extends GetxController {
+  final IAuthRepository _authRepository;
 
   OtpSignController({
-    required VerifyPhoneNumber verifyPhoneNumber,
-    required SignInWithOtp signInWithOtp,
-  })  : _verifyPhoneNumber = verifyPhoneNumber,
-        _signInWithOtp = signInWithOtp;
+    required IAuthRepository authRepository,
+  }) : _authRepository = authRepository;
+
+  final Rx<String> _verificationId = "".obs;
+  final Rx<int> timeout = 0.obs;
+
+  String get verificationId => _verificationId.value;
+
+  void setInitialVerificationId(String id) {
+    _verificationId.value = id;
+  }
 
   Future<void> verifyPhoneNumber(String phoneNumber) async {
-    change(null, status: RxStatus.loading());
+    DialogUtil.showLoading();
 
-    final result = await _verifyPhoneNumber(
-      phoneNumber,
+    final result = await _authRepository.verifyPhoneNumber(
+      "+62$phoneNumber",
       codeSent: (String verificationId, int? resendToken) {
-        change(state?.copyWith(
-          verificationId: verificationId,
-          phoneNumber: phoneNumber,
-        ));
+        _verificationId.value = verificationId;
+
+        DialogUtil.hideLoading();
+        startTimeOut();
       },
-      verificationFailed: (AppError exception) {
-        change(null, status: RxStatus.error(exception.message));
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        //  TODO: Handle when auto retrieval timeout
+      verificationFailed: (exception) {
+        Logger().e(exception.message);
+
+        DialogUtil.hideLoading();
       },
     );
 
     result.fold(
       (error) {
-        change(null, status: RxStatus.error(error));
+        Logger().e(error);
+        SnackBarUtil.showError(message: error);
+      },
+      (_) {},
+    );
+  }
+
+  Future<void> signInWithOtp({
+    required String otp,
+    required String verificationId,
+  }) async {
+    DialogUtil.showLoading();
+
+    final result = await _authRepository.signInWithOtp(
+      otpCode: otp,
+      verificationId: verificationId,
+    );
+
+    DialogUtil.hideLoading();
+
+    result.fold(
+      (error) {
+        Logger().e(error);
+        SnackBarUtil.showError(message: error);
       },
       (unit) {
-        change(state, status: RxStatus.success());
+        Get.offAllNamed(AppRoute.mainRoute);
       },
     );
   }
 
-  Future<void> signInWithOtp(String otp) async {
-    change(null, status: RxStatus.loading());
-
-    final result = await _signInWithOtp(
-      otpCode: otp,
-      verificationId: state?.verificationId ?? "",
-    );
-
-    result.fold(
-      (error) {
-        change(null, status: RxStatus.error(error));
-      },
-      (unit) {
-        change(state, status: RxStatus.success());
-      },
-    );
+  void startTimeOut({int duration = 90}) {
+    timeout.value = duration;
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeout.value > 0) {
+        timeout.value -= 1;
+      } else {
+        timeout.value = 0;
+        timer.cancel();
+      }
+    });
   }
 }
