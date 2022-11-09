@@ -21,6 +21,7 @@ class RegisterScreen extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: AppColor.light,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(32),

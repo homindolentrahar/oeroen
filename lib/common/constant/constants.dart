@@ -1,7 +1,69 @@
 import 'package:flutter/widgets.dart';
 import 'package:oeroen/common/theme/app_color.dart';
+import 'package:oeroen/core/domain/models/iuran_category.dart';
+import 'package:oeroen/core/domain/models/iuran_filter.dart';
+import 'package:oeroen/core/domain/models/iuran_sort.dart';
 import 'package:oeroen/features/urunan/domain/model/payment_method.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
+
+class Constants{
+  static List<IuranCategory> iuranCategories = [
+    IuranCategory(
+      categorySlug: "kebersihan",
+      categoryName: "Kebersihan",
+      categoryIcon: "assets/icons/ic_kebersihan.svg",
+    ),
+    IuranCategory(
+      categorySlug: "keamanan",
+      categoryName: "Keamanan",
+      categoryIcon: "assets/icons/ic_keamanan.svg",
+    ),
+    IuranCategory(
+      categorySlug: "kas",
+      categoryName: "Kas",
+      categoryIcon: "assets/icons/ic_kas.svg",
+    ),
+    IuranCategory(
+      categorySlug: "arisan",
+      categoryName: "Arisan",
+      categoryIcon: "assets/icons/ic_arisan.svg",
+    ),
+    IuranCategory(
+      categorySlug: "sosial",
+      categoryName: "Sosial",
+      categoryIcon: "assets/icons/ic_sosial.svg",
+    ),
+    IuranCategory(
+      categorySlug: "donasi",
+      categoryName: "Donasi",
+      categoryIcon: "assets/icons/ic_donasi.svg",
+    ),
+  ];
+
+  static List<IuranSort> iuranSorts = [
+    IuranSort(
+      sortName: "Nominal Tertinggi",
+      sortSlug: "amount_desc",
+    ),
+    IuranSort(
+      sortName: "Nominal Terendah",
+      sortSlug: "amount_asc",
+    ),
+    IuranSort(
+      sortName: "Terbaru",
+      sortSlug: "latest",
+    ),
+    IuranSort(
+      sortName: "Terlama",
+      sortSlug: "oldest",
+    ),
+  ];
+
+  static Map<PaidType, String> paidTypeTitle = {
+    PaidType.paid: "Lunas",
+    PaidType.due: "Belum Lunas",
+  };
+}
 
 final Map<UrunanType, String> typeIcons = {
   UrunanType.keamanan: "assets/icons/keamanan.svg",

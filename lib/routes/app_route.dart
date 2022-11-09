@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:oeroen/core/presentation/screens/iuran_list_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/auth_binding.dart';
@@ -13,10 +14,12 @@ import 'package:oeroen/features/auth/presentation/screens/otp_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
+import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
+import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.dart';
+import 'package:oeroen/features/main_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/detail_urunan_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/invoice_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/payment_screen.dart';
-import 'package:oeroen/features/urunan/presentation/screens/urunan_screen.dart';
 
 class AppRoute {
   static const String initialRoute = "/";
@@ -29,6 +32,11 @@ class AppRoute {
   static const String codeDesaRoute = "/code-desa";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
+  static const String mainBerandaRoute = "/main/beranda";
+  static const String mainDesaRoute = "/main/desa";
+  static const String mainIuranRoute = "/main/iuran";
+  static const String wajibIuranRoute = "/wajib-iuran";
+  static const String iuranListRoute = "/iuran-list";
   static const String waitingVerificationRoute = "/waiting-verification";
   static const String urunanRoute = "/urunan";
   static const String paymentRoute = "/payment";
@@ -89,18 +97,6 @@ class AppRoute {
       page: () => const LandingScreen(),
     ),
     GetPage(
-      name: loginEmailRoute,
-      page: () => const LoginEmailScreen(),
-    ),
-    GetPage(
-      name: registerRoute,
-      page: () => const RegisterScreen(),
-    ),
-    GetPage(
-      name: forgotPasswordRoute,
-      page: () => const ForgotPasswordScreen(),
-    ),
-    GetPage(
       name: codeDesaRoute,
       page: () => const CodeDesaScreen(),
     ),
@@ -112,7 +108,28 @@ class AppRoute {
     GetPage(
       name: mainRoute,
       transition: Transition.fadeIn,
-      page: () => const UrunanScreen(),
+      page: () => const MainScreen(),
+      children: [
+        GetPage(
+          name: mainBerandaRoute,
+          page: () => const BerandaScreen(),
+        ),
+      ],
+    ),
+    GetPage(
+      name: wajibIuranRoute,
+      page: () => const WajibIuranScreen(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: iuranListRoute,
+      page: () {
+        final Map<String, dynamic> data = Get.arguments;
+        final title = data['title'];
+
+        return IuranListScreen(title: title);
+      },
+      transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: "$urunanRoute/:id",
