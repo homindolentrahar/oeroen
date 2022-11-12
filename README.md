@@ -2,15 +2,15 @@
 
 Make urunan easy and fast
 
-## Getting Started
+## Build
 
-This project is a starting point for a Flutter application.
+Build the project by opening Terminal, and enter the command below
 
-A few resources to get you started if this is your first Flutter project:
+### Android
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+    // Change x x with your build version
+    // Also change BUILD_NAME with your build name
+    // Example: 
+    // sh build_apk.sh 1.0.0-beta.1 1
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    sh build_apk.sh BUILD_NAME.x x
