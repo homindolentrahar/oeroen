@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/core/domain/models/iuran_filter.dart';
 import 'package:oeroen/core/presentation/widgets/category_chip_item.dart';
 import 'package:oeroen/core/presentation/widgets/paid_type_chip_item.dart';
@@ -47,19 +49,26 @@ class IuranFilterChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 36,
-      child: ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: getListCount,
-        itemBuilder: (ctx, index) {
-          return getListItem[index];
-        },
-        separatorBuilder: (ctx, index) {
-          return const SizedBox(width: 8);
-        },
-      ),
-    );
+    return filter == null
+        ? Text(
+            "Semua Pembayaran",
+            style: Get.textTheme.headline6?.copyWith(
+              color: AppColor.black,
+            ),
+          )
+        : SizedBox(
+            height: 36,
+            child: ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: getListCount,
+              itemBuilder: (ctx, index) {
+                return getListItem[index];
+              },
+              separatorBuilder: (ctx, index) {
+                return const SizedBox(width: 8);
+              },
+            ),
+          );
   }
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:oeroen/common/theme/app_color.dart';
-import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/core/presentation/widgets/popup_menu_item_child.dart';
-import 'package:oeroen/features/auth/presentation/application/auth_controller.dart';
+import 'package:oeroen/core/presentation/widgets/main_app_bar.dart';
+import 'package:oeroen/core/presentation/widgets/section_subtitle.dart';
 import 'package:oeroen/features/beranda/presentation/widgets/beranda_banner.dart';
 import 'package:oeroen/features/beranda/presentation/widgets/beranda_category.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
@@ -16,109 +14,36 @@ class BerandaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(32),
+      physics: const BouncingScrollPhysics(),
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              "Beranda",
-              style: TextStyle(
-                color: AppColor.black,
-                fontSize: 20,
-                fontFamily: AppFont.semiBold,
-              ),
-            ),
-            PopupMenuButton(
-              color: AppColor.white,
-              position: PopupMenuPosition.under,
-              offset: const Offset(5, 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              itemBuilder: (context) => <PopupMenuItem>[
-                PopupMenuItem(
-                  value: 'profile',
-                  onTap: () {},
-                  padding: const EdgeInsets.all(0),
-                  child: const PopupMenuItemChild(
-                    icon: "assets/icons/ic_profile.svg",
-                    title: "Profil",
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'logout',
-                  onTap: () {
-                    Get.find<AuthController>().signOut();
-                  },
-                  padding: const EdgeInsets.all(0),
-                  child: const PopupMenuItemChild(
-                    icon: "assets/icons/ic_sign_out.svg",
-                    title: "Keluar",
-                    textColor: AppColor.red,
-                  ),
-                ),
-              ],
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(360),
-                child: Image.asset(
-                  "assets/images/img_placeholder_avatar.png",
-                  width: 48,
-                  height: 48,
-                ),
-              ),
-            ),
-          ],
-        ),
+        const MainAppBar(title: "Beranda"),
         const SizedBox(height: 32),
         const BerandaBanner(),
         const SizedBox(height: 32),
         const BerandaCategoryTiles(),
         const SizedBox(height: 32),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              "Pembayaran Terkini",
-              style: TextStyle(
-                color: AppColor.dark,
-                fontSize: 14,
-                fontFamily: AppFont.medium,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(
-                  AppRoute.iuranListRoute,
-                  arguments: {
-                    "title": "Pembayaran Terkini",
-                  },
-                );
+        SectionSubtitle(
+          subtitle: "Pembayaran Terkini",
+          onPressed: () {
+            Get.toNamed(
+              AppRoute.iuranListRoute,
+              arguments: {
+                "title": "Pembayaran Terkini",
               },
-              child: const Text(
-                "Selengkapnya",
-                style: TextStyle(
-                  color: AppColor.gray,
-                  fontSize: 14,
-                  fontFamily: AppFont.semiBold,
-                ),
-              ),
-            ),
-          ],
+            );
+          },
         ),
         const SizedBox(height: 16),
-        SizedBox(
-          height: 320,
-          child: ListView.separated(
-            physics: const BouncingScrollPhysics(),
-            itemCount: 8,
-            itemBuilder: (ctx, index) {
-              return IuranListItem(
+        ...List.generate(
+          10,
+          (index) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IuranListItem(
                 onPressed: () {},
-              );
-            },
-            separatorBuilder: (ctx, index) {
-              return const SizedBox(height: 16);
-            },
+              ),
+              index == 9 ? const SizedBox.shrink() : const SizedBox(height: 16)
+            ],
           ),
         ),
       ],

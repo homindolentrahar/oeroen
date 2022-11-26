@@ -51,7 +51,9 @@ class IuranListScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Expanded(child: IuranFilterChips()),
+                  const Expanded(
+                    child: IuranFilterChips(),
+                  ),
                   const SizedBox(width: 16),
                   Material(
                     color: AppColor.light,

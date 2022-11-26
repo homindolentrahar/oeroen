@@ -4,11 +4,9 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 
-class IuranListItem extends StatelessWidget {
-  const IuranListItem({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
+class TransaksiDesaListItem extends StatelessWidget {
+  const TransaksiDesaListItem({Key? key, required this.onPressed})
+      : super(key: key);
 
   final VoidCallback onPressed;
 
@@ -58,15 +56,6 @@ class IuranListItem extends StatelessWidget {
                         color: AppColor.gray,
                         fontSize: 12,
                         fontFamily: AppFont.regular,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      "Desa Talangsari",
-                      style: TextStyle(
-                        color: AppColor.dark,
-                        fontSize: 12,
-                        fontFamily: AppFont.medium,
                       ),
                     ),
                   ],

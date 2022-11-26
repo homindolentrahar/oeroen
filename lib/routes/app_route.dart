@@ -14,8 +14,10 @@ import 'package:oeroen/features/auth/presentation/screens/otp_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
+import 'package:oeroen/features/beranda/presentation/application/main_controller.dart';
 import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
 import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.dart';
+import 'package:oeroen/features/desa/presentation/screens/desa_screen.dart';
 import 'package:oeroen/features/main_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/detail_urunan_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/invoice_screen.dart';
@@ -32,8 +34,8 @@ class AppRoute {
   static const String codeDesaRoute = "/code-desa";
   static const String landingRoute = "/landing";
   static const String mainRoute = "/main";
-  static const String mainBerandaRoute = "/main/beranda";
-  static const String mainDesaRoute = "/main/desa";
+  static const String mainBerandaRoute = "/beranda";
+  static const String mainDesaRoute = "/desa";
   static const String mainIuranRoute = "/main/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
   static const String iuranListRoute = "/iuran-list";
@@ -109,10 +111,19 @@ class AppRoute {
       name: mainRoute,
       transition: Transition.fadeIn,
       page: () => const MainScreen(),
+      binding: BindingsBuilder(() {
+        Get.put<MainController>(MainController());
+      }),
       children: [
         GetPage(
           name: mainBerandaRoute,
           page: () => const BerandaScreen(),
+          transition: Transition.fadeIn,
+        ),
+        GetPage(
+          name: mainDesaRoute,
+          page: () => const DesaScreen(),
+          transition: Transition.fadeIn,
         ),
       ],
     ),
