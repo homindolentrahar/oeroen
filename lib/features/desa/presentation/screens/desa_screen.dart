@@ -39,7 +39,9 @@ class DesaScreen extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: 5,
             itemBuilder: (ctx, index) {
-              return const IuranDesaGridItem();
+              return IuranDesaGridItem(
+                onPressed: () {},
+              );
             },
             separatorBuilder: (ctx, index) {
               return const SizedBox(width: 16);
