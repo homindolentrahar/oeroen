@@ -7,6 +7,10 @@ class AppTheme {
     primaryColor: AppColor.primary,
     canvasColor: AppColor.white,
     textTheme: const TextTheme(
+      headline3: TextStyle(
+        fontSize: 24,
+        fontFamily: AppFont.semiBold,
+      ),
       headline4: TextStyle(
         fontSize: 20,
         fontFamily: AppFont.semiBold,

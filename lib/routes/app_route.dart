@@ -7,7 +7,6 @@ import 'package:oeroen/features/auth/presentation/screens/bindings/otp_binding.d
 import 'package:oeroen/features/auth/presentation/screens/bindings/waiting_verification_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/code_desa_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/forgot_password_screen.dart';
-import 'package:oeroen/features/auth/presentation/screens/landing_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/login_phone_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/login_email_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/otp_screen.dart';
@@ -18,6 +17,7 @@ import 'package:oeroen/features/beranda/presentation/application/main_controller
 import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
 import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_screen.dart';
+import 'package:oeroen/features/desa/presentation/screens/detail_desa_screen.dart';
 import 'package:oeroen/features/main_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/detail_urunan_screen.dart';
 import 'package:oeroen/features/urunan/presentation/screens/invoice_screen.dart';
@@ -95,17 +95,13 @@ class AppRoute {
       binding: ForgotPasswordBinding(),
     ),
     GetPage(
-      name: landingRoute,
-      page: () => const LandingScreen(),
+      name: waitingVerificationRoute,
+      page: () => const WaitingVerificationScreen(),
+      binding: WaitingVerificationBinding(),
     ),
     GetPage(
       name: codeDesaRoute,
       page: () => const CodeDesaScreen(),
-    ),
-    GetPage(
-      name: waitingVerificationRoute,
-      page: () => const WaitingVerificationScreen(),
-      binding: WaitingVerificationBinding(),
     ),
     GetPage(
       name: mainRoute,
@@ -155,6 +151,10 @@ class AppRoute {
           page: () => const InvoiceScreen(),
         ),
       ],
+    ),
+    GetPage(
+      name: "$mainDesaRoute/:id",
+      page: () => const DetailDesaScreen(),
     ),
   ];
 }

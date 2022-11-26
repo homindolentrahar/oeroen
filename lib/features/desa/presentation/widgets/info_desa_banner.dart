@@ -5,6 +5,7 @@ import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/icon_button_location.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class InfoDesaBanner extends StatelessWidget {
   const InfoDesaBanner({Key? key}) : super(key: key);
@@ -88,7 +89,9 @@ class InfoDesaBanner extends StatelessWidget {
               AppTextButton(
                 text: "Selengkapnya",
                 textSize: 12,
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed("${AppRoute.mainDesaRoute}/5");
+                },
               ),
             ],
           ),

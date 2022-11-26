@@ -8,12 +8,12 @@ class SectionSubtitle extends StatelessWidget {
     Key? key,
     required this.subtitle,
     this.actionSubtitle = "Selengkapnya",
-    required this.onPressed,
+    this.onPressed,
   }) : super(key: key);
 
   final String subtitle;
   final String actionSubtitle;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +28,16 @@ class SectionSubtitle extends StatelessWidget {
             fontFamily: AppFont.medium,
           ),
         ),
-        GestureDetector(
-          onTap: onPressed,
-          child: Text(
-            actionSubtitle,
-            style: Get.textTheme.headline5?.copyWith(
-              color: AppColor.gray,
-              fontSize: 12
-            ),
-          ),
-        ),
+        onPressed != null
+            ? GestureDetector(
+                onTap: onPressed,
+                child: Text(
+                  actionSubtitle,
+                  style: Get.textTheme.headline5
+                      ?.copyWith(color: AppColor.gray, fontSize: 12),
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }
