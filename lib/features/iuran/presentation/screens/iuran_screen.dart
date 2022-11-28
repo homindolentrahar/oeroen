@@ -5,6 +5,7 @@ import 'package:oeroen/core/presentation/widgets/core_app_bar.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
 import 'package:oeroen/features/iuran/presentation/application/iuran_controller.dart';
 import 'package:oeroen/features/iuran/presentation/widgets/iuran_menu_filter.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class IuranScreen extends StatelessWidget {
   const IuranScreen({Key? key}) : super(key: key);
@@ -34,7 +35,12 @@ class IuranScreen extends StatelessWidget {
                       itemCount: 10,
                       itemBuilder: (ctx, index) {
                         return IuranListItem(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(
+                              "${AppRoute.mainIuranRoute}/5",
+                              arguments: {'title': "Iuran Keamanan"},
+                            );
+                          },
                         );
                       },
                       separatorBuilder: (ctx, index) {

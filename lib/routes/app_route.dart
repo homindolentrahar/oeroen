@@ -18,13 +18,12 @@ import 'package:oeroen/features/beranda/presentation/application/main_controller
 import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
 import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_screen.dart';
-import 'package:oeroen/features/desa/presentation/screens/detail_desa_screen.dart';
+import 'package:oeroen/features/desa/presentation/screens/desa_detail_screen.dart';
 import 'package:oeroen/core/presentation/screens/main_screen.dart';
 import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_binding.dart';
+import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_detail_binding.dart';
+import 'package:oeroen/features/iuran/presentation/screens/iuran_detail_screen.dart';
 import 'package:oeroen/features/iuran/presentation/screens/iuran_screen.dart';
-import 'package:oeroen/features/urunan/presentation/screens/detail_urunan_screen.dart';
-import 'package:oeroen/features/urunan/presentation/screens/invoice_screen.dart';
-import 'package:oeroen/features/urunan/presentation/screens/payment_screen.dart';
 
 class AppRoute {
   static const String initialRoute = "/";
@@ -127,11 +126,10 @@ class AppRoute {
       ],
     ),
     GetPage(
-      name: mainIuranRoute,
-      page: () => const IuranScreen(),
-      transition: Transition.downToUp,
-      binding: IuranBinding()
-    ),
+        name: mainIuranRoute,
+        page: () => const IuranScreen(),
+        transition: Transition.downToUp,
+        binding: IuranBinding()),
     GetPage(
       name: wajibIuranRoute,
       page: () => const WajibIuranScreen(),
@@ -146,22 +144,13 @@ class AppRoute {
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
-      name: "$urunanRoute/:id",
-      page: () => const DetailUrunanScreen(item: null),
-      children: <GetPage>[
-        GetPage(
-          name: paymentRoute,
-          page: () => const PaymentScreen(item: null),
-        ),
-        GetPage(
-          name: invoiceRoute,
-          page: () => const InvoiceScreen(),
-        ),
-      ],
+      name: "$mainDesaRoute/:id",
+      page: () => const DesaDetailScreen(),
     ),
     GetPage(
-      name: "$mainDesaRoute/:id",
-      page: () => const DetailDesaScreen(),
+      name: "$mainIuranRoute/:id",
+      page: () => const IuranDetailScreen(),
+      binding: IuranDetailBinding(),
     ),
   ];
 }
