@@ -4,46 +4,48 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/core/domain/models/iuran_category.dart';
-import 'package:oeroen/core/presentation/application/iuran_filter_controller.dart';
+import 'package:oeroen/core/domain/models/iuran_filter.dart';
 
-class IuranFilterCategory extends StatelessWidget {
-  final IuranCategory? category;
+class IuranFilterSheetCategory extends StatelessWidget {
+  const IuranFilterSheetCategory({
+    Key? key,
+    this.initialValue,
+    required this.onSelect,
+  }) : super(key: key);
 
-  const IuranFilterCategory({Key? key, this.category}) : super(key: key);
+  final IuranFilter? initialValue;
+  final ValueChanged<IuranFilter?> onSelect;
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<IuranFilterController>();
-
     return SizedBox(
       height: 72,
       child: ListView.separated(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: Constants.iuranCategories.length,
+        itemCount: Constants.iuranFilters
+            .where((item) => item.type == IuranFilterType.category)
+            .length,
         itemBuilder: (ctx, index) {
-          final item = Constants.iuranCategories[index];
+          final item = Constants.iuranFilters
+              .where((item) => item.type == IuranFilterType.category)
+              .toList()[index];
           return IuranFilterCategoryItem(
             category: item,
-            selected: item.categorySlug == category?.categorySlug,
-            onSelect: (category) {
-              controller.selectCategory(category);
-            },
+            selected: item.slug == initialValue?.slug,
+            onSelect: (category) => onSelect(category),
           );
         },
-        separatorBuilder: (ctx, index) {
-          return const SizedBox(width: 16);
-        },
+        separatorBuilder: (ctx, index) => const SizedBox(width: 16),
       ),
     );
   }
 }
 
 class IuranFilterCategoryItem extends StatelessWidget {
-  final IuranCategory? category;
+  final IuranFilter? category;
   final bool selected;
-  final ValueChanged<IuranCategory?> onSelect;
+  final ValueChanged<IuranFilter?> onSelect;
 
   const IuranFilterCategoryItem({
     Key? key,
@@ -66,7 +68,7 @@ class IuranFilterCategoryItem extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(12),
               child: SvgPicture.asset(
-                category?.categoryIcon ?? "",
+                category?.icon ?? "",
                 width: 20,
                 height: 20,
                 color: selected ? AppColor.white : AppColor.gray,
@@ -77,7 +79,7 @@ class IuranFilterCategoryItem extends StatelessWidget {
         if (selected) ...[
           const SizedBox(height: 8),
           Text(
-            category?.categoryName ?? "",
+            category?.title ?? "",
             style: TextStyle(
               color: Get.theme.primaryColor,
               fontSize: 12,

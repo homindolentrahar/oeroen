@@ -1,56 +1,32 @@
 import 'package:get/get.dart';
-import 'package:oeroen/core/domain/models/iuran_category.dart';
 import 'package:oeroen/core/domain/models/iuran_filter.dart';
-import 'package:oeroen/core/domain/models/iuran_sort.dart';
 
 class IuranFilterController extends GetxController {
-  final Rx<IuranFilter> _state = const IuranFilter().obs;
+  IuranFilter? category;
+  IuranFilter? sort;
+  IuranFilter? paidType;
 
-  IuranFilter get state => _state.value;
-
-  void _emit(IuranFilter filter) {
-    _state.value = filter;
+  void setFilters(List<IuranFilter> value) {
+    category =
+        value.firstWhereOrNull((item) => item.type == IuranFilterType.category);
+    sort = value.firstWhereOrNull((item) => item.type == IuranFilterType.sort);
+    paidType =
+        value.firstWhereOrNull((item) => item.type == IuranFilterType.paidType);
+    update();
   }
 
-  void setFilter(IuranFilter filter) {
-    _emit(filter);
+  void categoryChanged(IuranFilter? value) {
+    category = value;
+    update();
   }
 
-  void selectCategory(IuranCategory? category) {
-    IuranCategory? currentCategory;
-    if (state.category?.categorySlug == category?.categorySlug &&
-        state.category?.categoryName == category?.categoryName) {
-      currentCategory = null;
-    } else {
-      currentCategory = category;
-    }
-    _emit(state.copyWith(
-      category: currentCategory,
-    ));
+  void sortChanged(IuranFilter? value) {
+    sort = value;
+    update();
   }
 
-  void selectSort(IuranSort? sort) {
-    IuranSort? currentSort;
-    if (state.sort?.sortName == sort?.sortName &&
-        state.sort?.sortSlug == sort?.sortSlug) {
-      currentSort = null;
-    } else {
-      currentSort = sort;
-    }
-    _emit(state.copyWith(
-      sort: currentSort,
-    ));
-  }
-
-  void selectPaidType(PaidType? type) {
-    PaidType? currentPaidType;
-    if (state.paidType == type) {
-      currentPaidType = null;
-    } else {
-      currentPaidType = type;
-    }
-    _emit(state.copyWith(
-      paidType: currentPaidType,
-    ));
+  void paidTypeChanged(IuranFilter? value) {
+    paidType = value;
+    update();
   }
 }

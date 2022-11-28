@@ -11,32 +11,32 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MainController>(
-      builder: (controller) => Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: AppColor.white,
-        body: SafeArea(
-          child: GetRouterOutlet(
-            initialRoute: AppRoute.mainRoute + AppRoute.mainBerandaRoute,
-            anchorRoute: AppRoute.mainRoute,
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColor.white,
+      body: SafeArea(
+        child: GetRouterOutlet(
+          initialRoute: AppRoute.mainRoute + AppRoute.mainBerandaRoute,
+          anchorRoute: AppRoute.mainRoute,
         ),
-        floatingActionButton: RawMaterialButton(
-          elevation: 0,
-          highlightElevation: 0,
-          fillColor: Get.theme.primaryColor,
-          padding: const EdgeInsets.all(24),
-          shape: const CircleBorder(),
-          child: SvgPicture.asset(
-            "assets/icons/ic_iuran.svg",
-            color: AppColor.white,
-            width: 24,
-            height: 24,
-          ),
-          onPressed: () {},
+      ),
+      floatingActionButton: RawMaterialButton(
+        elevation: 0,
+        highlightElevation: 0,
+        fillColor: Get.theme.primaryColor,
+        padding: const EdgeInsets.all(24),
+        shape: const CircleBorder(),
+        child: SvgPicture.asset(
+          "assets/icons/ic_iuran.svg",
+          color: AppColor.white,
+          width: 24,
+          height: 24,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomNavigationBar(
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: GetBuilder<MainController>(builder: (controller) {
+        return BottomNavigationBar(
           elevation: 0,
           currentIndex: controller.navIndex,
           showSelectedLabels: true,
@@ -56,8 +56,8 @@ class MainScreen extends StatelessWidget {
                 ),
               )
               .toList(),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

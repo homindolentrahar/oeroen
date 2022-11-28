@@ -1,16 +1,15 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:oeroen/core/domain/models/iuran_category.dart';
-import 'package:oeroen/core/domain/models/iuran_sort.dart';
+enum IuranFilterType { category, sort, paidType }
 
-part 'iuran_filter.freezed.dart';
+class IuranFilter {
+  final IuranFilterType? type;
+  final String? title;
+  final String? slug;
+  final String? icon;
 
-enum PaidType { paid, due }
-
-@freezed
-class IuranFilter with _$IuranFilter {
-  const factory IuranFilter({
-    IuranCategory? category,
-    IuranSort? sort,
-    PaidType? paidType,
-  }) = _IuranFilter;
+  IuranFilter({
+    this.type,
+    this.title,
+    this.slug,
+    this.icon,
+  });
 }

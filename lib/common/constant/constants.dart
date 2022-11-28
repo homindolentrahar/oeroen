@@ -2,11 +2,79 @@ import 'package:flutter/widgets.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/core/domain/models/iuran_category.dart';
 import 'package:oeroen/core/domain/models/iuran_filter.dart';
-import 'package:oeroen/core/domain/models/iuran_sort.dart';
 import 'package:oeroen/features/urunan/domain/model/payment_method.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
 
-class Constants{
+class Constants {
+  static List<IuranFilter> iuranFilters = [
+    IuranFilter(
+      type: IuranFilterType.category,
+      slug: "kebersihan",
+      title: "Kebersihan",
+      icon: "assets/icons/ic_kebersihan.svg",
+    ),
+    IuranFilter(
+      type: IuranFilterType.category,
+      slug: "keamanan",
+      title: "Keamanan",
+      icon: "assets/icons/ic_keamanan.svg",
+    ),
+    IuranFilter(
+      type: IuranFilterType.category,
+      slug: "kas",
+      title: "Kas",
+      icon: "assets/icons/ic_kas.svg",
+    ),
+    IuranFilter(
+      type: IuranFilterType.category,
+      slug: "arisan",
+      title: "Arisan",
+      icon: "assets/icons/ic_arisan.svg",
+    ),
+    IuranFilter(
+      type: IuranFilterType.category,
+      slug: "sosial",
+      title: "Sosial",
+      icon: "assets/icons/ic_sosial.svg",
+    ),
+    IuranFilter(
+      type: IuranFilterType.category,
+      slug: "donasi",
+      title: "Donasi",
+      icon: "assets/icons/ic_donasi.svg",
+    ),
+    IuranFilter(
+      type: IuranFilterType.sort,
+      slug: "amount_desc",
+      title: "Nominal Tertinggi",
+    ),
+    IuranFilter(
+      type: IuranFilterType.sort,
+      slug: "amount_asc",
+      title: "Nominal Terendah",
+    ),
+    IuranFilter(
+      type: IuranFilterType.sort,
+      slug: "latest",
+      title: "Terbaru",
+    ),
+    IuranFilter(
+      type: IuranFilterType.sort,
+      slug: "oldest",
+      title: "Terlama",
+    ),
+    IuranFilter(
+      type: IuranFilterType.paidType,
+      slug: "paid",
+      title: "Lunas",
+    ),
+    IuranFilter(
+      type: IuranFilterType.paidType,
+      slug: "due",
+      title: "Belum Lunas",
+    ),
+  ];
+
   static List<IuranCategory> iuranCategories = [
     IuranCategory(
       categorySlug: "kebersihan",
@@ -39,30 +107,6 @@ class Constants{
       categoryIcon: "assets/icons/ic_donasi.svg",
     ),
   ];
-
-  static List<IuranSort> iuranSorts = [
-    IuranSort(
-      sortName: "Nominal Tertinggi",
-      sortSlug: "amount_desc",
-    ),
-    IuranSort(
-      sortName: "Nominal Terendah",
-      sortSlug: "amount_asc",
-    ),
-    IuranSort(
-      sortName: "Terbaru",
-      sortSlug: "latest",
-    ),
-    IuranSort(
-      sortName: "Terlama",
-      sortSlug: "oldest",
-    ),
-  ];
-
-  static Map<PaidType, String> paidTypeTitle = {
-    PaidType.paid: "Lunas",
-    PaidType.due: "Belum Lunas",
-  };
 }
 
 final Map<UrunanType, String> typeIcons = {

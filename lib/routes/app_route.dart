@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:oeroen/core/presentation/application/iuran_list_controller.dart';
 import 'package:oeroen/core/presentation/screens/iuran_list_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
@@ -130,12 +131,10 @@ class AppRoute {
     ),
     GetPage(
       name: iuranListRoute,
-      page: () {
-        final Map<String, dynamic> data = Get.arguments;
-        final title = data['title'];
-
-        return IuranListScreen(title: title);
-      },
+      page: () => const IuranListScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<IuranListController>(() => IuranListController());
+      }),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(

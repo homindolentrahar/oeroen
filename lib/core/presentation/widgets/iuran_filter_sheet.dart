@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:collection/collection.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/core/domain/models/iuran_filter.dart';
 import 'package:oeroen/core/presentation/application/iuran_filter_controller.dart';
-import 'package:oeroen/core/presentation/widgets/iuran_filter_category.dart';
-import 'package:oeroen/core/presentation/widgets/iuran_filter_paid.dart';
-import 'package:oeroen/core/presentation/widgets/iuran_filter_sort.dart';
+import 'package:oeroen/core/presentation/widgets/iuran_filter_sheet_category.dart';
+import 'package:oeroen/core/presentation/widgets/iuran_filter_sheet_chips.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 
 class IuranFilterSheet extends StatelessWidget {
-  final Map<String, dynamic>? initialData;
+  const IuranFilterSheet({Key? key, this.filters}) : super(key: key);
 
-  const IuranFilterSheet({Key? key, this.initialData}) : super(key: key);
+  final List<IuranFilter>? filters;
 
   @override
   Widget build(BuildContext context) {
-    final IuranFilterController controller = Get.put(IuranFilterController());
-
-    return Obx(
-      () => Container(
+    return GetBuilder<IuranFilterController>(
+      init: IuranFilterController()..setFilters(filters ?? []),
+      builder: (controller) => Container(
         padding: const EdgeInsets.all(32),
         decoration: const BoxDecoration(
           color: AppColor.white,
@@ -52,7 +53,12 @@ class IuranFilterSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            IuranFilterCategory(category: controller.state.category),
+            IuranFilterSheetCategory(
+              initialValue: controller.category,
+              onSelect: (IuranFilter? value) {
+                controller.categoryChanged(value);
+              },
+            ),
             const SizedBox(height: 16),
             const Text(
               "Urutkan",
@@ -63,14 +69,36 @@ class IuranFilterSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            IuranFilterSort(sort: controller.state.sort),
+            IuranFilterSheetChips(
+              initialValue: controller.sort,
+              filters: Constants.iuranFilters
+                  .where((item) => item.type == IuranFilterType.sort)
+                  .toList(),
+              onSelect: (IuranFilter? value) {
+                controller.sortChanged(value);
+              },
+            ),
             const SizedBox(height: 8),
-            IuranFilterPaid(type: controller.state.paidType),
+            IuranFilterSheetChips(
+              initialValue: controller.paidType,
+              filters: Constants.iuranFilters
+                  .where((item) => item.type == IuranFilterType.paidType)
+                  .toList(),
+              onSelect: (IuranFilter? value) {
+                controller.paidTypeChanged(value);
+              },
+            ),
             const SizedBox(height: 32),
             AppFillButton(
               text: "Tetapkan",
               onPressed: () {
-                Get.back(result: controller.state);
+                Get.back(
+                  result: [
+                    controller.category,
+                    controller.sort,
+                    controller.paidType,
+                  ].whereNotNull().toList(),
+                );
               },
             ),
           ],
