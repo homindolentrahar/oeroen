@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/core/domain/models/iuran_sort.dart';
+import 'package:oeroen/core/domain/models/iuran_filter.dart';
 
 class SortChipItem extends StatelessWidget {
-  final IuranSort? sort;
-  final ValueChanged<IuranSort?>? onRemove;
+  final IuranFilter? data;
+  final VoidCallback onRemove;
 
-  const SortChipItem({Key? key, this.sort, this.onRemove}) : super(key: key);
+  const SortChipItem({
+    Key? key,
+    this.data,
+    required this.onRemove,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class SortChipItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            sort?.sortName ?? "",
+            data?.title ?? "",
             style: TextStyle(
               color: Get.theme.primaryColor,
               fontSize: 12,
@@ -31,7 +35,7 @@ class SortChipItem extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           GestureDetector(
-            onTap: () => onRemove?.call(sort),
+            onTap: onRemove,
             child: Icon(
               Icons.close,
               color: Get.theme.primaryColor,

@@ -3,16 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/core/domain/models/iuran_category.dart';
+import 'package:oeroen/core/domain/models/iuran_filter.dart';
 
 class CategoryChipItem extends StatelessWidget {
-  final IuranCategory? category;
-  final ValueChanged<IuranCategory?>? onRemove;
+  final IuranFilter? data;
+  final VoidCallback onRemove;
 
   const CategoryChipItem({
     Key? key,
-    this.category,
-    this.onRemove,
+    this.data,
+    required this.onRemove,
   }) : super(key: key);
 
   @override
@@ -28,14 +28,14 @@ class CategoryChipItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            category?.categoryIcon ?? "",
+            data?.icon ?? "",
             width: 16,
             height: 16,
             color: AppColor.white,
           ),
           const SizedBox(width: 4),
           Text(
-            category?.categoryName ?? "",
+            data?.title ?? "",
             style: const TextStyle(
               color: AppColor.white,
               fontSize: 12,
@@ -44,7 +44,7 @@ class CategoryChipItem extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           GestureDetector(
-            onTap: () => onRemove?.call(category),
+            onTap: onRemove,
             child: const Icon(
               Icons.close,
               color: AppColor.white,

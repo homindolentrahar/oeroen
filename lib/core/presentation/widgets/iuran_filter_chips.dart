@@ -1,65 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/core/domain/models/iuran_filter.dart';
 import 'package:oeroen/core/presentation/widgets/category_chip_item.dart';
 import 'package:oeroen/core/presentation/widgets/paid_type_chip_item.dart';
 import 'package:oeroen/core/presentation/widgets/sort_chip_item.dart';
 
 class IuranFilterChips extends StatelessWidget {
-  final IuranFilter? filter;
+  const IuranFilterChips({
+    Key? key,
+    required this.filters,
+    required this.onRemove,
+  }) : super(key: key);
 
-  const IuranFilterChips({Key? key, this.filter}) : super(key: key);
+  final List<IuranFilter> filters;
+  final ValueChanged<IuranFilter> onRemove;
 
-  int get getListCount {
-    int count = 0;
-    if (filter?.category != null) {
-      count += 1;
-    }
-    if (filter?.sort != null) {
-      count += 1;
-    }
-    if (filter?.paidType != null) {
-      count += 1;
-    }
-
-    return count;
-  }
-
-  List<Widget> get getListItem {
-    List<Widget> items = [];
-    if (filter?.category != null) {
-      items.add(
-        CategoryChipItem(category: filter?.category),
+  Widget getItem(IuranFilter filter, VoidCallback onRemove) {
+    if (filter.type == IuranFilterType.category) {
+      return CategoryChipItem(
+        data: filter,
+        onRemove: onRemove,
       );
     }
-    if (filter?.sort != null) {
-      items.add(
-        SortChipItem(sort: filter?.sort),
+    if (filter.type == IuranFilterType.sort) {
+      return SortChipItem(
+        data: filter,
+        onRemove: onRemove,
       );
     }
-    if (filter?.paidType != null) {
-      items.add(
-        PaidTypeChipItem(type: filter?.paidType),
+    if (filter.type == IuranFilterType.paidType) {
+      return PaidTypeChipItem(
+        data: filter,
+        onRemove: onRemove,
       );
+    } else {
+      return const SizedBox.shrink();
     }
-
-    return items;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 36,
-      child: ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: getListCount,
-        itemBuilder: (ctx, index) {
-          return getListItem[index];
-        },
-        separatorBuilder: (ctx, index) {
-          return const SizedBox(width: 8);
-        },
-      ),
-    );
+    return filters.isEmpty
+        ? Text(
+            "Semua Pembayaran",
+            style: Get.textTheme.headline6?.copyWith(
+              color: AppColor.black,
+            ),
+          )
+        : SizedBox(
+            height: 36,
+            child: ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: filters.length,
+              itemBuilder: (ctx, index) {
+                return getItem(
+                  filters[index],
+                  () => onRemove(filters[index]),
+                );
+              },
+              separatorBuilder: (ctx, index) => const SizedBox(width: 8),
+            ),
+          );
   }
 }
