@@ -32,7 +32,9 @@ class MainScreen extends StatelessWidget {
           width: 24,
           height: 24,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(AppRoute.mainIuranRoute);
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: GetBuilder<MainController>(builder: (controller) {
