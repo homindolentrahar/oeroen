@@ -45,9 +45,11 @@ class IuranFilterSheet extends StatelessWidget {
                   ),
                 ),
                 AppTextButton(
-                  text: "Batal",
+                  text: "Reset",
                   onPressed: () {
-                    Get.back();
+                    Get.back(
+                      result: <IuranFilter>[],
+                    );
                   },
                 ),
               ],

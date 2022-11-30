@@ -26,8 +26,8 @@ final List<InfoDesa> infoDesa = [
   ),
 ];
 
-class DetailDesaScreen extends StatelessWidget {
-  const DetailDesaScreen({Key? key}) : super(key: key);
+class DesaDetailScreen extends StatelessWidget {
+  const DesaDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

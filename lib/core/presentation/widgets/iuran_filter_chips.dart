@@ -11,10 +11,12 @@ class IuranFilterChips extends StatelessWidget {
     Key? key,
     required this.filters,
     required this.onRemove,
+    this.emptyTitle = "Semua Item",
   }) : super(key: key);
 
   final List<IuranFilter> filters;
   final ValueChanged<IuranFilter> onRemove;
+  final String emptyTitle;
 
   Widget getItem(IuranFilter filter, VoidCallback onRemove) {
     if (filter.type == IuranFilterType.category) {
@@ -43,7 +45,7 @@ class IuranFilterChips extends StatelessWidget {
   Widget build(BuildContext context) {
     return filters.isEmpty
         ? Text(
-            "Semua Pembayaran",
+            emptyTitle,
             style: Get.textTheme.headline6?.copyWith(
               color: AppColor.black,
             ),
