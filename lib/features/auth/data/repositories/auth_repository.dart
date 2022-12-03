@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:oeroen/common/constant/collections.dart';
+import 'package:oeroen/core/data/remote/warga_dto.dart';
 import 'package:oeroen/features/auth/data/remote/firebase/firebase_auth_user.dart';
 import 'package:oeroen/features/auth/domain/models/auth_user.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:oeroen/utils/firestore_extensions.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logger/logger.dart';
 
@@ -90,10 +93,19 @@ class AuthRepository implements IAuthRepository {
     required String password,
   }) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      await _auth
+          .createUserWithEmailAndPassword(
         email: email,
         password: password,
-      );
+      )
+          .then((credential) async {
+        final authUser = FirebaseAuthUser.fromUser(credential.user);
+        final warga = WargaDto.fromFirebaseUser(authUser);
+        await _firestore
+            .usersCollection()
+            .doc(warga.userId)
+            .set(warga.toJson());
+      });
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
@@ -132,7 +144,18 @@ class AuthRepository implements IAuthRepository {
         idToken: authentication.idToken,
       );
 
-      await _auth.signInWithCredential(credential);
+      await _auth.signInWithCredential(credential).then((credential) async {
+        final authUser = FirebaseAuthUser.fromUser(credential.user);
+        final warga = WargaDto.fromFirebaseUser(authUser);
+        final dataWarga = await _firestore.userDoc(warga.userId).get();
+
+        if (!dataWarga.exists) {
+          await _firestore
+              .collection(Collections.USER_COLLECTION)
+              .doc(warga.userId)
+              .set(warga.toJson());
+        }
+      });
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
@@ -153,7 +176,20 @@ class AuthRepository implements IAuthRepository {
         smsCode: otpCode,
       );
 
-      await _auth.signInWithCredential(phoneCredential);
+      await _auth
+          .signInWithCredential(phoneCredential)
+          .then((credential) async {
+        final authUser = FirebaseAuthUser.fromUser(credential.user);
+        final warga = WargaDto.fromFirebaseUser(authUser);
+        final dataWarga = await _firestore.userDoc(warga.userId).get();
+
+        if (!dataWarga.exists) {
+          await _firestore
+              .collection(Collections.USER_COLLECTION)
+              .doc(warga.userId)
+              .set(warga.toJson());
+        }
+      });
 
       return right(unit);
     } on FirebaseAuthException catch (e) {

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:oeroen/core/domain/models/iuran_filter.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 
 class IuranFilterController extends GetxController {
   IuranFilter? category;

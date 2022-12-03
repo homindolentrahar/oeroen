@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/core/domain/models/iuran_filter.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 
 class CategoryChipItem extends StatelessWidget {
   final IuranFilter? data;

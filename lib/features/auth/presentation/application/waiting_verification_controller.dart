@@ -52,7 +52,12 @@ class WaitingVerificationController extends GetxController {
         //  Do Nothing
       },
       (user) async {
-        final result = await _authRepository.sendVerificationEmail(user.email);
+        if (user.email == null) {
+          return;
+        }
+
+        final result =
+            await _authRepository.sendVerificationEmail(user.email.toString());
 
         result.fold(
           (error) {

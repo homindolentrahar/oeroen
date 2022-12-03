@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/core/domain/models/iuran_category.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_category.dart';
 import 'package:oeroen/routes/app_route.dart';
 
 class BerandaCategoryTiles extends StatelessWidget {

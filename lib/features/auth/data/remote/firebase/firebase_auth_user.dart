@@ -7,8 +7,8 @@ class FirebaseAuthUser {
   final String? displayName;
   final String? phoneNumber;
   final String? providerId;
-  final DateTime? createdAt;
-  final DateTime? lastSignedInAt;
+  final String? createdAt;
+  final String? lastSignedInAt;
   final bool? isVerified;
 
   FirebaseAuthUser({
@@ -28,8 +28,8 @@ class FirebaseAuthUser {
         displayName: user?.displayName,
         phoneNumber: user?.phoneNumber,
         providerId: user?.providerData.first.providerId,
-        createdAt: user?.metadata.creationTime,
-        lastSignedInAt: user?.metadata.lastSignInTime,
+        createdAt: user?.metadata.creationTime?.toIso8601String(),
+        lastSignedInAt: user?.metadata.lastSignInTime?.toIso8601String(),
         isVerified: user?.emailVerified,
       );
 
@@ -39,8 +39,8 @@ class FirebaseAuthUser {
         displayName: displayName ?? "",
         phoneNumber: phoneNumber ?? "",
         providerId: providerId ?? "",
-        createdAt: createdAt ?? DateTime.now(),
-        lastSignedInAt: lastSignedInAt ?? DateTime.now(),
+        createdAt: DateTime.parse(createdAt ?? ""),
+        lastSignedInAt: DateTime.parse(lastSignedInAt ?? ""),
         isVerified: isVerified ?? false,
       );
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/core/domain/models/iuran_filter.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 
 class PaidTypeChipItem extends StatelessWidget {
   final IuranFilter? data;

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:oeroen/common/theme/app_color.dart';
-import 'package:oeroen/core/domain/models/iuran_category.dart';
-import 'package:oeroen/core/domain/models/iuran_filter.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_category.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 import 'package:oeroen/features/urunan/domain/model/payment_method.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
 

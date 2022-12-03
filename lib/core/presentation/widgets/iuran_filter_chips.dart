@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
-import 'package:oeroen/core/domain/models/iuran_filter.dart';
 import 'package:oeroen/core/presentation/widgets/category_chip_item.dart';
 import 'package:oeroen/core/presentation/widgets/paid_type_chip_item.dart';
 import 'package:oeroen/core/presentation/widgets/sort_chip_item.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 
 class IuranFilterChips extends StatelessWidget {
   const IuranFilterChips({
