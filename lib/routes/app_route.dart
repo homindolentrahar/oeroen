@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:oeroen/core/presentation/application/iuran_list_controller.dart';
+import 'package:oeroen/core/presentation/screens/bindings/main_binding.dart';
 import 'package:oeroen/core/presentation/screens/iuran_list_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
@@ -14,7 +15,6 @@ import 'package:oeroen/features/auth/presentation/screens/otp_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
-import 'package:oeroen/features/beranda/presentation/application/main_controller.dart';
 import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
 import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_screen.dart';
@@ -109,9 +109,7 @@ class AppRoute {
       name: mainRoute,
       transition: Transition.fadeIn,
       page: () => const MainScreen(),
-      binding: BindingsBuilder(() {
-        Get.put<MainController>(MainController());
-      }),
+      binding: MainBinding(),
       children: [
         GetPage(
           name: mainBerandaRoute,

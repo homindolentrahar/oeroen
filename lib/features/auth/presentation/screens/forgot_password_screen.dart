@@ -9,7 +9,7 @@ import 'package:oeroen/features/auth/presentation/application/forgot_password_co
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_field.dart';
-import 'package:oeroen/utils/int_extensions.dart';
+import 'package:oeroen/utils/extension/int_extensions.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);

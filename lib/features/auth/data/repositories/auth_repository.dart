@@ -7,7 +7,8 @@ import 'package:oeroen/core/data/remote/warga_dto.dart';
 import 'package:oeroen/features/auth/data/remote/firebase/firebase_auth_user.dart';
 import 'package:oeroen/features/auth/domain/models/auth_user.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
-import 'package:oeroen/utils/firestore_extensions.dart';
+import 'package:oeroen/utils/extension/firestore_extensions.dart';
+import 'package:oeroen/utils/helper/secure_storage_helper.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logger/logger.dart';
 
@@ -105,6 +106,8 @@ class AuthRepository implements IAuthRepository {
             .usersCollection()
             .doc(warga.userId)
             .set(warga.toJson());
+
+        await SecureStorageHelper.instance.saveUserCredential(authUser.userId);
       });
 
       return right(unit);
@@ -121,7 +124,12 @@ class AuthRepository implements IAuthRepository {
     required String password,
   }) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((credential) async {
+        await SecureStorageHelper.instance
+            .saveUserCredential(credential.user?.uid);
+      });
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
@@ -155,6 +163,8 @@ class AuthRepository implements IAuthRepository {
               .doc(warga.userId)
               .set(warga.toJson());
         }
+
+        await SecureStorageHelper.instance.saveUserCredential(authUser.userId);
       });
 
       return right(unit);
@@ -189,6 +199,8 @@ class AuthRepository implements IAuthRepository {
               .doc(warga.userId)
               .set(warga.toJson());
         }
+
+        await SecureStorageHelper.instance.saveUserCredential(authUser.userId);
       });
 
       return right(unit);
@@ -235,8 +247,6 @@ class AuthRepository implements IAuthRepository {
   Future<void> reload() async {
     final currentUser = _auth.currentUser;
     currentUser?.reload();
-
-    Logger().w("Reloading...");
   }
 
   @override
@@ -246,6 +256,7 @@ class AuthRepository implements IAuthRepository {
         _auth.signOut(),
         _googleSignIn.signOut(),
       ]);
+      await SecureStorageHelper.instance.clearUserCredential();
 
       return right(unit);
     } on FirebaseAuthException catch (e) {

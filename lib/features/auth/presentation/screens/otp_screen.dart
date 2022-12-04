@@ -9,8 +9,8 @@ import 'package:oeroen/features/auth/presentation/application/otp_sign_controlle
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_field.dart';
-import 'package:oeroen/utils/int_extensions.dart';
-import 'package:oeroen/utils/string_extensions.dart';
+import 'package:oeroen/utils/extension/int_extensions.dart';
+import 'package:oeroen/utils/extension/string_extensions.dart';
 
 class OtpScreen extends StatefulWidget {
   final String verificationId;

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
+import 'package:oeroen/utils/helper/secure_storage_helper.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:oeroen/common/errors/app_error.dart';
 import 'package:oeroen/features/iuran/data/remote/dto/iuran_dto.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
-import 'package:oeroen/utils/firestore_extensions.dart';
+import 'package:oeroen/utils/extension/firestore_extensions.dart';
 
 class IuranRepository implements IIuranRepository {
   final FirebaseFirestore _firestore;
@@ -17,8 +18,11 @@ class IuranRepository implements IIuranRepository {
 
   @override
   Stream<Either<AppError, List<Iuran>>> listenAllIuran() async* {
+    final userId = await SecureStorageHelper.instance.getUserCredential();
+
     yield* _firestore
         .iuranCollection()
+        .where('user_id', isEqualTo: userId)
         .withConverter<IuranDto>(
           fromFirestore: (snapshot, _) => IuranDto.fromJson(snapshot.data()!),
           toFirestore: (iuran, _) => iuran.toJson(),

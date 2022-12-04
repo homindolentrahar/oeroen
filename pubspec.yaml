@@ -41,7 +41,7 @@ dependencies:
 
   #  Firebase
   firebase_core: ^2.3.0
-  firebase_auth: ^4.1.4
+  firebase_auth: ^4.1.5
   firebase_storage: ^11.0.6
   cloud_firestore: ^4.1.0
   google_sign_in: ^5.4.2
@@ -56,6 +56,7 @@ dependencies:
   logger: ^1.1.0
   mask_text_input_formatter: ^2.4.0
   cached_network_image: ^3.2.3
+  flutter_secure_storage: ^6.1.0
 
   #  UI
   flash: ^2.0.5
