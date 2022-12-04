@@ -50,6 +50,7 @@ dependencies:
   get_storage: ^2.0.3
 
   #  Util
+  uuid: ^3.0.7
   focus_detector: ^2.0.1
   flutter_svg: ^1.1.6
   intl: ^0.17.0

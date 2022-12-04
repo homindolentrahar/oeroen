@@ -29,7 +29,7 @@ class IuranRepository implements IIuranRepository {
         )
         .snapshots()
         .map((query) {
-      final dtos = query.docs.map((snapshot) => snapshot.data()).toList();
+      final dtos = query.docs.map((e) => e.data()).toList();
       final models = dtos.map((e) => e.toModel()).toList();
 
       return right<AppError, List<Iuran>>(models);

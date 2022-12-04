@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 
 class WajibIuranScreen extends StatelessWidget {
   const WajibIuranScreen({Key? key}) : super(key: key);
@@ -87,7 +88,8 @@ class WajibIuranScreen extends StatelessWidget {
                   itemCount: 10,
                   itemBuilder: (ctx, index) {
                     return IuranListItem(
-                      onPressed: () {},
+                      data: Iuran(),
+                      onPressed: (data) {},
                     );
                   },
                   separatorBuilder: (ctx, index) {

@@ -29,7 +29,7 @@ class AuthRepository implements IAuthRepository {
   Stream<Option<AuthUser>> authStateChanges() async* {
     yield* _auth.userChanges().map(
       (user) {
-        Logger().i("AuthStateChanges: ${user.toString()} ");
+        Logger().i("AuthStateChanges: ${user.toString()}");
 
         if (user == null) {
           return none<AuthUser>();

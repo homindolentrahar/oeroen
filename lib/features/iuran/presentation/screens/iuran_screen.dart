@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/core/presentation/widgets/core_app_bar.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/presentation/application/iuran_controller.dart';
 import 'package:oeroen/features/iuran/presentation/widgets/iuran_menu_filter.dart';
 import 'package:oeroen/routes/app_route.dart';
@@ -35,7 +36,8 @@ class IuranScreen extends StatelessWidget {
                       itemCount: 10,
                       itemBuilder: (ctx, index) {
                         return IuranListItem(
-                          onPressed: () {
+                          data: Iuran(),
+                          onPressed: (data) {
                             Get.toNamed(
                               "${AppRoute.mainIuranRoute}/5",
                               arguments: {'title': "Iuran Keamanan"},

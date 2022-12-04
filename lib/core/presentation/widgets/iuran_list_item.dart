@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran.dart';
+import 'package:oeroen/utils/extension/date_extensions.dart';
+import 'package:oeroen/utils/extension/double_extensions.dart';
 
 class IuranListItem extends StatelessWidget {
   const IuranListItem({
     Key? key,
+    required this.data,
     required this.onPressed,
   }) : super(key: key);
 
-  final VoidCallback onPressed;
+  final Iuran data;
+  final ValueChanged<Iuran> onPressed;
 
   @override
   Widget build(BuildContext context) {
+    final iuranCategory = Constants.iuranCategories
+        .firstWhere((element) => element.categorySlug == data.categorySlug);
+
     return Material(
       color: AppColor.light,
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
-        onTap: onPressed,
+        onTap: () => onPressed(data),
         borderRadius: BorderRadius.circular(10),
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -33,7 +42,7 @@ class IuranListItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: SvgPicture.asset(
-                  "assets/icons/ic_keamanan.svg",
+                  iuranCategory.categoryIcon ?? "assets/icons/ic_empty.svg",
                   width: 20,
                   height: 20,
                 ),
@@ -43,27 +52,27 @@ class IuranListItem extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      "Keamanan",
-                      style: TextStyle(
+                      iuranCategory.categoryName ?? "",
+                      style: const TextStyle(
                         color: AppColor.black,
                         fontSize: 16,
                         fontFamily: AppFont.semiBold,
                       ),
                     ),
                     Text(
-                      "12:40 • 12 Mei 2022",
-                      style: TextStyle(
+                      (data.createdAt ?? DateTime.now()).toDisplayDate(),
+                      style: const TextStyle(
                         color: AppColor.gray,
                         fontSize: 12,
                         fontFamily: AppFont.regular,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
-                      "Desa Talangsari",
-                      style: TextStyle(
+                      data.desaCode ?? "",
+                      style: const TextStyle(
                         color: AppColor.dark,
                         fontSize: 12,
                         fontFamily: AppFont.medium,
@@ -74,7 +83,7 @@ class IuranListItem extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Text(
-                "25.000",
+                (data.amount ?? 0.0).toCurrency(),
                 style: TextStyle(
                   color: Get.theme.primaryColor,
                   fontSize: 14,

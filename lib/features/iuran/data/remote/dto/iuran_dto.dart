@@ -3,7 +3,7 @@ import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 
 part 'iuran_dto.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class IuranDto {
   @JsonKey(ignore: true)
   String? id;
@@ -49,7 +49,11 @@ class IuranDto {
         categorySlug: categorySlug,
         amount: amount,
         isPaid: isPaid,
-        createdAt: DateTime.parse(createdAt ?? ""),
-        paidAt: DateTime.parse(paidAt ?? ""),
+        createdAt: createdAt == null
+            ? null
+            : DateTime.parse(createdAt ?? DateTime(1970).toIso8601String()),
+        paidAt: paidAt == null
+            ? null
+            : DateTime.parse(paidAt ?? DateTime(1970).toIso8601String()),
       );
 }
