@@ -73,9 +73,11 @@ class WajibIuranBanner extends StatelessWidget {
             child: AppFillButton(
               text: "Lihat Rincian",
               textSize: 14,
-              onPressed: () {
-                Get.toNamed(AppRoute.wajibIuranRoute);
-              },
+              onPressed: totalAmount > 0.0
+                  ? () {
+                      Get.toNamed(AppRoute.wajibIuranRoute);
+                    }
+                  : null,
             ),
           ),
         ],

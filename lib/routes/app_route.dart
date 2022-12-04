@@ -16,6 +16,7 @@ import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
 import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
+import 'package:oeroen/features/beranda/presentation/screens/bindings/wajib_iuran_binding.dart';
 import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_detail_screen.dart';
@@ -124,14 +125,16 @@ class AppRoute {
       ],
     ),
     GetPage(
-        name: mainIuranRoute,
-        page: () => const IuranScreen(),
-        transition: Transition.downToUp,
-        binding: IuranBinding()),
+      name: mainIuranRoute,
+      page: () => const IuranScreen(),
+      transition: Transition.downToUp,
+      binding: IuranBinding(),
+    ),
     GetPage(
       name: wajibIuranRoute,
       page: () => const WajibIuranScreen(),
       transition: Transition.rightToLeftWithFade,
+      binding: WajibIuranBinding(),
     ),
     GetPage(
       name: iuranListRoute,

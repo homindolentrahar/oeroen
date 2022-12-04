@@ -41,16 +41,16 @@ class BerandaScreen extends StatelessWidget {
                 : null,
           ),
           const SizedBox(height: 16),
-          controller.activeIuran.isNotEmpty
+          controller.paidIuran.isNotEmpty
               ? ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (ctx, index) => IuranListItem(
-                    data: controller.activeIuran[index],
+                    data: controller.paidIuran[index],
                     onPressed: (data) {},
                   ),
                   separatorBuilder: (ctx, index) => const SizedBox(height: 16),
-                  itemCount: controller.activeIuran.length,
+                  itemCount: controller.paidIuran.length,
                 )
               : SizedBox(
                   height: 240,
