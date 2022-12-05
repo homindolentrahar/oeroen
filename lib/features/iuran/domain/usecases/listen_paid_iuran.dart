@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:oeroen/common/errors/app_error.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
 
 class ListenPaidIuran {
@@ -8,14 +9,39 @@ class ListenPaidIuran {
 
   ListenPaidIuran(this._repository);
 
-  Stream<Either<AppError, List<Iuran>>> call() =>
-      _repository.listenAllIuran().map(
-            (either) => either.map(
-              (list) => list.where(
-                (item) {
-                  return item.isPaid == true && item.paidAt != null;
-                },
-              ).toList(),
-            ),
-          );
+  Stream<Either<AppError, List<Iuran>>> call({
+    List<IuranFilter> filters = const [],
+  }) {
+    String categoryFilter = "";
+    String sortFilter = "";
+
+    if (filters.isNotEmpty) {
+      categoryFilter = filters
+              .firstWhere(
+                (e) => e.type == IuranFilterType.category,
+                orElse: () => IuranFilter(),
+              )
+              .slug ??
+          "";
+      sortFilter = filters
+              .firstWhere(
+                (e) => e.type == IuranFilterType.sort,
+                orElse: () => IuranFilter(),
+              )
+              .slug ??
+          "";
+    }
+
+    return _repository
+        .listenAllIuran(
+          categoryFilter: categoryFilter,
+          sortFilter: sortFilter,
+          isPaid: true,
+        )
+        .map(
+          (either) => either.map((list) => list
+              .where((item) => item.isPaid == true && item.paidAt != null)
+              .toList()),
+        );
+  }
 }

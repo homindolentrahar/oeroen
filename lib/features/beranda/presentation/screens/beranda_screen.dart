@@ -32,7 +32,7 @@ class BerandaScreen extends StatelessWidget {
             onPressed: controller.activeIuran.isNotEmpty
                 ? () {
                     Get.toNamed(
-                      AppRoute.iuranListRoute,
+                      AppRoute.recentTransactionRoute,
                       arguments: {
                         "title": "Pembayaran Terkini",
                       },

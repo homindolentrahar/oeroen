@@ -25,11 +25,7 @@ class BerandaController extends GetxController {
           update();
         },
         (list) {
-          paidIuran = list
-            ..sort(
-              (a, b) =>
-                  b.createdAt?.compareTo(a.createdAt ?? DateTime.now()) ?? 0,
-            );
+          paidIuran = list;
           update();
         },
       ),

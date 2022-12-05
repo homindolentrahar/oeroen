@@ -109,6 +109,13 @@ class Constants {
   ];
 }
 
+final Map<String, IuranFilterOrderBy> iuranFilterOrderByMap = {
+  'amount_asc': IuranFilterOrderBy(orderField: 'amount', descending: false),
+  'amount_desc': IuranFilterOrderBy(orderField: 'amount', descending: true),
+  'latest': IuranFilterOrderBy(orderField: 'created_at', descending: true),
+  'oldest': IuranFilterOrderBy(orderField: 'created_at', descending: false),
+};
+
 final Map<UrunanType, String> typeIcons = {
   UrunanType.keamanan: "assets/icons/keamanan.svg",
   UrunanType.kebersihan: "assets/icons/kebersihan.svg",

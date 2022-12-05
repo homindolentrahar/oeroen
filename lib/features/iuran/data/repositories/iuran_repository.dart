@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/utils/helper/secure_storage_helper.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:oeroen/common/errors/app_error.dart';
@@ -17,12 +18,27 @@ class IuranRepository implements IIuranRepository {
   }) : _firestore = firestore;
 
   @override
-  Stream<Either<AppError, List<Iuran>>> listenAllIuran() async* {
+  Stream<Either<AppError, List<Iuran>>> listenAllIuran({
+    String categoryFilter = "",
+    String sortFilter = "",
+    bool isPaid = false,
+  }) async* {
     final userId = await SecureStorageHelper.instance.getUserCredential();
+    final orderBy = iuranFilterOrderByMap[sortFilter];
 
-    yield* _firestore
-        .iuranCollection()
-        .where('user_id', isEqualTo: userId)
+    var query =
+        _firestore.iuranCollection().where('user_id', isEqualTo: userId);
+
+    if (categoryFilter.isNotEmpty) {
+      query = query.where('category_slug', isEqualTo: categoryFilter);
+    }
+
+    yield* query
+        .where('is_paid', isEqualTo: isPaid)
+        .orderBy(
+          orderBy?.orderField ?? "created_at",
+          descending: orderBy?.descending ?? true,
+        )
         .withConverter<IuranDto>(
           fromFirestore: (snapshot, _) => IuranDto.fromJson(snapshot.data()!),
           toFirestore: (iuran, _) => iuran.toJson(),

@@ -13,3 +13,13 @@ class IuranFilter {
     this.icon,
   });
 }
+
+class IuranFilterOrderBy {
+  final String orderField;
+  final bool descending;
+
+  IuranFilterOrderBy({
+    required this.orderField,
+    required this.descending,
+  });
+}

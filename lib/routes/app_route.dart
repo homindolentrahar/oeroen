@@ -16,7 +16,9 @@ import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
 import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
+import 'package:oeroen/features/beranda/presentation/screens/bindings/recent_transaction_binding.dart';
 import 'package:oeroen/features/beranda/presentation/screens/bindings/wajib_iuran_binding.dart';
+import 'package:oeroen/features/beranda/presentation/screens/recent_transaction_screen.dart';
 import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_detail_screen.dart';
@@ -41,6 +43,7 @@ class AppRoute {
   static const String mainDesaRoute = "/desa";
   static const String mainIuranRoute = "/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
+  static const String recentTransactionRoute = "/recent-transaction";
   static const String iuranListRoute = "/iuran-list";
   static const String waitingVerificationRoute = "/waiting-verification";
   static const String urunanRoute = "/urunan";
@@ -135,6 +138,12 @@ class AppRoute {
       page: () => const WajibIuranScreen(),
       transition: Transition.rightToLeftWithFade,
       binding: WajibIuranBinding(),
+    ),
+    GetPage(
+      name: recentTransactionRoute,
+      page: () => const RecentTransactionScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: RecentTransactionBinding(),
     ),
     GetPage(
       name: iuranListRoute,
