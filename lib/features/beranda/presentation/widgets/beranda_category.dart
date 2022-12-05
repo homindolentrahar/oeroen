@@ -12,17 +12,15 @@ class BerandaCategoryTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Wrap(
-        spacing: 32,
-        runSpacing: 16,
-        alignment: WrapAlignment.center,
-        runAlignment: WrapAlignment.center,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: Constants.iuranCategories
-            .map((item) => BerandaCategoryTileItem(item: item))
-            .toList(),
+    return SizedBox(
+      height: 68,
+      child: ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: Constants.iuranCategories.length,
+        separatorBuilder: (ctx, index) => const SizedBox(width: 32),
+        itemBuilder: (ctx, index) =>
+            BerandaCategoryTileItem(item: Constants.iuranCategories[index]),
       ),
     );
   }
