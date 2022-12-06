@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:oeroen/common/errors/app_error.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
@@ -16,18 +15,22 @@ class RecentTransactionController extends GetxController {
   });
 
   List<Iuran> paidIuran = [];
-  List<IuranFilter> filters = [];
+
+  RxList<IuranFilter> filters = RxList();
   StreamSubscription<Either<AppError, List<Iuran>>>?
       _listenPaidIuranSubscription;
 
   @override
   void onInit() {
+    ever(filters, (List<IuranFilter> filters) {
+      listenIncomingData();
+    });
+
     listenIncomingData();
     super.onInit();
   }
 
   void listenIncomingData() {
-    Logger().w("Filters: ${filters.map((e) => e.slug).toList()}");
     _listenPaidIuranSubscription?.cancel();
     _listenPaidIuranSubscription = listenPaidIuran(
       filters: filters,
@@ -46,14 +49,12 @@ class RecentTransactionController extends GetxController {
   }
 
   void setFilters(List<IuranFilter> value) {
-    filters = value;
-    listenIncomingData();
-    // update();
+    filters.value = value;
+    // listenIncomingData();
   }
 
   void removeFilter(IuranFilter value) {
     filters.remove(value);
-    listenIncomingData();
-    update();
+    // listenIncomingData();
   }
 }

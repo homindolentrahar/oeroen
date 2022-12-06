@@ -9,8 +9,8 @@ class MainBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<MainController>(() => MainController());
-    Get.lazyPut<BerandaController>(
-      () => BerandaController(
+    Get.put<BerandaController>(
+      BerandaController(
         listenPaidIuran: ListenPaidIuran(Get.find<IIuranRepository>()),
         listenActiveIuran: ListenActiveIuran(Get.find<IIuranRepository>()),
       ),

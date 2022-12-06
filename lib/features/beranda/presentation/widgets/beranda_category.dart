@@ -41,7 +41,7 @@ class BerandaCategoryTileItem extends StatelessWidget {
         Get.toNamed(
           AppRoute.iuranListRoute,
           arguments: {
-            "title": "Iuran ${item.categoryName}",
+            "slugs": [item.categorySlug],
           },
         );
       },

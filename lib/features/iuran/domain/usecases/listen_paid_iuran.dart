@@ -32,16 +32,10 @@ class ListenPaidIuran {
           "";
     }
 
-    return _repository
-        .listenAllIuran(
-          categoryFilter: categoryFilter,
-          sortFilter: sortFilter,
-          isPaid: true,
-        )
-        .map(
-          (either) => either.map((list) => list
-              .where((item) => item.isPaid == true && item.paidAt != null)
-              .toList()),
-        );
+    return _repository.listenAllIuran(
+      categoryFilter: categoryFilter,
+      sortFilter: sortFilter,
+      isPaid: true,
+    );
   }
 }
