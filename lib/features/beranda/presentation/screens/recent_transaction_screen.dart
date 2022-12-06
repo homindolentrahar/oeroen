@@ -36,7 +36,10 @@ class RecentTransactionScreen extends StatelessWidget {
                     },
                     onTapShowSheet: () async {
                       final List<IuranFilter>? filter = await Get.bottomSheet(
-                        IuranFilterSheet(filters: controller.filters),
+                        IuranFilterSheet(
+                          filters: controller.filters,
+                          showPaid: false,
+                        ),
                       );
 
                       if (filter != null) {

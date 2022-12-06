@@ -12,9 +12,14 @@ import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 
 class IuranFilterSheet extends StatelessWidget {
-  const IuranFilterSheet({Key? key, this.filters}) : super(key: key);
+  const IuranFilterSheet({
+    Key? key,
+    this.filters,
+    this.showPaid = true,
+  }) : super(key: key);
 
   final List<IuranFilter>? filters;
+  final bool showPaid;
 
   @override
   Widget build(BuildContext context) {
@@ -81,15 +86,17 @@ class IuranFilterSheet extends StatelessWidget {
               },
             ),
             const SizedBox(height: 8),
-            IuranFilterSheetChips(
-              initialValue: controller.paidType,
-              filters: Constants.iuranFilters
-                  .where((item) => item.type == IuranFilterType.paidType)
-                  .toList(),
-              onSelect: (IuranFilter? value) {
-                controller.paidTypeChanged(value);
-              },
-            ),
+            showPaid
+                ? IuranFilterSheetChips(
+                    initialValue: controller.paidType,
+                    filters: Constants.iuranFilters
+                        .where((item) => item.type == IuranFilterType.paidType)
+                        .toList(),
+                    onSelect: (IuranFilter? value) {
+                      controller.paidTypeChanged(value);
+                    },
+                  )
+                : const SizedBox.shrink(),
             const SizedBox(height: 32),
             AppFillButton(
               text: "Tetapkan",

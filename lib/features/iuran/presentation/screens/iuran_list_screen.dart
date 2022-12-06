@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/application/iuran_list_controller.dart';
-import 'package:oeroen/core/presentation/widgets/iuran_filter_chips.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_filter_sheet.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
+import 'package:oeroen/features/iuran/presentation/widgets/iuran_filter_section.dart';
 
 class IuranListScreen extends StatelessWidget {
   const IuranListScreen({Key? key}) : super(key: key);
@@ -46,45 +46,20 @@ class IuranListScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 32),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: IuranFilterChips(
-                          filters: controller.filters,
-                          onRemove: (value) {
-                            controller.removeFilter(value);
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Material(
-                        color: AppColor.light,
-                        borderRadius: BorderRadius.circular(10),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(8),
-                          onTap: () async {
-                            // TODO: Show the selected filter besides the Sort button
-                            final List<IuranFilter>? filter =
-                                await Get.bottomSheet(
-                              IuranFilterSheet(filters: controller.filters),
-                            );
+                  IuranFilterSection(
+                    initialFilters: controller.filters,
+                    onRemoveFilter: (value) {
+                      controller.removeFilter(value);
+                    },
+                    onTapShowSheet: () async {
+                      final List<IuranFilter>? filter = await Get.bottomSheet(
+                        IuranFilterSheet(filters: controller.filters),
+                      );
 
-                            if (filter != null) {
-                              controller.setFilters(filter);
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(16),
-                            child: SvgPicture.asset(
-                              "assets/icons/ic_sort.svg",
-                              width: 16,
-                              height: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                      if (filter != null) {
+                        controller.setFilters(filter);
+                      }
+                    },
                   ),
                   const SizedBox(height: 16),
                   Expanded(
