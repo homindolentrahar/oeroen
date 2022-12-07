@@ -12,10 +12,12 @@ class IuranListItem extends StatelessWidget {
   const IuranListItem({
     Key? key,
     required this.data,
+    this.isTransaction = false,
     required this.onPressed,
   }) : super(key: key);
 
   final Iuran data;
+  final bool isTransaction;
   final ValueChanged<Iuran> onPressed;
 
   @override
@@ -62,7 +64,9 @@ class IuranListItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      (data.createdAt ?? DateTime.now()).toDisplayDate(),
+                      isTransaction
+                          ? (data.paidAt ?? DateTime.now()).toDisplayDate()
+                          : (data.createdAt ?? DateTime.now()).toDisplayDate(),
                       style: const TextStyle(
                         color: AppColor.gray,
                         fontSize: 12,

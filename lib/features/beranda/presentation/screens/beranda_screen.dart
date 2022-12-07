@@ -46,6 +46,7 @@ class BerandaScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (ctx, index) => IuranListItem(
+                    isTransaction: true,
                     data: controller.paidIuran[index],
                     onPressed: (data) {},
                   ),

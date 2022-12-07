@@ -53,6 +53,7 @@ class RecentTransactionScreen extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       itemCount: controller.paidIuran.length,
                       itemBuilder: (ctx, index) => IuranListItem(
+                        isTransaction: true,
                         data: controller.paidIuran[index],
                         onPressed: (data) {
                           Get.toNamed(
