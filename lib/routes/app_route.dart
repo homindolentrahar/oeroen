@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:oeroen/core/presentation/application/iuran_list_controller.dart';
-import 'package:oeroen/core/presentation/screens/iuran_list_screen.dart';
+import 'package:oeroen/core/presentation/screens/bindings/main_binding.dart';
+import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_list_binding.dart';
+import 'package:oeroen/features/iuran/presentation/screens/iuran_list_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_password_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/auth_binding.dart';
@@ -14,8 +15,10 @@ import 'package:oeroen/features/auth/presentation/screens/otp_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/register_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/splash_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/waiting_verification_screen.dart';
-import 'package:oeroen/features/beranda/presentation/application/main_controller.dart';
 import 'package:oeroen/features/beranda/presentation/screens/beranda_screen.dart';
+import 'package:oeroen/features/beranda/presentation/screens/bindings/recent_transaction_binding.dart';
+import 'package:oeroen/features/beranda/presentation/screens/bindings/wajib_iuran_binding.dart';
+import 'package:oeroen/features/beranda/presentation/screens/recent_transaction_screen.dart';
 import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_detail_screen.dart';
@@ -40,6 +43,7 @@ class AppRoute {
   static const String mainDesaRoute = "/desa";
   static const String mainIuranRoute = "/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
+  static const String recentTransactionRoute = "/recent-transaction";
   static const String iuranListRoute = "/iuran-list";
   static const String waitingVerificationRoute = "/waiting-verification";
   static const String urunanRoute = "/urunan";
@@ -109,9 +113,7 @@ class AppRoute {
       name: mainRoute,
       transition: Transition.fadeIn,
       page: () => const MainScreen(),
-      binding: BindingsBuilder(() {
-        Get.put<MainController>(MainController());
-      }),
+      binding: MainBinding(),
       children: [
         GetPage(
           name: mainBerandaRoute,
@@ -126,21 +128,27 @@ class AppRoute {
       ],
     ),
     GetPage(
-        name: mainIuranRoute,
-        page: () => const IuranScreen(),
-        transition: Transition.downToUp,
-        binding: IuranBinding()),
+      name: mainIuranRoute,
+      page: () => const IuranScreen(),
+      transition: Transition.downToUp,
+      binding: IuranBinding(),
+    ),
     GetPage(
       name: wajibIuranRoute,
       page: () => const WajibIuranScreen(),
       transition: Transition.rightToLeftWithFade,
+      binding: WajibIuranBinding(),
+    ),
+    GetPage(
+      name: recentTransactionRoute,
+      page: () => const RecentTransactionScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: RecentTransactionBinding(),
     ),
     GetPage(
       name: iuranListRoute,
       page: () => const IuranListScreen(),
-      binding: BindingsBuilder(() {
-        Get.lazyPut<IuranListController>(() => IuranListController());
-      }),
+      binding: IuranListBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/features/beranda/presentation/application/main_controller.dart';
+import 'package:oeroen/core/presentation/application/main_controller.dart';
 import 'package:oeroen/routes/app_route.dart';
 
 class MainScreen extends StatelessWidget {

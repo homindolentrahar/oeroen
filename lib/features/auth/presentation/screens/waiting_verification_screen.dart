@@ -6,7 +6,7 @@ import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/features/auth/presentation/application/auth_controller.dart';
 import 'package:oeroen/features/auth/presentation/application/waiting_verification_controller.dart';
-import 'package:oeroen/utils/int_extensions.dart';
+import 'package:oeroen/utils/extension/int_extensions.dart';
 
 class WaitingVerificationScreen extends StatefulWidget {
   const WaitingVerificationScreen({Key? key}) : super(key: key);

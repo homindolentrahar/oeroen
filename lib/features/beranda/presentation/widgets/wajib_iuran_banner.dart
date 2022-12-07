@@ -4,9 +4,14 @@ import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/routes/app_route.dart';
+import 'package:oeroen/utils/extension/date_extensions.dart';
+import 'package:oeroen/utils/extension/double_extensions.dart';
 
-class BerandaBanner extends StatelessWidget {
-  const BerandaBanner({Key? key}) : super(key: key);
+class WajibIuranBanner extends StatelessWidget {
+  const WajibIuranBanner({Key? key, required this.totalAmount})
+      : super(key: key);
+
+  final double totalAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +28,8 @@ class BerandaBanner extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 "Total Wajib Iuran",
                 style: TextStyle(
                   color: AppColor.gray,
@@ -33,8 +38,8 @@ class BerandaBanner extends StatelessWidget {
                 ),
               ),
               Text(
-                "Sep 2022",
-                style: TextStyle(
+                DateTime.now().toMMMyyyy(),
+                style: const TextStyle(
                   color: AppColor.gray,
                   fontSize: 12,
                   fontFamily: AppFont.medium,
@@ -45,19 +50,19 @@ class BerandaBanner extends StatelessWidget {
           const SizedBox(height: 4),
           RichText(
             textAlign: TextAlign.start,
-            text: const TextSpan(
-              style: TextStyle(
+            text: TextSpan(
+              style: const TextStyle(
                 color: AppColor.white,
                 fontFamily: AppFont.semiBold,
               ),
               children: [
-                TextSpan(
+                const TextSpan(
                   text: "Rp ",
                   style: TextStyle(fontSize: 32),
                 ),
                 TextSpan(
-                  text: "246.750",
-                  style: TextStyle(fontSize: 40),
+                  text: totalAmount.toCurrency(),
+                  style: const TextStyle(fontSize: 40),
                 ),
               ],
             ),
@@ -68,9 +73,11 @@ class BerandaBanner extends StatelessWidget {
             child: AppFillButton(
               text: "Lihat Rincian",
               textSize: 14,
-              onPressed: () {
-                Get.toNamed(AppRoute.wajibIuranRoute);
-              },
+              onPressed: totalAmount > 0.0
+                  ? () {
+                      Get.toNamed(AppRoute.wajibIuranRoute);
+                    }
+                  : null,
             ),
           ),
         ],

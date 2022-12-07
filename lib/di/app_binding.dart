@@ -6,6 +6,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oeroen/features/auth/data/repositories/auth_repository.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:oeroen/features/auth/presentation/application/auth_controller.dart';
+import 'package:oeroen/features/iuran/data/repositories/iuran_repository.dart';
+import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
 
 class AppBinding implements Bindings {
   @override
@@ -19,6 +21,12 @@ class AppBinding implements Bindings {
       AuthRepository(
         auth: Get.find<FirebaseAuth>(),
         googleSignIn: Get.find<GoogleSignIn>(),
+        firestore: Get.find<FirebaseFirestore>(),
+      ),
+      permanent: true,
+    );
+    Get.put<IIuranRepository>(
+      IuranRepository(
         firestore: Get.find<FirebaseFirestore>(),
       ),
       permanent: true,

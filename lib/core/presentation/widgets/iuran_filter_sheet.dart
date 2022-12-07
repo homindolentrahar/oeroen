@@ -4,17 +4,22 @@ import 'package:collection/collection.dart';
 import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
-import 'package:oeroen/core/domain/models/iuran_filter.dart';
 import 'package:oeroen/core/presentation/application/iuran_filter_controller.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_filter_sheet_category.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_filter_sheet_chips.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 
 class IuranFilterSheet extends StatelessWidget {
-  const IuranFilterSheet({Key? key, this.filters}) : super(key: key);
+  const IuranFilterSheet({
+    Key? key,
+    this.filters,
+    this.showPaid = true,
+  }) : super(key: key);
 
   final List<IuranFilter>? filters;
+  final bool showPaid;
 
   @override
   Widget build(BuildContext context) {
@@ -81,15 +86,17 @@ class IuranFilterSheet extends StatelessWidget {
               },
             ),
             const SizedBox(height: 8),
-            IuranFilterSheetChips(
-              initialValue: controller.paidType,
-              filters: Constants.iuranFilters
-                  .where((item) => item.type == IuranFilterType.paidType)
-                  .toList(),
-              onSelect: (IuranFilter? value) {
-                controller.paidTypeChanged(value);
-              },
-            ),
+            showPaid
+                ? IuranFilterSheetChips(
+                    initialValue: controller.paidType,
+                    filters: Constants.iuranFilters
+                        .where((item) => item.type == IuranFilterType.paidType)
+                        .toList(),
+                    onSelect: (IuranFilter? value) {
+                      controller.paidTypeChanged(value);
+                    },
+                  )
+                : const SizedBox.shrink(),
             const SizedBox(height: 32),
             AppFillButton(
               text: "Tetapkan",
