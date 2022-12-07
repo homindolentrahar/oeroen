@@ -8,6 +8,9 @@ extension CollectionExt on FirebaseFirestore {
   CollectionReference iuranCollection() =>
       collection(Collections.IURAN_COLLECTION);
 
+  CollectionReference desaCollection() =>
+      collection(Collections.DESA_COLLECTION);
+
   DocumentReference userDoc(String? id) =>
       collection(Collections.USER_COLLECTION).doc(id);
 }

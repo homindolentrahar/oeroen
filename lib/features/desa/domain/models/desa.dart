@@ -1,3 +1,4 @@
+
 class Desa {
   final String? id;
   final String? uniqueCode;
@@ -12,6 +13,7 @@ class Desa {
   final String? longitude;
   final List<DesaActivity>? activities;
   final List<DesaStakeholder>? stakeholders;
+  final List<IuranDesa>? listIuranDesa;
 
   Desa({
     this.id,
@@ -27,6 +29,7 @@ class Desa {
     this.longitude,
     this.activities,
     this.stakeholders,
+    this.listIuranDesa,
   });
 }
 
@@ -56,7 +59,7 @@ class DesaStakeholder {
   final String? department;
   final String? image;
   final String? phoneNumber;
-  final String? phone;
+  final String? address;
 
   DesaStakeholder({
     this.id,
@@ -64,6 +67,24 @@ class DesaStakeholder {
     this.department,
     this.image,
     this.phoneNumber,
-    this.phone,
+    this.address,
+  });
+}
+
+class IuranDesa {
+  final String? id;
+  final String? categorySlug;
+  final String? iuranType;
+  final double? amount;
+  final DateTime? iuranPeriod;
+  final DateTime? createdAt;
+
+  IuranDesa({
+    this.id,
+    this.categorySlug,
+    this.iuranType,
+    this.amount,
+    this.iuranPeriod,
+    this.createdAt,
   });
 }

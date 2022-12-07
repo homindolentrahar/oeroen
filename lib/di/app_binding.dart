@@ -6,6 +6,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oeroen/features/auth/data/repositories/auth_repository.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:oeroen/features/auth/presentation/application/auth_controller.dart';
+import 'package:oeroen/features/desa/data/repositories/desa_repository.dart';
+import 'package:oeroen/features/desa/domain/repositories/i_desa_repository.dart';
 import 'package:oeroen/features/iuran/data/repositories/iuran_repository.dart';
 import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
 
@@ -27,6 +29,12 @@ class AppBinding implements Bindings {
     );
     Get.put<IIuranRepository>(
       IuranRepository(
+        firestore: Get.find<FirebaseFirestore>(),
+      ),
+      permanent: true,
+    );
+    Get.put<IDesaRepository>(
+      DesaRepository(
         firestore: Get.find<FirebaseFirestore>(),
       ),
       permanent: true,
