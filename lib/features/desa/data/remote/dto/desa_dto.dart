@@ -13,12 +13,13 @@ class DesaDto {
   final String? city;
   final String? province;
   final int? population;
-  final int? area;
-  final int? zipCode;
+  final double? area;
+  final String? zipCode;
   final String? langitude;
   final String? longitude;
   final List<DesaActivityDto>? activities;
   final List<DesaStakeholderDto>? stakeholders;
+  final List<IuranDesaDto>? iurans;
 
   DesaDto({
     this.id,
@@ -34,6 +35,7 @@ class DesaDto {
     this.longitude,
     this.activities,
     this.stakeholders,
+    this.iurans,
   });
 
   factory DesaDto.fromJson(Map<String, dynamic> json) =>
@@ -55,6 +57,7 @@ class DesaDto {
         longitude: longitude,
         activities: activities?.map((e) => e.toModel()).toList(),
         stakeholders: stakeholders?.map((e) => e.toModel()).toList(),
+        iurans: iurans?.map((e) => e.toModel()).toList(),
       );
 }
 
@@ -147,13 +150,13 @@ class IuranDesaDto {
   });
 
   factory IuranDesaDto.fromModel(IuranDesa data) => IuranDesaDto(
-    id: data.id,
-    categorySlug: data.categorySlug,
-    iuranType: data.iuranType,
-    amount: data.amount,
-    iuranPeriod: data.iuranPeriod?.toIso8601String(),
-    createdAt: data.createdAt?.toIso8601String(),
-  );
+        id: data.id,
+        categorySlug: data.categorySlug,
+        iuranType: data.iuranType,
+        amount: data.amount,
+        iuranPeriod: data.iuranPeriod?.toIso8601String(),
+        createdAt: data.createdAt?.toIso8601String(),
+      );
 
   factory IuranDesaDto.fromJson(Map<String, dynamic> json) =>
       _$IuranDesaDtoFromJson(json);
@@ -161,15 +164,15 @@ class IuranDesaDto {
   Map<String, dynamic> toJson() => _$IuranDesaDtoToJson(this);
 
   IuranDesa toModel() => IuranDesa(
-    id: id,
-    categorySlug: categorySlug,
-    iuranType: iuranType,
-    amount: amount,
-    iuranPeriod: iuranPeriod == null
-        ? null
-        : DateTime.parse(iuranPeriod ?? DateTime(1970).toIso8601String()),
-    createdAt: createdAt == null
-        ? null
-        : DateTime.parse(createdAt ?? DateTime(1970).toIso8601String()),
-  );
+        id: id,
+        categorySlug: categorySlug,
+        iuranType: iuranType,
+        amount: amount,
+        iuranPeriod: iuranPeriod == null
+            ? null
+            : DateTime.parse(iuranPeriod ?? DateTime(1970).toIso8601String()),
+        createdAt: createdAt == null
+            ? null
+            : DateTime.parse(createdAt ?? DateTime(1970).toIso8601String()),
+      );
 }

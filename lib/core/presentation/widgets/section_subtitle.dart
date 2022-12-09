@@ -8,11 +8,13 @@ class SectionSubtitle extends StatelessWidget {
     Key? key,
     required this.subtitle,
     this.actionSubtitle = "Selengkapnya",
+    this.showMore = false,
     this.onPressed,
   }) : super(key: key);
 
   final String subtitle;
   final String actionSubtitle;
+  final bool showMore;
   final VoidCallback? onPressed;
 
   @override
@@ -28,7 +30,7 @@ class SectionSubtitle extends StatelessWidget {
             fontFamily: AppFont.medium,
           ),
         ),
-        onPressed != null
+        onPressed != null || showMore
             ? GestureDetector(
                 onTap: onPressed,
                 child: Text(

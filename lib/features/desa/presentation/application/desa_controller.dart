@@ -1,0 +1,53 @@
+import 'package:get/get.dart';
+import 'package:oeroen/common/constant/constants.dart';
+import 'package:oeroen/features/desa/domain/models/desa.dart';
+import 'package:oeroen/features/desa/domain/usecases/listen_desa.dart';
+import 'package:oeroen/features/desa/domain/usecases/listen_transaksi_desa.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran.dart';
+
+class DesaController extends GetxController {
+  final ListenDesa listenDesa;
+  final ListenTransaksiDesa listenTransaksiData;
+
+  DesaController({
+    required this.listenDesa,
+    required this.listenTransaksiData,
+  });
+
+  Desa desa = Desa();
+  List<Iuran> iuranDesa = [];
+
+  @override
+  void onInit() {
+    getIncomingData();
+    super.onInit();
+  }
+
+  Future<void> getIncomingData() async {
+    listenDesa(Constants.dummyDesaId).listen(
+      (either) => either.fold(
+        (error) {
+          desa = Desa();
+          update();
+        },
+        (data) {
+          desa = data;
+          update();
+        },
+      ),
+    );
+
+    listenTransaksiData().listen(
+      (either) => either.fold(
+        (error) {
+          iuranDesa = [];
+          update();
+        },
+        (list) {
+          iuranDesa = list;
+          update();
+        },
+      ),
+    );
+  }
+}

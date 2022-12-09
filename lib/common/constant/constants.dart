@@ -6,6 +6,9 @@ import 'package:oeroen/features/urunan/domain/model/payment_method.dart';
 import 'package:oeroen/features/urunan/domain/model/urunan_item.dart';
 
 class Constants {
+  static const String dummyDesaCode = "DSA001";
+  static const String dummyDesaId = "dcca4c2b-86cf-42a9-898f-c1e97e1a37c7";
+
   static List<IuranFilter> iuranFilters = [
     IuranFilter(
       type: IuranFilterType.category,

@@ -1,4 +1,3 @@
-
 class Desa {
   final String? id;
   final String? uniqueCode;
@@ -7,13 +6,13 @@ class Desa {
   final String? city;
   final String? province;
   final int? population;
-  final int? area;
-  final int? zipCode;
+  final double? area;
+  final String? zipCode;
   final String? langitude;
   final String? longitude;
   final List<DesaActivity>? activities;
   final List<DesaStakeholder>? stakeholders;
-  final List<IuranDesa>? listIuranDesa;
+  final List<IuranDesa>? iurans;
 
   Desa({
     this.id,
@@ -29,7 +28,7 @@ class Desa {
     this.longitude,
     this.activities,
     this.stakeholders,
-    this.listIuranDesa,
+    this.iurans,
   });
 }
 

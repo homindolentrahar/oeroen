@@ -6,7 +6,8 @@ abstract class IIuranRepository {
   Stream<Either<AppError, List<Iuran>>> listenAllIuran({
     String categoryFilter = "",
     String sortFilter = "",
-    bool isPaid = false,
+    String isPaid = "",
+    String desaCode = "",
   });
 
   Future<Either<AppError, Iuran>> getIuran(String iuranId);

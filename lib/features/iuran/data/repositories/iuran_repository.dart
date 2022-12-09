@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
 import 'package:oeroen/common/constant/constants.dart';
+import 'package:oeroen/utils/extension/string_extensions.dart';
 import 'package:oeroen/utils/helper/secure_storage_helper.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:oeroen/common/errors/app_error.dart';
@@ -21,7 +22,8 @@ class IuranRepository implements IIuranRepository {
   Stream<Either<AppError, List<Iuran>>> listenAllIuran({
     String categoryFilter = "",
     String sortFilter = "",
-    bool isPaid = false,
+    String isPaid = "",
+    String desaCode = "",
   }) async* {
     final userId = await SecureStorageHelper.instance.getUserCredential();
     final orderBy = iuranFilterOrderByMap[sortFilter];
@@ -29,12 +31,20 @@ class IuranRepository implements IIuranRepository {
     var query =
         _firestore.iuranCollection().where('user_id', isEqualTo: userId);
 
+    if (desaCode.isNotEmpty) {
+      query = query.where('desa_code', isEqualTo: desaCode);
+    }
+
     if (categoryFilter.isNotEmpty) {
       query = query.where('category_slug', isEqualTo: categoryFilter);
     }
 
+    if (isPaid.isNotEmpty) {
+      final isPaidBool = isPaid.parseBool();
+      query = query.where('is_paid', isEqualTo: isPaidBool);
+    }
+
     yield* query
-        .where('is_paid', isEqualTo: isPaid)
         .orderBy(
           orderBy?.orderField ?? "created_at",
           descending: orderBy?.descending ?? true,
@@ -49,19 +59,17 @@ class IuranRepository implements IIuranRepository {
       final models = dtos.map((e) => e.toModel()).toList();
 
       return right<AppError, List<Iuran>>(models);
-    }).onErrorReturnWith(
-      (error, stackTrace) {
-        if (error is FirebaseException) {
-          Logger().e(error.message.toString());
-          return left(
-            AppError(code: error.code, message: error.message.toString()),
-          );
-        }
+    }).onErrorReturnWith((error, stackTrace) {
+      if (error is FirebaseException) {
+        Logger().e(error.message.toString());
         return left(
-          AppError(code: error.toString(), message: error.toString()),
+          AppError(code: error.code, message: error.message.toString()),
         );
-      },
-    );
+      }
+      return left(
+        AppError(code: error.toString(), message: error.toString()),
+      );
+    });
   }
 
   @override

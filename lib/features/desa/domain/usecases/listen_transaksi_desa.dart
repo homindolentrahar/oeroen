@@ -1,13 +1,14 @@
 import 'package:dartz/dartz.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/errors/app_error.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
 
-class ListenPaidIuran {
+class ListenTransaksiDesa {
   final IIuranRepository _repository;
 
-  ListenPaidIuran(this._repository);
+  ListenTransaksiDesa(this._repository);
 
   Stream<Either<AppError, List<Iuran>>> call({
     List<IuranFilter> filters = const [],
@@ -36,6 +37,7 @@ class ListenPaidIuran {
       categoryFilter: categoryFilter,
       sortFilter: sortFilter,
       isPaid: "true",
+      desaCode: Constants.dummyDesaCode,
     );
   }
 }
