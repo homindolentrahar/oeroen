@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:oeroen/core/presentation/screens/bindings/main_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/bindings/desa_detail_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_list_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/iuran_list_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
@@ -154,6 +155,7 @@ class AppRoute {
     GetPage(
       name: "$mainDesaRoute/:id",
       page: () => const DesaDetailScreen(),
+      binding: DesaDetailBinding(),
     ),
     GetPage(
       name: "$mainIuranRoute/:id",

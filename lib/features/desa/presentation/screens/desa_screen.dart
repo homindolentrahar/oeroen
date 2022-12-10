@@ -26,17 +26,7 @@ class DesaScreen extends StatelessWidget {
           const SizedBox(height: 32),
           InfoDesaBanner(data: controller.desa),
           const SizedBox(height: 32),
-          SectionSubtitle(
-            subtitle: "Iuran di Desa ${controller.desa.name}",
-            onPressed: () {
-              Get.toNamed(
-                AppRoute.iuranListRoute,
-                arguments: {
-                  "title": "Iuran Desa ${controller.desa.name}",
-                },
-              );
-            },
-          ),
+          SectionSubtitle(subtitle: "Iuran di Desa ${controller.desa.name}"),
           const SizedBox(height: 16),
           SizedBox(
             height: 144,
@@ -74,7 +64,7 @@ class DesaScreen extends StatelessWidget {
                     onPressed: (data) {},
                   ),
                   separatorBuilder: (ctx, index) => const SizedBox(height: 16),
-                  itemCount: controller.iuranDesa.length,
+                  itemCount: controller.iuranDesa.take(8).length,
                 )
               : SizedBox(
                   height: 240,

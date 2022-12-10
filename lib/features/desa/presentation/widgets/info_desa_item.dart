@@ -4,6 +4,12 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 
+enum InfoDesaType {
+  population,
+  area,
+  zipCode,
+}
+
 class InfoDesa {
   final String title;
   final String value;

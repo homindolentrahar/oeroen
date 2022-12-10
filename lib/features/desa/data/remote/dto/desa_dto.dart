@@ -67,8 +67,8 @@ class DesaActivityDto {
   final String? name;
   final String? description;
   final String? iuranCategory;
-  final int? startTimeIn24h;
-  final int? endTimeIn24h;
+  final String? startTimeIn24h;
+  final String? endTimeIn24h;
   final List<int>? scheduleDays;
 
   DesaActivityDto({

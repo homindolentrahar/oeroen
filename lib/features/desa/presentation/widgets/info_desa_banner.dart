@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/icon_button_location.dart';
@@ -42,7 +43,7 @@ class InfoDesaBanner extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "Kec. ${data.district}, Kota ${data.city}\nProvinsi ${data.province}",
+                      "Kec. ${data.district}, ${data.city}\nProvinsi ${data.province}",
                       style: Get.textTheme.bodyText2
                           ?.copyWith(color: AppColor.gray),
                     ),
@@ -93,7 +94,9 @@ class InfoDesaBanner extends StatelessWidget {
                 text: "Selengkapnya",
                 textSize: 12,
                 onPressed: () {
-                  Get.toNamed("${AppRoute.mainDesaRoute}/5");
+                  Get.toNamed(
+                    "${AppRoute.mainDesaRoute}/${Constants.dummyDesaId}",
+                  );
                 },
               ),
             ],
