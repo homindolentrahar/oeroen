@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:oeroen/core/presentation/screens/bindings/main_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_detail_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/bindings/desa_transaction_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/desa_transaction_screen.dart';
 import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_list_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/iuran_list_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
@@ -45,6 +47,7 @@ class AppRoute {
   static const String mainIuranRoute = "/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
   static const String recentTransactionRoute = "/recent-transaction";
+  static const String desaTransactionRoute = "/desa-transaction";
   static const String iuranListRoute = "/iuran-list";
   static const String waitingVerificationRoute = "/waiting-verification";
   static const String urunanRoute = "/urunan";
@@ -145,6 +148,12 @@ class AppRoute {
       page: () => const RecentTransactionScreen(),
       transition: Transition.rightToLeftWithFade,
       binding: RecentTransactionBinding(),
+    ),
+    GetPage(
+      name: desaTransactionRoute,
+      page: () => const DesaTransactionScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: DesaTransactionBinding(),
     ),
     GetPage(
       name: iuranListRoute,

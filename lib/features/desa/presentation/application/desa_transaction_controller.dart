@@ -3,19 +3,18 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/common/errors/app_error.dart';
+import 'package:oeroen/features/desa/domain/usecases/listen_transaction_desa.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
-import 'package:oeroen/features/iuran/domain/usecases/listen_paid_iuran.dart';
 
-class RecentTransactionController extends GetxController {
-  final ListenPaidIuran listenPaidIuran;
+class DesaTransactionController extends GetxController {
+  final ListenTransactionDesa listenTransactionDesa;
 
-  RecentTransactionController({
-    required this.listenPaidIuran,
+  DesaTransactionController({
+    required this.listenTransactionDesa,
   });
 
-  List<Iuran> paidIuran = [];
-
+  List<Iuran> transactionDesa = [];
   RxList<IuranFilter> filters = RxList();
   StreamSubscription<Either<AppError, List<Iuran>>>?
       _listenPaidIuranSubscription;
@@ -32,16 +31,16 @@ class RecentTransactionController extends GetxController {
 
   void listenIncomingData() {
     _listenPaidIuranSubscription?.cancel();
-    _listenPaidIuranSubscription = listenPaidIuran(
+    _listenPaidIuranSubscription = listenTransactionDesa(
       filters: filters,
     ).listen(
       (either) => either.fold(
         (error) {
-          paidIuran = [];
+          transactionDesa = [];
           update();
         },
         (list) {
-          paidIuran = list;
+          transactionDesa = list;
           update();
         },
       ),

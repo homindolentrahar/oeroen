@@ -46,9 +46,9 @@ class DesaScreen extends StatelessWidget {
             subtitle: "Transaksi Desa",
             onPressed: () {
               Get.toNamed(
-                AppRoute.iuranListRoute,
+                AppRoute.desaTransactionRoute,
                 arguments: {
-                  "title": "Transaksi Desa",
+                  "title": controller.desa.name,
                 },
               );
             },
