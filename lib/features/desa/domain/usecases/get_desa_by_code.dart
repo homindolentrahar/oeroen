@@ -3,10 +3,10 @@ import 'package:oeroen/common/errors/app_error.dart';
 import 'package:oeroen/features/desa/domain/models/desa.dart';
 import 'package:oeroen/features/desa/domain/repositories/i_desa_repository.dart';
 
-class ListenDesa {
+class GetDesaByCode{
   final IDesaRepository _repository;
 
-  ListenDesa(this._repository);
+  GetDesaByCode(this._repository);
 
-  Stream<Either<AppError, Desa>> call() => _repository.listenDetailDesa();
+  Future<Either<AppError,Desa>> call(String desaCode) => _repository.getDetailDesa(desaCode);
 }

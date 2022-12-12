@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:oeroen/core/presentation/screens/bindings/main_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_detail_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/bindings/desa_register_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_transaction_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/desa_register_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_transaction_screen.dart';
 import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_list_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/iuran_list_screen.dart';
@@ -10,7 +12,6 @@ import 'package:oeroen/features/auth/presentation/screens/bindings/forgot_passwo
 import 'package:oeroen/features/auth/presentation/screens/bindings/auth_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/otp_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/waiting_verification_binding.dart';
-import 'package:oeroen/features/auth/presentation/screens/code_desa_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/login_phone_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/login_email_screen.dart';
@@ -26,10 +27,8 @@ import 'package:oeroen/features/beranda/presentation/screens/wajib_iuran_screen.
 import 'package:oeroen/features/desa/presentation/screens/desa_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_detail_screen.dart';
 import 'package:oeroen/core/presentation/screens/main_screen.dart';
-import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_detail_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/iuran_detail_screen.dart';
-import 'package:oeroen/features/iuran/presentation/screens/iuran_screen.dart';
 
 class AppRoute {
   static const String initialRoute = "/";
@@ -39,12 +38,11 @@ class AppRoute {
   static const String registerRoute = "/register";
   static const String forgotPasswordRoute = "/forgot-password";
   static const String otpRoute = "/otp";
-  static const String codeDesaRoute = "/code-desa";
-  static const String landingRoute = "/landing";
+  static const String desaRegisterRoute = "/code-desa";
   static const String mainRoute = "/main";
   static const String mainBerandaRoute = "/beranda";
   static const String mainDesaRoute = "/desa";
-  static const String mainIuranRoute = "/iuran";
+  static const String iuranRoute = "/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
   static const String recentTransactionRoute = "/recent-transaction";
   static const String desaTransactionRoute = "/desa-transaction";
@@ -110,8 +108,10 @@ class AppRoute {
       binding: WaitingVerificationBinding(),
     ),
     GetPage(
-      name: codeDesaRoute,
-      page: () => const CodeDesaScreen(),
+      name: desaRegisterRoute,
+      page: () => const DesaRegisterScreen(),
+      transition: Transition.fadeIn,
+      binding: DesaRegisterBinding(),
     ),
     GetPage(
       name: mainRoute,
@@ -130,12 +130,6 @@ class AppRoute {
           transition: Transition.fadeIn,
         ),
       ],
-    ),
-    GetPage(
-      name: mainIuranRoute,
-      page: () => const IuranScreen(),
-      transition: Transition.downToUp,
-      binding: IuranBinding(),
     ),
     GetPage(
       name: wajibIuranRoute,
@@ -167,7 +161,7 @@ class AppRoute {
       binding: DesaDetailBinding(),
     ),
     GetPage(
-      name: "$mainIuranRoute/:id",
+      name: "$iuranRoute/:id",
       page: () => const IuranDetailScreen(),
       binding: IuranDetailBinding(),
     ),

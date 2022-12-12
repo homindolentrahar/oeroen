@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:oeroen/common/constant/collections.dart';
 
 extension CollectionExt on FirebaseFirestore {
-  CollectionReference usersCollection() =>
-      collection(Collections.USER_COLLECTION);
+  CollectionReference wargaCollection() =>
+      collection(Collections.WARGA_COLLECTION);
 
   CollectionReference iuranCollection() =>
       collection(Collections.IURAN_COLLECTION);
@@ -11,6 +11,6 @@ extension CollectionExt on FirebaseFirestore {
   CollectionReference desaCollection() =>
       collection(Collections.DESA_COLLECTION);
 
-  DocumentReference userDoc(String? id) =>
-      collection(Collections.USER_COLLECTION).doc(id);
+  DocumentReference wargaDoc(String? id) =>
+      collection(Collections.WARGA_COLLECTION).doc(id);
 }

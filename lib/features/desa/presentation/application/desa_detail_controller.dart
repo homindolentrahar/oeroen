@@ -13,8 +13,7 @@ class DesaDetailController extends GetxController {
 
   @override
   void onInit() {
-    final param = Get.parameters['id'] ?? "";
-    listenDesa(param).listen(
+    listenDesa().listen(
       (either) => either.fold(
         (error) {
           desa = Desa();

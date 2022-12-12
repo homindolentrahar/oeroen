@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/errors/app_error.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
-import 'package:oeroen/features/iuran/domain/usecases/listen_paid_iuran.dart';
+import 'package:oeroen/features/iuran/domain/usecases/listen_transaction_iuran.dart';
 
 class RecentTransactionController extends GetxController {
-  final ListenPaidIuran listenPaidIuran;
+  final ListenTransactionIuran listenPaidIuran;
 
   RecentTransactionController({
     required this.listenPaidIuran,

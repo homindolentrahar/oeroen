@@ -56,7 +56,7 @@ class DesaTransactionScreen extends StatelessWidget {
                       data: controller.transactionDesa[index],
                       onPressed: (data) {
                         Get.toNamed(
-                          "${AppRoute.mainIuranRoute}/${controller.transactionDesa[index].id}",
+                          "${AppRoute.iuranRoute}/${controller.transactionDesa[index].id}",
                           arguments: {'title': "Iuran Keamanan"},
                         );
                       },

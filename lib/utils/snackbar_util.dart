@@ -56,7 +56,7 @@ class SnackBarUtil {
         color: AppColor.white,
       ),
       colorText: AppColor.white,
-      backgroundColor: AppColor.red,
+      backgroundColor: AppColor.black,
     );
   }
 }

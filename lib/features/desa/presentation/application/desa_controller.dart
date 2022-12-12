@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/features/desa/domain/models/desa.dart';
 import 'package:oeroen/features/desa/domain/usecases/listen_desa.dart';
 import 'package:oeroen/features/desa/domain/usecases/listen_transaction_desa.dart';
@@ -24,7 +23,7 @@ class DesaController extends GetxController {
   }
 
   Future<void> getIncomingData() async {
-    listenDesa(Constants.dummyDesaId).listen(
+    listenDesa().listen(
       (either) => either.fold(
         (error) {
           desa = Desa();

@@ -7,7 +7,7 @@ import 'package:oeroen/features/desa/domain/usecases/listen_transaction_desa.dar
 import 'package:oeroen/features/desa/presentation/application/desa_controller.dart';
 import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
 import 'package:oeroen/features/iuran/domain/usecases/listen_active_iuran.dart';
-import 'package:oeroen/features/iuran/domain/usecases/listen_paid_iuran.dart';
+import 'package:oeroen/features/iuran/domain/usecases/listen_transaction_iuran.dart';
 
 class MainBinding implements Bindings {
   @override
@@ -15,7 +15,7 @@ class MainBinding implements Bindings {
     Get.lazyPut<MainController>(() => MainController());
     Get.put<BerandaController>(
       BerandaController(
-        listenPaidIuran: ListenPaidIuran(Get.find<IIuranRepository>()),
+        listenPaidIuran: ListenTransactionIuran(Get.find<IIuranRepository>()),
         listenActiveIuran: ListenActiveIuran(Get.find<IIuranRepository>()),
       ),
     );

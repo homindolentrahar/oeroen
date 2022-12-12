@@ -4,10 +4,10 @@ import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
 
-class ListenPaidIuran {
+class ListenTransactionIuran {
   final IIuranRepository _repository;
 
-  ListenPaidIuran(this._repository);
+  ListenTransactionIuran(this._repository);
 
   Stream<Either<AppError, List<Iuran>>> call({
     List<IuranFilter> filters = const [],

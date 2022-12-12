@@ -23,11 +23,13 @@ class Warga {
 }
 
 class WargaDesa {
+  final String? desaId;
   final String? uniqueCode;
   final String? address;
   final String? name;
 
   WargaDesa({
+    this.desaId,
     this.uniqueCode,
     this.address,
     this.name,
