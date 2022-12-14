@@ -8,8 +8,10 @@ import 'package:oeroen/core/presentation/widgets/main_app_bar.dart';
 import 'package:oeroen/core/presentation/widgets/section_subtitle.dart';
 import 'package:oeroen/features/desa/domain/models/desa.dart';
 import 'package:oeroen/features/desa/presentation/application/desa_controller.dart';
+import 'package:oeroen/features/desa/presentation/widgets/desa_list_item.dart';
 import 'package:oeroen/features/desa/presentation/widgets/info_desa_banner.dart';
 import 'package:oeroen/features/desa/presentation/widgets/iuran_desa_grid_item.dart';
+import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/routes/app_route.dart';
 
 class DesaScreen extends StatelessWidget {
@@ -22,7 +24,78 @@ class DesaScreen extends StatelessWidget {
         padding: const EdgeInsets.all(32),
         physics: const BouncingScrollPhysics(),
         children: [
-          const MainAppBar(title: "Desa"),
+          MainAppBar(
+            title: "Desa",
+            onTitlePressed: () {
+              Get.bottomSheet(
+                Container(
+                  padding: const EdgeInsets.all(32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Desamu",
+                        style: TextStyle(
+                          color: AppColor.black,
+                          fontSize: 16,
+                          fontFamily: AppFont.semiBold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SingleChildScrollView(
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.wargaDesa.length + 1,
+                          itemBuilder: (ctx, index) {
+                            if (index == controller.wargaDesa.length) {
+                              return AppTextButton(
+                                text: "Tambah Desa",
+                                icon: SvgPicture.asset(
+                                  "assets/icons/add.svg",
+                                  color:
+                                      Get.theme.primaryColor.withOpacity(0.75),
+                                ),
+                                textColor:
+                                    Get.theme.primaryColor.withOpacity(0.75),
+                                onPressed: () {
+                                  Get.toNamed(AppRoute.desaAddRoute);
+                                },
+                              );
+                            } else {
+                              return DesaListItem(
+                                isSelected:
+                                    controller.wargaDesa[index].desaId ==
+                                        controller.selectedDesaId,
+                                data: controller.wargaDesa[index],
+                                onPressed: (desa) {
+                                  if (desa.desaId !=
+                                      controller.selectedDesaId) {
+                                    controller.selectDesa(desa);
+                                  }
+                                },
+                              );
+                            }
+                          },
+                          separatorBuilder: (ctx, index) =>
+                              const SizedBox(height: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                enableDrag: false,
+                backgroundColor: Get.theme.canvasColor,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 32),
           InfoDesaBanner(data: controller.desa),
           const SizedBox(height: 32),

@@ -57,11 +57,8 @@ class IuranListItem extends StatelessWidget {
                   children: [
                     Text(
                       iuranCategory.categoryName ?? "",
-                      style: const TextStyle(
-                        color: AppColor.black,
-                        fontSize: 16,
-                        fontFamily: AppFont.semiBold,
-                      ),
+                      style: Get.textTheme.headline5
+                          ?.copyWith(color: AppColor.black),
                     ),
                     Text(
                       isTransaction

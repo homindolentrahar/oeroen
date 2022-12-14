@@ -8,6 +8,8 @@ import 'package:oeroen/features/desa/presentation/application/desa_controller.da
 import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
 import 'package:oeroen/features/iuran/domain/usecases/listen_active_iuran.dart';
 import 'package:oeroen/features/iuran/domain/usecases/listen_transaction_iuran.dart';
+import 'package:oeroen/features/warga/domain/repositories/i_warga_repository.dart';
+import 'package:oeroen/features/warga/domain/usecases/get_warga.dart';
 
 class MainBinding implements Bindings {
   @override
@@ -22,7 +24,9 @@ class MainBinding implements Bindings {
     Get.put<DesaController>(
       DesaController(
         listenDesa: ListenDesa(Get.find<IDesaRepository>()),
-        listenTransactionDesa: ListenTransactionDesa(Get.find<IIuranRepository>()),
+        listenTransactionDesa:
+            ListenTransactionDesa(Get.find<IIuranRepository>()),
+        getWarga: GetWarga(Get.find<IWargaRepository>()),
       ),
     );
   }

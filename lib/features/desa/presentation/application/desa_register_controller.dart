@@ -60,9 +60,7 @@ class DesaRegisterController extends GetxController {
           'unique_code': desa.uniqueCode,
         };
         await SecureStorageHelper.instance.saveDesaCredential(jsonData);
-        final String userId =
-            await SecureStorageHelper.instance.getUserCredential();
-        final eitherWarga = await getWarga(userId);
+        final eitherWarga = await getWarga();
 
         eitherWarga.fold(
           (error) {},
@@ -76,7 +74,7 @@ class DesaRegisterController extends GetxController {
               ),
             ];
             final eitherUpdate = await updateWarga(
-              wargaId: userId,
+              wargaId: warga.userId ?? "",
               data: {
                 'list_desa': updatedListDesa
                     .map((e) => WargaDesaDto.fromModel(e).toJson())

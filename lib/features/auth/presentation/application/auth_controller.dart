@@ -41,7 +41,7 @@ class AuthController extends GetxController {
           Logger().i("Auth User Verified: ${authUser.isVerified}");
           if (authUser.isVerified || authUser.providerId == 'phone') {
             // TODO: Check if the user already join a desa
-            final eitherWarga = await getWarga(authUser.userId ?? "");
+            final eitherWarga = await getWarga();
 
             eitherWarga.fold(
               (error) {},

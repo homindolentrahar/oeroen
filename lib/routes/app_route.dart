@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:oeroen/core/presentation/screens/bindings/main_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/bindings/desa_add_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_detail_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_register_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_transaction_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/desa_add_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_register_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_transaction_screen.dart';
 import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_list_binding.dart';
@@ -38,7 +40,8 @@ class AppRoute {
   static const String registerRoute = "/register";
   static const String forgotPasswordRoute = "/forgot-password";
   static const String otpRoute = "/otp";
-  static const String desaRegisterRoute = "/code-desa";
+  static const String desaRegisterRoute = "/desa-register";
+  static const String desaAddRoute = "/desa-add";
   static const String mainRoute = "/main";
   static const String mainBerandaRoute = "/beranda";
   static const String mainDesaRoute = "/desa";
@@ -112,6 +115,12 @@ class AppRoute {
       page: () => const DesaRegisterScreen(),
       transition: Transition.fadeIn,
       binding: DesaRegisterBinding(),
+    ),
+    GetPage(
+      name: desaAddRoute,
+      page: () => const DesaAddScreen(),
+      transition: Transition.downToUp,
+      binding: DesaAddBinding(),
     ),
     GetPage(
       name: mainRoute,
