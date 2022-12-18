@@ -60,6 +60,7 @@ class DesaScreen extends StatelessWidget {
                                 textColor:
                                     Get.theme.primaryColor.withOpacity(0.75),
                                 onPressed: () {
+                                  Get.back();
                                   Get.toNamed(AppRoute.desaAddRoute);
                                 },
                               );

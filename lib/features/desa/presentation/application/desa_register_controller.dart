@@ -60,6 +60,8 @@ class DesaRegisterController extends GetxController {
           'unique_code': desa.uniqueCode,
         };
         await SecureStorageHelper.instance.saveDesaCredential(jsonData);
+
+        // TODO: Update user's desa
         final eitherWarga = await getWarga();
 
         eitherWarga.fold(

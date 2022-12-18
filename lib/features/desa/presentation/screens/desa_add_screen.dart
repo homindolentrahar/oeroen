@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/core_app_bar.dart';
+import 'package:oeroen/features/desa/presentation/application/desa_add_controller.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/presentation/widgets/app_text_field.dart';
 
-class DesaAddScreen extends StatelessWidget {
+class DesaAddScreen extends GetView<DesaAddController> {
   const DesaAddScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColor.light,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -58,13 +62,13 @@ class DesaAddScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
                     FormBuilder(
-                      // key: controller.formKey,
+                      key: controller.formKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       autoFocusOnValidationFailure: true,
                       child: Column(
                         children: [
                           PinTextField(
-                            // controller: controller.textEditingController,
+                            controller: controller.textEditingController,
                             name: "unique_code",
                             onChanged: (value) {},
                             onCompleted: (value) {
@@ -76,6 +80,10 @@ class DesaAddScreen extends StatelessWidget {
                           AppFillButton(
                             text: "Kirim",
                             onPressed: () {
+                              if (controller.isFormValid) {
+                                final desaCode = controller.inputDesaCode;
+                                controller.checkDesaExists(desaCode);
+                              }
                               // if (controller.isFormValid()) {
                               //   final desaCode =
                               //   controller.getFormFieldData("unique_code");
