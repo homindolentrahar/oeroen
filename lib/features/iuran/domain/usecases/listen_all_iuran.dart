@@ -14,7 +14,7 @@ class ListenAllIuran {
   }) {
     String categoryFilter = "";
     String sortFilter = "";
-    bool paidFilter = false;
+    String paidFilter = "";
 
     if (filters.isNotEmpty) {
       categoryFilter = filters
@@ -36,8 +36,8 @@ class ListenAllIuran {
                       orElse: () => IuranFilter())
                   .slug ==
               "paid"
-          ? true
-          : false;
+          ? "true"
+          : "false";
     }
     return _repository.listenAllIuran(
       categoryFilter: categoryFilter,

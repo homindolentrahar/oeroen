@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/icon_button_location.dart';
+import 'package:oeroen/features/desa/domain/models/desa.dart';
 import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/routes/app_route.dart';
 
 class InfoDesaBanner extends StatelessWidget {
-  const InfoDesaBanner({Key? key}) : super(key: key);
+  const InfoDesaBanner({Key? key, required this.data}) : super(key: key);
+
+  final Desa data;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +37,13 @@ class InfoDesaBanner extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Desa Karangtengah",
+                      data.name ?? "",
                       style: Get.textTheme.headline4
                           ?.copyWith(color: AppColor.black),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "Kelurahan Jati Asih, Kec. Payabungkuh\nKab. Bekasi, Jawa Bart",
+                      "Kec. ${data.district}, ${data.city}\nProvinsi ${data.province}",
                       style: Get.textTheme.bodyText2
                           ?.copyWith(color: AppColor.gray),
                     ),
@@ -78,7 +82,7 @@ class InfoDesaBanner extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    "234 Warga",
+                    "${data.population} Warga",
                     style: Get.textTheme.bodyText2?.copyWith(
                       color: AppColor.gray,
                       fontFamily: AppFont.medium,
@@ -90,7 +94,9 @@ class InfoDesaBanner extends StatelessWidget {
                 text: "Selengkapnya",
                 textSize: 12,
                 onPressed: () {
-                  Get.toNamed("${AppRoute.mainDesaRoute}/5");
+                  Get.toNamed(
+                    "${AppRoute.mainDesaRoute}/${Constants.dummyDesaId}",
+                  );
                 },
               ),
             ],

@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/usecases/listen_active_iuran.dart';
-import 'package:oeroen/features/iuran/domain/usecases/listen_paid_iuran.dart';
+import 'package:oeroen/features/iuran/domain/usecases/listen_transaction_iuran.dart';
 
 class BerandaController extends GetxController {
   final ListenActiveIuran listenActiveIuran;
-  final ListenPaidIuran listenPaidIuran;
+  final ListenTransactionIuran listenPaidIuran;
 
   BerandaController({
     required this.listenPaidIuran,

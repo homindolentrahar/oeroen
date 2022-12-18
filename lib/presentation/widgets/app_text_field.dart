@@ -98,24 +98,34 @@ class AppTextField extends StatelessWidget {
 
 class PinTextField extends StatelessWidget {
   final String name;
+  final TextEditingController? controller;
   final TextInputType keyboardType;
+  final List<String? Function(String?)>? additionalValidators;
   final ValueChanged<String> onChanged;
   final ValueChanged<String>? onCompleted;
 
   const PinTextField({
     Key? key,
     required this.name,
+    this.controller,
     this.keyboardType = TextInputType.text,
+    this.additionalValidators,
     required this.onChanged,
     this.onCompleted,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderField(
+    return FormBuilderField<String>(
       name: name,
+      onChanged: (value) {
+        if (value != null) {
+          onChanged(value);
+        }
+      },
       builder: (field) {
         return PinCodeTextField(
+          controller: controller,
           appContext: context,
           length: 6,
           obscureText: false,
@@ -134,10 +144,11 @@ class PinTextField extends StatelessWidget {
           ),
           validator: FormBuilderValidators.compose([
             FormBuilderValidators.required(),
-            FormBuilderValidators.numeric(),
+            // FormBuilderValidators.numeric(),
+            ...?additionalValidators,
           ]),
           errorTextSpace: 32,
-          onChanged: onChanged,
+          onChanged: (value) => field.didChange(value),
           onCompleted: onCompleted,
         );
       },

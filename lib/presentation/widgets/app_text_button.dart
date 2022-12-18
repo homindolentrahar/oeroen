@@ -7,6 +7,7 @@ class AppTextButton extends StatelessWidget {
   final Color textColor;
   final Widget? icon;
   final double textSize;
+  final bool reversed;
   final VoidCallback onPressed;
 
   const AppTextButton({
@@ -15,6 +16,7 @@ class AppTextButton extends StatelessWidget {
     this.textColor = AppColor.primary,
     this.icon,
     this.textSize = 14,
+    this.reversed = false,
     required this.onPressed,
   }) : super(key: key);
 
@@ -27,10 +29,11 @@ class AppTextButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (icon != null) ...[
-            icon!,
-            const SizedBox(width: 4),
-          ],
+          if (!reversed)
+            if (icon != null) ...[
+              icon!,
+              const SizedBox(width: 4),
+            ],
           Text(
             text,
             style: TextStyle(
@@ -39,6 +42,10 @@ class AppTextButton extends StatelessWidget {
               fontFamily: AppFont.semiBold,
             ),
           ),
+          if (reversed)
+            if (icon != null) ...[
+              icon!,
+            ],
         ],
       ),
     );

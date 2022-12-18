@@ -4,10 +4,10 @@ import 'package:oeroen/features/auth/data/remote/firebase/firebase_auth_user.dar
 
 part 'warga_dto.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class WargaDto {
   @JsonKey(ignore: true)
-  final String? userId;
+  String? userId;
   final String? email;
   final String? phoneNumber;
   final String? fullname;
@@ -52,15 +52,33 @@ class WargaDto {
       );
 
   Map<String, dynamic> toJson() => _$WargaDtoToJson(this);
+
+  Warga toModel() => Warga(
+        userId: userId,
+        email: email,
+        phoneNumber: phoneNumber,
+        fullname: fullname,
+        birthday: birthday == null
+            ? null
+            : DateTime.parse(birthday ?? DateTime(1970).toIso8601String()),
+        gender: gender,
+        image: image,
+        listDesa: listDesa?.map((e) => e.toModel()).toList(),
+        createdAt: birthday == null
+            ? null
+            : DateTime.parse(createdAt ?? DateTime(1970).toIso8601String()),
+      );
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class WargaDesaDto {
+  final String? desaId;
   final String? uniqueCode;
   final String? address;
   final String? name;
 
   WargaDesaDto({
+    this.desaId,
     this.uniqueCode,
     this.address,
     this.name,
@@ -70,10 +88,18 @@ class WargaDesaDto {
       _$WargaDesaDtoFromJson(json);
 
   factory WargaDesaDto.fromModel(WargaDesa data) => WargaDesaDto(
+        desaId: data.desaId,
         uniqueCode: data.uniqueCode,
         address: data.address,
         name: data.name,
       );
 
   Map<String, dynamic> toJson() => _$WargaDesaDtoToJson(this);
+
+  WargaDesa toModel() => WargaDesa(
+        desaId: desaId,
+        uniqueCode: uniqueCode,
+        address: address,
+        name: name,
+      );
 }

@@ -39,7 +39,7 @@ class IuranScreen extends StatelessWidget {
                           data: Iuran(),
                           onPressed: (data) {
                             Get.toNamed(
-                              "${AppRoute.mainIuranRoute}/5",
+                              "${AppRoute.iuranRoute}/5",
                               arguments: {'title': "Iuran Keamanan"},
                             );
                           },

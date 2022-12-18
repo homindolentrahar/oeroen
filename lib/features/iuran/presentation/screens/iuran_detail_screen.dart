@@ -7,7 +7,6 @@ import 'package:oeroen/core/presentation/widgets/core_app_bar.dart';
 import 'package:oeroen/core/presentation/widgets/icon_button_location.dart';
 import 'package:oeroen/core/presentation/widgets/paid_type_chip.dart';
 import 'package:oeroen/core/presentation/widgets/section_subtitle.dart';
-import 'package:oeroen/features/desa/presentation/widgets/pengurus_desa_list_item.dart';
 import 'package:oeroen/features/iuran/presentation/application/iuran_detail_controller.dart';
 import 'package:oeroen/features/iuran/presentation/widgets/iuran_metode_pembayaran_item.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
@@ -166,20 +165,20 @@ class IuranDetailScreen extends StatelessWidget {
               const SizedBox(height: 32),
               const SectionSubtitle(subtitle: "Penanggung Jawab"),
               const SizedBox(height: 16),
-              ...List.generate(
-                4,
-                (index) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    PengurusDesaListItem(
-                      onPressed: () {},
-                    ),
-                    index == 3
-                        ? const SizedBox.shrink()
-                        : const SizedBox(height: 16)
-                  ],
-                ),
-              ),
+              // ...List.generate(
+              //   4,
+              //   (index) => Column(
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [
+              //       PengurusDesaListItem(
+              //         onPressed: () {},
+              //       ),
+              //       index == 3
+              //           ? const SizedBox.shrink()
+              //           : const SizedBox(height: 16)
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -4,22 +4,27 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/image_load.dart';
+import 'package:oeroen/features/desa/domain/models/desa.dart';
 
 class PengurusDesaListItem extends StatelessWidget {
-  const PengurusDesaListItem({Key? key, required this.onPressed})
-      : super(key: key);
+  const PengurusDesaListItem({
+    Key? key,
+    required this.data,
+    required this.onPressed,
+  }) : super(key: key);
 
-  final VoidCallback onPressed;
+  final DesaStakeholder data;
+  final ValueChanged<DesaStakeholder> onPressed;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () => onPressed(data),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const ImageLoad(
-            image: "assets/images/profile.png",
+          ImageLoad(
+            image: data.image ?? "",
             width: 48,
             height: 48,
             radius: 360,
@@ -31,14 +36,14 @@ class PengurusDesaListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Joseph Stalin",
+                  data.name ?? "",
                   style: Get.textTheme.headline5?.copyWith(
                     color: AppColor.black,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "Bendahara RT",
+                  data.department ?? "",
                   style: Get.textTheme.bodyText2?.copyWith(
                     color: AppColor.gray,
                     fontFamily: AppFont.medium,

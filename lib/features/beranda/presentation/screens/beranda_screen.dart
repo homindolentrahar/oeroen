@@ -51,7 +51,7 @@ class BerandaScreen extends StatelessWidget {
                     onPressed: (data) {},
                   ),
                   separatorBuilder: (ctx, index) => const SizedBox(height: 16),
-                  itemCount: controller.paidIuran.length,
+                  itemCount: controller.paidIuran.take(8).length,
                 )
               : SizedBox(
                   height: 240,

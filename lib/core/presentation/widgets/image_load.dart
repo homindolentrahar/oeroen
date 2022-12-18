@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ImageLoad extends StatefulWidget {
   const ImageLoad({
@@ -76,7 +77,7 @@ class _ImageLoadState extends State<ImageLoad> {
   Widget getImageNetwork() {
     return FadeInImage(
       image: widget.image != null
-          ? NetworkImage(widget.image ?? "")
+          ? CachedNetworkImageProvider(widget.image ?? "")
           : const AssetImage("assets/images/profile.png") as ImageProvider,
       fit: widget.fit,
       placeholder:
