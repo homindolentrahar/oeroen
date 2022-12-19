@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_filter_chips.dart';
-import 'package:oeroen/core/presentation/widgets/iuran_filter_sheet.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
-import 'package:oeroen/features/iuran/presentation/application/iuran_controller.dart';
 import 'package:oeroen/features/iuran/presentation/widgets/iuran_menu.dart';
 
 class IuranMenuFilter extends StatelessWidget {
-  const IuranMenuFilter({Key? key, required this.controller}) : super(key: key);
+  const IuranMenuFilter({
+    Key? key,
+    required this.activeIndex,
+    required this.initialFilters,
+    required this.onRemoveFilter,
+    required this.onMenuChanged,
+    required this.onTapShowSheet,
+  }) : super(key: key);
 
-  final IuranController controller;
+  final int activeIndex;
+  final List<IuranFilter> initialFilters;
+  final ValueChanged<IuranFilter> onRemoveFilter;
+  final ValueChanged<int> onMenuChanged;
+  final VoidCallback onTapShowSheet;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +32,8 @@ class IuranMenuFilter extends StatelessWidget {
           children: [
             Expanded(
               child: IuranMenu(
-                activeIndex: controller.iuranMenuIndex,
-                onMenuChanged: (int value) {
-                  controller.iuranMenuChanged(value);
-                },
+                activeIndex: activeIndex,
+                onMenuChanged: onMenuChanged,
               ),
             ),
             Material(
@@ -35,16 +41,7 @@ class IuranMenuFilter extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: InkWell(
                 borderRadius: BorderRadius.circular(8),
-                onTap: () async {
-                  // TODO: Show the selected filter besides the Sort button
-                  final List<IuranFilter>? filter = await Get.bottomSheet(
-                    IuranFilterSheet(filters: controller.filters),
-                  );
-
-                  if (filter != null) {
-                    controller.setFilters(filter);
-                  }
-                },
+                onTap: onTapShowSheet,
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   child: SvgPicture.asset(
@@ -60,10 +57,8 @@ class IuranMenuFilter extends StatelessWidget {
         const SizedBox(height: 16),
         IuranFilterChips(
           emptyTitle: "Semua Iuran",
-          filters: controller.filters,
-          onRemove: (value) {
-            controller.removeFilter(value);
-          },
+          filters: initialFilters,
+          onRemove: onRemoveFilter,
         ),
       ],
     );

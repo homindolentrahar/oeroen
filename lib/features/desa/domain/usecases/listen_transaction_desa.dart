@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/errors/app_error.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
@@ -37,7 +36,7 @@ class ListenTransactionDesa {
       categoryFilter: categoryFilter,
       sortFilter: sortFilter,
       isPaid: "true",
-      desaCode: Constants.dummyDesaCode,
+      allDesa: false,
     );
   }
 }

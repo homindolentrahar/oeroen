@@ -23,16 +23,18 @@ class IuranRepository implements IIuranRepository {
     String categoryFilter = "",
     String sortFilter = "",
     String isPaid = "",
-    String desaCode = "",
+    bool allDesa = true,
   }) async* {
     final userId = await SecureStorageHelper.instance.getUserCredential();
+    final savedDesaCode =
+        (await SecureStorageHelper.instance.getDesaCredential())['unique_code'];
     final orderBy = iuranFilterOrderByMap[sortFilter];
 
     var query =
         _firestore.iuranCollection().where('user_id', isEqualTo: userId);
 
-    if (desaCode.isNotEmpty) {
-      query = query.where('desa_code', isEqualTo: desaCode);
+    if (allDesa == false) {
+      query = query.where('desa_code', isEqualTo: savedDesaCode);
     }
 
     if (categoryFilter.isNotEmpty) {

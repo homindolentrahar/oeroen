@@ -17,7 +17,8 @@ class MainBinding implements Bindings {
     Get.lazyPut<MainController>(() => MainController());
     Get.put<BerandaController>(
       BerandaController(
-        listenPaidIuran: ListenTransactionIuran(Get.find<IIuranRepository>()),
+        listenTransactionIuraan:
+            ListenTransactionIuran(Get.find<IIuranRepository>()),
         listenActiveIuran: ListenActiveIuran(Get.find<IIuranRepository>()),
       ),
     );
