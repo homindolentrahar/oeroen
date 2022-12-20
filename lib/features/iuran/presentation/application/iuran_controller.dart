@@ -18,7 +18,6 @@ class IuranController extends GetxController {
   });
 
   int iuranMenuIndex = 0;
-  // List<IuranFilter> filters = [];
   List<Iuran> transactionIuran = [];
   List<Iuran> activeIuran = [];
   RxList<IuranFilter> filters = RxList();

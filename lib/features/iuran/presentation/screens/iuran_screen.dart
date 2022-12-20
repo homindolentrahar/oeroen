@@ -82,7 +82,10 @@ class IuranBody extends StatelessWidget {
         itemBuilder: (ctx, index) => IuranListItem(
           data: datas[index],
           onPressed: (data) {
-            Get.toNamed("${AppRoute.mainIuranRoute}/${data.id}");
+            Get.toNamed(
+              "${AppRoute.mainIuranRoute}/${data.id}",
+              parameters: {'desa_code': data.desaCode ?? ""},
+            );
           },
         ),
         separatorBuilder: (ctx, index) => const SizedBox(height: 16),

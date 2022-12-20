@@ -57,8 +57,8 @@ class RecentTransactionScreen extends StatelessWidget {
                         data: controller.paidIuran[index],
                         onPressed: (data) {
                           Get.toNamed(
-                            "${AppRoute.mainIuranRoute}/${controller.paidIuran[index].id}",
-                            arguments: {'title': "Iuran Keamanan"},
+                            "${AppRoute.mainIuranRoute}/${data.id}",
+                            parameters: {'desa_code': data.desaCode ?? ""},
                           );
                         },
                       ),

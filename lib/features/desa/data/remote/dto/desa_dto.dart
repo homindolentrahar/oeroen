@@ -19,6 +19,7 @@ class DesaDto {
   final String? longitude;
   final List<DesaActivityDto>? activities;
   final List<DesaStakeholderDto>? stakeholders;
+  final List<DesaPaymentMethodDto>? payments;
   final List<IuranDesaDto>? iurans;
 
   DesaDto({
@@ -35,6 +36,7 @@ class DesaDto {
     this.longitude,
     this.activities,
     this.stakeholders,
+    this.payments,
     this.iurans,
   });
 
@@ -57,6 +59,7 @@ class DesaDto {
         longitude: longitude,
         activities: activities?.map((e) => e.toModel()).toList(),
         stakeholders: stakeholders?.map((e) => e.toModel()).toList(),
+        payments: payments?.map((e) => e.toModel()).toList(),
         iurans: iurans?.map((e) => e.toModel()).toList(),
       );
 }
@@ -174,5 +177,41 @@ class IuranDesaDto {
         createdAt: createdAt == null
             ? null
             : DateTime.parse(createdAt ?? DateTime(1970).toIso8601String()),
+      );
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class DesaPaymentMethodDto {
+  @JsonKey(ignore: true)
+  String? id;
+  final String? image;
+  final String? name;
+  final String? number;
+
+  DesaPaymentMethodDto({
+    this.id,
+    this.image,
+    this.name,
+    this.number,
+  });
+
+  factory DesaPaymentMethodDto.fromModel(DesaPaymentMethod data) =>
+      DesaPaymentMethodDto(
+        id: data.id,
+        image: data.image,
+        name: data.name,
+        number: data.number,
+      );
+
+  factory DesaPaymentMethodDto.fromJson(Map<String, dynamic> json) =>
+      _$DesaPaymentMethodDtoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DesaPaymentMethodDtoToJson(this);
+
+  DesaPaymentMethod toModel() => DesaPaymentMethod(
+        id: id,
+        image: image,
+        name: name,
+        number: number,
       );
 }

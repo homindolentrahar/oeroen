@@ -110,6 +110,12 @@ class Constants {
       categoryIcon: "assets/icons/ic_donasi.svg",
     ),
   ];
+  static IuranCategory getIuranCategoryBySlug(String slug) {
+    return iuranCategories.firstWhere(
+      (element) => element.categorySlug == slug,
+      orElse: () => IuranCategory(),
+    );
+  }
 }
 
 final Map<String, IuranFilterOrderBy> iuranFilterOrderByMap = {

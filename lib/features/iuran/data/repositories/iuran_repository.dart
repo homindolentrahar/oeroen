@@ -52,7 +52,13 @@ class IuranRepository implements IIuranRepository {
           descending: orderBy?.descending ?? true,
         )
         .withConverter<IuranDto>(
-          fromFirestore: (snapshot, _) => IuranDto.fromJson(snapshot.data()!),
+          fromFirestore: (snapshot, _) {
+            final dto = IuranDto.fromJson(snapshot.data()!);
+
+            dto.id = snapshot.id;
+
+            return dto;
+          },
           toFirestore: (iuran, _) => iuran.toJson(),
         )
         .snapshots()
@@ -81,7 +87,13 @@ class IuranRepository implements IIuranRepository {
           .iuranCollection()
           .doc(iuranId)
           .withConverter<IuranDto>(
-            fromFirestore: (snapshot, _) => IuranDto.fromJson(snapshot.data()!),
+            fromFirestore: (snapshot, _) {
+              final dto = IuranDto.fromJson(snapshot.data()!);
+
+              dto.id = snapshot.id;
+
+              return dto;
+            },
             toFirestore: (iuran, _) => iuran.toJson(),
           )
           .get();

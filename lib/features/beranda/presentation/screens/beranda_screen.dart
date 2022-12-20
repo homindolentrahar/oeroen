@@ -48,7 +48,12 @@ class BerandaScreen extends StatelessWidget {
                   itemBuilder: (ctx, index) => IuranListItem(
                     isTransaction: true,
                     data: controller.paidIuran[index],
-                    onPressed: (data) {},
+                    onPressed: (data) {
+                      Get.toNamed(
+                        "${AppRoute.mainIuranRoute}/${data.id}",
+                        parameters: {'desa_code': data.desaCode ?? ""},
+                      );
+                    },
                   ),
                   separatorBuilder: (ctx, index) => const SizedBox(height: 16),
                   itemCount: controller.paidIuran.take(8).length,

@@ -5,6 +5,7 @@ import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
 import 'package:oeroen/features/beranda/presentation/application/wajib_iuran_controller.dart';
+import 'package:oeroen/routes/app_route.dart';
 import 'package:oeroen/utils/extension/date_extensions.dart';
 import 'package:oeroen/utils/extension/double_extensions.dart';
 
@@ -92,7 +93,12 @@ class WajibIuranScreen extends StatelessWidget {
                     itemBuilder: (ctx, index) {
                       return IuranListItem(
                         data: controller.activeIuran[index],
-                        onPressed: (data) {},
+                        onPressed: (data) {
+                          Get.toNamed(
+                            "${AppRoute.mainIuranRoute}/${data.id}",
+                            parameters: {'desa_code': data.desaCode ?? ""},
+                          );
+                        },
                       );
                     },
                     separatorBuilder: (ctx, index) =>

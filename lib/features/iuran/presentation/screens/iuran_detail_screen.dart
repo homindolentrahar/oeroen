@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:oeroen/common/constant/constants.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/core_app_bar.dart';
 import 'package:oeroen/core/presentation/widgets/icon_button_location.dart';
 import 'package:oeroen/core/presentation/widgets/paid_type_chip.dart';
 import 'package:oeroen/core/presentation/widgets/section_subtitle.dart';
+import 'package:oeroen/features/desa/domain/models/desa.dart';
+import 'package:oeroen/features/desa/presentation/widgets/pengurus_desa_list_item.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran_category.dart';
 import 'package:oeroen/features/iuran/presentation/application/iuran_detail_controller.dart';
+import 'package:oeroen/features/iuran/presentation/widgets/iuran_by_desa_item.dart';
 import 'package:oeroen/features/iuran/presentation/widgets/iuran_metode_pembayaran_item.dart';
 import 'package:oeroen/presentation/widgets/app_fill_button.dart';
+import 'package:oeroen/utils/extension/date_extensions.dart';
+import 'package:oeroen/utils/extension/double_extensions.dart';
 
 class IuranDetailScreen extends StatelessWidget {
   const IuranDetailScreen({Key? key}) : super(key: key);
@@ -25,7 +31,12 @@ class IuranDetailScreen extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             children: [
               CoreAppBar(
-                title: controller.title,
+                title: "Iuran ${Constants.iuranCategories.firstWhere(
+                      (element) =>
+                          element.categorySlug ==
+                          controller.iuran?.categorySlug,
+                      orElse: () => IuranCategory(),
+                    ).categoryName}",
                 backEnabled: true,
               ),
               const SizedBox(height: 32),
@@ -34,7 +45,7 @@ class IuranDetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Periode Mei 2022",
+                    "Periode ${controller.iuran?.createdAt?.toMMMyyyy()}",
                     style: Get.textTheme.bodyText1?.copyWith(
                       fontFamily: AppFont.medium,
                       color: AppColor.dark,
@@ -42,21 +53,31 @@ class IuranDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Rp 46,750",
+                    "Rp ${controller.iuran?.amount?.toCurrency()}",
                     style: Get.textTheme.headline1?.copyWith(
                       color: AppColor.black,
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const PaidTypeChip(
-                    paidSlug: "paid",
-                    title: "Lunas",
+                  PaidTypeChip(
+                    paidSlug: controller.iuran?.isPaid == true ? "paid" : "due",
+                    title: controller.iuran?.isPaid == true
+                        ? "Lunas"
+                        : "Belum Lunas",
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "Dibayarkan pada 14:50, 15 Mei 2022",
-                    style: Get.textTheme.bodyText2?.copyWith(
-                      color: AppColor.gray,
+                  Visibility(
+                    visible: controller.iuran?.paidAt != null,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 8),
+                        Text(
+                          "Dibayarkan pada ${controller.iuran?.paidAt?.toDisplayDateAlt()}",
+                          style: Get.textTheme.bodyText2?.copyWith(
+                            color: AppColor.gray,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -82,13 +103,13 @@ class IuranDetailScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Desa Karangtengah",
+                            "Desa ${controller.desa?.name}",
                             style: Get.textTheme.headline5
                                 ?.copyWith(color: AppColor.black),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            "Kelurahan Jati Asih, Kec. Payabungkuh\nKab. Bekasi, Jawa Bart",
+                            "Kec. ${controller.desa?.district}, Kab. ${controller.desa?.city}\n${controller.desa?.province}",
                             style: Get.textTheme.bodyText2
                                 ?.copyWith(color: AppColor.gray),
                           ),
@@ -108,77 +129,38 @@ class IuranDetailScreen extends StatelessWidget {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
-                  itemCount: 5,
-                  itemBuilder: (ctx, index) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: AppColor.light,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: SvgPicture.asset(
-                            "assets/icons/ic_keamanan.svg",
-                            width: 20,
-                            height: 20,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          "Keamanan",
-                          style: Get.textTheme.bodyText2?.copyWith(
-                            color: AppColor.dark,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          "25,000",
-                          style: Get.textTheme.caption?.copyWith(
-                            color: AppColor.black,
-                            fontFamily: AppFont.semiBold,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                  itemCount: controller.desa?.iurans?.length ?? 0,
+                  itemBuilder: (ctx, index) => IuranByDesaItem(
+                    data: controller.desa?.iurans?[index] ?? IuranDesa(),
+                  ),
                   separatorBuilder: (ctx, index) => const SizedBox(width: 24),
                 ),
               ),
               const SizedBox(height: 32),
               const SectionSubtitle(subtitle: "Metode Pembayaran"),
               const SizedBox(height: 16),
-              ...List.generate(
-                3,
-                (index) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const IuranMetodePembayaranItem(),
-                    index == 2
-                        ? const SizedBox.shrink()
-                        : const SizedBox(height: 16)
-                  ],
+              ListView.separated(
+                shrinkWrap: true,
+                itemCount: controller.desa?.payments?.length ?? 0,
+                itemBuilder: (ctx, index) => IuranMetodePembayaranItem(
+                  data:
+                      controller.desa?.payments?[index] ?? DesaPaymentMethod(),
                 ),
+                separatorBuilder: (ctx, index) => const SizedBox(height: 16),
               ),
               const SizedBox(height: 32),
               const SectionSubtitle(subtitle: "Penanggung Jawab"),
               const SizedBox(height: 16),
-              // ...List.generate(
-              //   4,
-              //   (index) => Column(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: [
-              //       PengurusDesaListItem(
-              //         onPressed: () {},
-              //       ),
-              //       index == 3
-              //           ? const SizedBox.shrink()
-              //           : const SizedBox(height: 16)
-              //     ],
-              //   ),
-              // ),
+              ListView.separated(
+                shrinkWrap: true,
+                itemCount: controller.desa?.stakeholders?.length ?? 0,
+                itemBuilder: (ctx, index) => PengurusDesaListItem(
+                  data: controller.desa?.stakeholders?[index] ??
+                      DesaStakeholder(),
+                  onPressed: (value) {},
+                ),
+                separatorBuilder: (ctx, index) => const SizedBox(height: 16),
+              ),
             ],
           ),
         ),
