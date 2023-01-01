@@ -11,10 +11,10 @@ class ListenTransactionsInDesa {
 
   Stream<Either<AppError, List<WargaTransaction>>> call({
     List<IuranFilter> filters = const [],
+    bool isPaid = false,
   }) {
     String categoryFilter = "";
     String sortFilter = "";
-    String paidFilter = "";
 
     if (filters.isNotEmpty) {
       categoryFilter = filters
@@ -31,18 +31,11 @@ class ListenTransactionsInDesa {
               )
               .slug ??
           "";
-      paidFilter = filters
-                  .firstWhere((e) => e.type == IuranFilterType.paidType,
-                      orElse: () => IuranFilter())
-                  .slug ==
-              "paid"
-          ? "true"
-          : "false";
     }
     return _repository.listenTransactionsInDesa(
       categoryFilter: categoryFilter,
       sortFilter: sortFilter,
-      isPaid: paidFilter,
+      isPaid: isPaid,
     );
   }
 }

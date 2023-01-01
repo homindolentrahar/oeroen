@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:oeroen/core/data/remote/warga_dto.dart';
 import 'package:oeroen/core/domain/models/warga.dart';
+import 'package:oeroen/features/beranda/presentation/application/beranda_controller.dart';
 import 'package:oeroen/features/desa/domain/usecases/get_desa_by_code.dart';
 import 'package:oeroen/features/desa/presentation/application/desa_controller.dart';
 import 'package:oeroen/features/warga/domain/usecases/get_warga.dart';
@@ -95,9 +94,8 @@ class DesaAddController extends GetxController {
               (error) {},
               (_) {
                 Get.back();
-                Get.find<DesaController>()
-                    .getIncomingData()
-                    .then((value) => log("Refreshing Data..."));
+                Get.find<BerandaController>().listenIncomingData();
+                Get.find<DesaController>().getIncomingData();
               },
             );
           }

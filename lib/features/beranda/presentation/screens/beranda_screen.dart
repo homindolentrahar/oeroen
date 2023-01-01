@@ -8,7 +8,8 @@ import 'package:oeroen/core/presentation/widgets/section_subtitle.dart';
 import 'package:oeroen/features/beranda/presentation/application/beranda_controller.dart';
 import 'package:oeroen/features/beranda/presentation/widgets/wajib_iuran_banner.dart';
 import 'package:oeroen/features/beranda/presentation/widgets/beranda_category.dart';
-import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
+import 'package:oeroen/features/transaction/domain/models/warga_transaction.dart';
+import 'package:oeroen/features/transaction/presentation/widget/transaction_list_item.dart';
 import 'package:oeroen/routes/app_route.dart';
 
 class BerandaScreen extends StatelessWidget {
@@ -29,7 +30,7 @@ class BerandaScreen extends StatelessWidget {
           const SizedBox(height: 32),
           SectionSubtitle(
             subtitle: "Pembayaran Terkini",
-            onPressed: controller.activeIuran.isNotEmpty
+            onPressed: controller.paidTransactions?.isNotEmpty ?? false
                 ? () {
                     Get.toNamed(
                       AppRoute.recentTransactionRoute,
@@ -41,17 +42,17 @@ class BerandaScreen extends StatelessWidget {
                 : null,
           ),
           const SizedBox(height: 16),
-          controller.paidIuran.isNotEmpty
+          controller.paidTransactions?.isNotEmpty ?? false
               ? ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (ctx, index) => IuranListItem(
-                    isTransaction: true,
-                    data: controller.paidIuran[index],
+                  itemBuilder: (ctx, index) => TransactionListItem(
+                    data: controller.paidTransactions?[index] ??
+                        WargaTransaction(),
                     onPressed: (data) {},
                   ),
                   separatorBuilder: (ctx, index) => const SizedBox(height: 16),
-                  itemCount: controller.paidIuran.take(8).length,
+                  itemCount: controller.paidTransactions?.length ?? 0,
                 )
               : SizedBox(
                   height: 240,

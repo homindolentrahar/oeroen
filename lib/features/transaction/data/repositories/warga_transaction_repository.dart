@@ -18,11 +18,14 @@ class WargaTransactionRepository implements IWargaTransactionRepository {
   }) : _firestore = firestore;
 
   @override
-  Stream<Either<AppError, List<WargaTransaction>>> listenTransactionsInDesa(
-      {String categoryFilter = "",
-      String sortFilter = "",
-      String isPaid = "",
-      String desaCode = ""}) async* {
+  Stream<Either<AppError, List<WargaTransaction>>> listenTransactionsInDesa({
+    String categoryFilter = "",
+    String sortFilter = "",
+    bool isPaid = false,
+    String desaCode = "",
+  }) async* {
+    final userCredential =
+        await SecureStorageHelper.instance.getUserCredential();
     final desaCredential =
         await SecureStorageHelper.instance.getDesaCredential();
     final orderBy = iuranFilterOrderByMap[sortFilter];
@@ -32,37 +35,35 @@ class WargaTransactionRepository implements IWargaTransactionRepository {
           isEqualTo: desaCredential['id'],
         );
 
-    // if (desaCode.isNotEmpty) {
-    //   query = query.where('desa_code', isEqualTo: desaCode);
-    // }
+    if (categoryFilter.isNotEmpty) {
+      query = query.where('category_slug', isEqualTo: categoryFilter);
+    }
 
-    // if (categoryFilter.isNotEmpty) {
-    //   query = query.where('category_slug', isEqualTo: categoryFilter);
-    // }
+    if (isPaid) {
+      query = query.where(
+        'paid_users.user_id',
+        isNotEqualTo: userCredential,
+      );
+    }
 
-    // if (isPaid.isNotEmpty) {
-    //   final isPaidBool = isPaid.parseBool();
-    //   query = query.where('is_paid', isEqualTo: isPaidBool);
-    // }
-
-    yield* //query
+    yield* query
         // .orderBy(
         //   orderBy?.orderField ?? "created_at",
         //   descending: orderBy?.descending ?? true,
         // )
-        _firestore
-            .transactionCollection()
-            .where('desa_id', isEqualTo: desaCredential['id'])
-            .withConverter<WargaTransactionDto>(
-              fromFirestore: (snapshot, _) {
-                final dto = WargaTransactionDto.fromJson(snapshot.data()!);
-                dto.id = snapshot.id;
-                return dto;
-              },
-              toFirestore: (iuran, _) => iuran.toJson(),
-            )
-            .snapshots()
-            .map((query) {
+        // _firestore
+        //     .transactionCollection()
+        //     .where('desa_id', isEqualTo: desaCredential['id'])
+        .withConverter<WargaTransactionDto>(
+          fromFirestore: (snapshot, _) {
+            final dto = WargaTransactionDto.fromJson(snapshot.data()!);
+            dto.id = snapshot.id;
+            return dto;
+          },
+          toFirestore: (iuran, _) => iuran.toJson(),
+        )
+        .snapshots()
+        .map((query) {
       final dtos = query.docs.map((e) => e.data()).toList();
 
       Logger().w(

@@ -1,15 +1,18 @@
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:oeroen/features/warga/domain/usecases/get_warga.dart';
 import 'package:oeroen/routes/app_route.dart';
 import 'package:oeroen/utils/dialog_util.dart';
 import 'package:oeroen/utils/snackbar_util.dart';
 
 class UserSignController extends GetxController {
   final IAuthRepository _authRepository;
+  final GetWarga getWarga;
 
   UserSignController({
     required IAuthRepository authRepository,
+    required this.getWarga,
   }) : _authRepository = authRepository;
 
   final Rx<int> authNavIndex = 0.obs;
@@ -57,8 +60,19 @@ class UserSignController extends GetxController {
         Logger().e(error);
         SnackBarUtil.showError(message: error);
       },
-      (unit) {
-        Get.offAllNamed(AppRoute.mainRoute);
+      (unit) async {
+        final eitherWarga = await getWarga();
+
+        eitherWarga.fold(
+          (error) {},
+          (warga) {
+            if (warga.listDesa != null && warga.listDesa!.isNotEmpty) {
+              Get.offAllNamed(AppRoute.mainRoute);
+            } else {
+              Get.offAllNamed(AppRoute.desaRegisterRoute);
+            }
+          },
+        );
       },
     );
   }

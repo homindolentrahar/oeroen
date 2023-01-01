@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:oeroen/core/domain/models/warga.dart';
+import 'package:oeroen/features/beranda/presentation/application/beranda_controller.dart';
 import 'package:oeroen/features/desa/domain/models/desa.dart';
 import 'package:oeroen/features/desa/domain/usecases/listen_desa.dart';
 import 'package:oeroen/features/desa/domain/usecases/listen_transaction_desa.dart';
@@ -82,6 +83,8 @@ class DesaController extends GetxController {
       'unique_code': desa.uniqueCode,
     };
     await SecureStorageHelper.instance.saveDesaCredential(jsonData);
+    Get.find<BerandaController>().listenIncomingData();
+    getIncomingData();
     update();
   }
 }

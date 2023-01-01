@@ -212,6 +212,12 @@ class AuthRepository implements IAuthRepository {
               .usersCollection()
               .doc(credential.user?.uid ?? "")
               .set(firebaseAuthUser.toJson());
+
+          final wargaFromAuthUser = WargaDto.fromFirebaseUser(firebaseAuthUser);
+          await _firestore
+              .wargaCollection()
+              .doc(credential.user?.uid ?? "")
+              .set(wargaFromAuthUser.toJson());
         } else {
           final dataWarga = await _firestore
               .wargaCollection()

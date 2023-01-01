@@ -72,6 +72,7 @@ class DesaScreen extends StatelessWidget {
                                 onPressed: (desa) {
                                   if (desa.id != controller.selectedDesaId) {
                                     controller.selectDesa(desa);
+                                    Get.back();
                                   }
                                 },
                               );

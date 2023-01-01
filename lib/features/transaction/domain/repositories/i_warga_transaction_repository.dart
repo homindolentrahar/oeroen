@@ -6,7 +6,7 @@ abstract class IWargaTransactionRepository {
   Stream<Either<AppError, List<WargaTransaction>>> listenTransactionsInDesa({
     String categoryFilter = "",
     String sortFilter = "",
-    String isPaid = "",
+    bool isPaid = false,
     String desaCode = "",
   });
 
