@@ -8,8 +8,10 @@ import 'package:oeroen/common/theme/app_font.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class AppTextField extends StatelessWidget {
+  final String? intialValue;
   final String name;
   final String hintText;
+  final Color? fillColor;
   final Widget? prefix;
   final TextInputType keyboardType;
   final TextInputAction action;
@@ -21,8 +23,10 @@ class AppTextField extends StatelessWidget {
 
   const AppTextField({
     Key? key,
+    this.intialValue,
     required this.name,
     required this.hintText,
+    this.fillColor = AppColor.white,
     this.prefix,
     this.keyboardType = TextInputType.text,
     this.action = TextInputAction.done,
@@ -36,6 +40,7 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
+      initialValue: intialValue,
       name: name,
       maxLines: maxLines,
       keyboardType: keyboardType,
@@ -88,7 +93,7 @@ class AppTextField extends StatelessWidget {
           ),
         ),
         filled: true,
-        fillColor: AppColor.white,
+        fillColor: fillColor,
       ),
       validator: validators,
       inputFormatters: inputFormatters,

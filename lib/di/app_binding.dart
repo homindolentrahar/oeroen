@@ -10,6 +10,8 @@ import 'package:oeroen/features/desa/data/repositories/desa_repository.dart';
 import 'package:oeroen/features/desa/domain/repositories/i_desa_repository.dart';
 import 'package:oeroen/features/iuran/data/repositories/iuran_repository.dart';
 import 'package:oeroen/features/iuran/domain/repositories/i_iuran_repository.dart';
+import 'package:oeroen/features/transaction/data/repositories/warga_transaction_repository.dart';
+import 'package:oeroen/features/transaction/domain/repositories/i_warga_transaction_repository.dart';
 import 'package:oeroen/features/warga/data/repositories/warga_repository.dart';
 import 'package:oeroen/features/warga/domain/repositories/i_warga_repository.dart';
 import 'package:oeroen/features/warga/domain/usecases/get_warga.dart';
@@ -44,6 +46,12 @@ class AppBinding implements Bindings {
     );
     Get.put<IWargaRepository>(
       WargaRepository(
+        firestore: Get.find<FirebaseFirestore>(),
+      ),
+      permanent: true,
+    );
+    Get.put<IWargaTransactionRepository>(
+      WargaTransactionRepository(
         firestore: Get.find<FirebaseFirestore>(),
       ),
       permanent: true,

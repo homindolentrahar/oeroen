@@ -77,7 +77,7 @@ class DesaAddController extends GetxController {
             final updatedListDesa = [
               ...?warga.listDesa,
               WargaDesa(
-                desaId: desa.id,
+                id: desa.id,
                 uniqueCode: desa.uniqueCode,
                 name: desa.name,
               ),

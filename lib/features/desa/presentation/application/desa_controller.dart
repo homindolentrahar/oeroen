@@ -76,9 +76,9 @@ class DesaController extends GetxController {
   }
 
   Future<void> selectDesa(WargaDesa desa) async {
-    selectedDesaId = desa.desaId ?? "";
+    selectedDesaId = desa.id ?? "";
     final jsonData = {
-      'id': desa.desaId,
+      'id': desa.id,
       'unique_code': desa.uniqueCode,
     };
     await SecureStorageHelper.instance.saveDesaCredential(jsonData);

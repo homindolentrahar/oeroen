@@ -65,14 +65,12 @@ class DesaScreen extends StatelessWidget {
                                 },
                               );
                             } else {
-                              return DesaListItem(
-                                isSelected:
-                                    controller.wargaDesa[index].desaId ==
-                                        controller.selectedDesaId,
+                              return WargaDesaListItem(
+                                isSelected: controller.wargaDesa[index].id ==
+                                    controller.selectedDesaId,
                                 data: controller.wargaDesa[index],
                                 onPressed: (desa) {
-                                  if (desa.desaId !=
-                                      controller.selectedDesaId) {
+                                  if (desa.id != controller.selectedDesaId) {
                                     controller.selectDesa(desa);
                                   }
                                 },

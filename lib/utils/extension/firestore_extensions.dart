@@ -17,6 +17,9 @@ extension CollectionExt on FirebaseFirestore {
   CollectionReference desaCollection() =>
       collection(Collections.desaCollection);
 
+  CollectionReference transactionCollection() =>
+      collection(Collections.transactionCollection);
+
   DocumentReference wargaDoc(String? id) =>
       collection(Collections.wargaCollection).doc(id);
 }

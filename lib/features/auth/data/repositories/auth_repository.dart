@@ -165,36 +165,11 @@ class AuthRepository implements IAuthRepository {
             .get();
         final desa = dataWarga.data()?.listDesa?[0];
         final jsonData = {
-          'id': desa?.desaId,
+          'id': desa?.id,
           'unique_code': desa?.uniqueCode,
         };
 
         await SecureStorageHelper.instance.saveDesaCredential(jsonData);
-
-        // final warga = await _firestore
-        //     .wargaCollection()
-        //     .doc(credential.user?.uid ?? "")
-        //     .withConverter<WargaDto>(
-        //       fromFirestore: (snapshost, _) {
-        //         final dto = WargaDto.fromJson(snapshost.data()!);
-        //         dto.userId = credential.user?.uid ?? "";
-        //         return dto;
-        //       },
-        //       toFirestore: (warga, _) => warga.toJson(),
-        //     )
-        //     .get();
-
-        // if (warga.data()!.listDesa != null &&
-        //     warga.data()!.listDesa!.isNotEmpty) {
-        //   final desa = warga.data()?.listDesa?[0];
-
-        //   final jsonData = {
-        //     'id': desa?.desaId,
-        //     'unique_code': desa?.uniqueCode,
-        //   };
-
-        //   await SecureStorageHelper.instance.saveDesaCredential(jsonData);
-        // }
 
         await SecureStorageHelper.instance
             .saveUserCredential(credential.user?.uid);
@@ -252,46 +227,12 @@ class AuthRepository implements IAuthRepository {
               .get();
           final desa = dataWarga.data()?.listDesa?[0];
           final jsonData = {
-            'id': desa?.desaId,
+            'id': desa?.id,
             'unique_code': desa?.uniqueCode,
           };
 
           await SecureStorageHelper.instance.saveDesaCredential(jsonData);
         }
-
-        // final authUser = FirebaseAuthUser.fromUser(credential.user);
-        // final wargaFromAuthUser = WargaDto.fromFirebaseUser(authUser);
-        // final dataWarga = await _firestore
-        //     .wargaCollection()
-        //     .doc(credential.user?.uid ?? "")
-        //     .withConverter<WargaDto>(
-        //       fromFirestore: (snapshost, _) {
-        //         final dto = WargaDto.fromJson(snapshost.data()!);
-        //         dto.userId = credential.user?.uid ?? "";
-        //         return dto;
-        //       },
-        //       toFirestore: (warga, _) => warga.toJson(),
-        //     )
-        //     .get();
-
-        // if (!dataWarga.exists) {
-        //   await _firestore
-        //       .wargaCollection()
-        //       .doc(credential.user?.uid ?? "")
-        //       .set(wargaFromAuthUser.toJson());
-        // } else {
-        //   if (dataWarga.data()!.listDesa != null &&
-        //       dataWarga.data()!.listDesa!.isNotEmpty) {
-        //     final desa = dataWarga.data()?.listDesa?[0];
-
-        //     final jsonData = {
-        //       'id': desa?.desaId,
-        //       'unique_code': desa?.uniqueCode,
-        //     };
-
-        //     await SecureStorageHelper.instance.saveDesaCredential(jsonData);
-        //   }
-        // }
 
         await SecureStorageHelper.instance
             .saveUserCredential(credential.user?.uid);
@@ -369,7 +310,7 @@ class AuthRepository implements IAuthRepository {
                 .get();
             final desa = dataWarga.data()?.listDesa?[0];
             final jsonData = {
-              'id': desa?.desaId,
+              'id': desa?.id,
               'unique_code': desa?.uniqueCode,
             };
 
@@ -397,40 +338,6 @@ class AuthRepository implements IAuthRepository {
             await SecureStorageHelper.instance.saveDesaCredential(jsonData);
           }
         }
-
-        // final authUser = FirebaseAuthUser.fromUser(credential.user);
-        // final wargaFromAuthUser = WargaDto.fromFirebaseUser(authUser);
-        // final dataWarga = await _firestore
-        //     .wargaCollection()
-        //     .doc(credential.user?.uid ?? "")
-        //     .withConverter<WargaDto>(
-        //       fromFirestore: (snapshost, _) {
-        //         final dto = WargaDto.fromJson(snapshost.data()!);
-        //         dto.userId = credential.user?.uid ?? "";
-        //         return dto;
-        //       },
-        //       toFirestore: (warga, _) => warga.toJson(),
-        //     )
-        //     .get();
-
-        // if (!dataWarga.exists) {
-        //   await _firestore
-        //       .wargaCollection()
-        //       .doc(credential.user?.uid ?? "")
-        //       .set(wargaFromAuthUser.toJson());
-        // } else {
-        //   if (dataWarga.data()!.listDesa != null &&
-        //       dataWarga.data()!.listDesa!.isNotEmpty) {
-        //     final desa = dataWarga.data()?.listDesa?[0];
-
-        //     final jsonData = {
-        //       'id': desa?.desaId,
-        //       'unique_code': desa?.uniqueCode,
-        //     };
-
-        //     await SecureStorageHelper.instance.saveDesaCredential(jsonData);
-        //   }
-        // }
 
         await SecureStorageHelper.instance
             .saveUserCredential(credential.user?.uid);
@@ -489,8 +396,6 @@ class AuthRepository implements IAuthRepository {
         _auth.signOut(),
         _googleSignIn.signOut(),
       ]);
-      // await SecureStorageHelper.instance.clearUserCredential();
-      // await SecureStorageHelper.instance.clearDesaCredential();
       await SecureStorageHelper.instance.clearAllCredentials();
 
       return right(unit);

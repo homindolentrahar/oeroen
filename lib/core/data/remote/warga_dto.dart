@@ -72,13 +72,14 @@ class WargaDto {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class WargaDesaDto {
-  final String? desaId;
+  @JsonKey(name: 'desa_id')
+  final String? id;
   final String? uniqueCode;
   final String? address;
   final String? name;
 
   WargaDesaDto({
-    this.desaId,
+    this.id,
     this.uniqueCode,
     this.address,
     this.name,
@@ -88,7 +89,7 @@ class WargaDesaDto {
       _$WargaDesaDtoFromJson(json);
 
   factory WargaDesaDto.fromModel(WargaDesa data) => WargaDesaDto(
-        desaId: data.desaId,
+        id: data.id,
         uniqueCode: data.uniqueCode,
         address: data.address,
         name: data.name,
@@ -97,7 +98,7 @@ class WargaDesaDto {
   Map<String, dynamic> toJson() => _$WargaDesaDtoToJson(this);
 
   WargaDesa toModel() => WargaDesa(
-        desaId: desaId,
+        id: id,
         uniqueCode: uniqueCode,
         address: address,
         name: name,
