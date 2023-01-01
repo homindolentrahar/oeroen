@@ -39,12 +39,12 @@ class WargaTransactionRepository implements IWargaTransactionRepository {
       query = query.where('category_slug', isEqualTo: categoryFilter);
     }
 
-    if (isPaid) {
-      query = query.where(
-        'paid_users.user_id',
-        isNotEqualTo: userCredential,
-      );
-    }
+    // if (isPaid) {
+    //   query = query.where(
+    //     'paid_users',
+    //     arrayContains: userCredential,
+    //   );
+    // }
 
     yield* query
         // .orderBy(
