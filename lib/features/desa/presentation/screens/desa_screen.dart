@@ -134,7 +134,12 @@ class DesaScreen extends StatelessWidget {
                   itemBuilder: (ctx, index) => IuranListItem(
                     isTransaction: true,
                     data: controller.iuranDesa[index],
-                    onPressed: (data) {},
+                    onPressed: (data) {
+                      Get.toNamed(
+                        "${AppRoute.mainIuranRoute}/${data.id}",
+                        parameters: {'desa_code': data.desaCode ?? ""},
+                      );
+                    },
                   ),
                   separatorBuilder: (ctx, index) => const SizedBox(height: 16),
                   itemCount: controller.iuranDesa.take(8).length,

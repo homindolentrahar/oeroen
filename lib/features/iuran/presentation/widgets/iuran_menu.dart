@@ -24,9 +24,7 @@ class IuranMenu extends StatelessWidget {
           return IuranMenuItem(
             title: _menus[index],
             isActive: index == activeIndex,
-            onPressed: () {
-              onMenuChanged(index);
-            },
+            onPressed: () => onMenuChanged(index),
           );
         },
         separatorBuilder: (ctx, index) => const SizedBox(width: 20),

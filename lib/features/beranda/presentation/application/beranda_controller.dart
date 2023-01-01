@@ -1,17 +1,11 @@
 import 'package:get/get.dart';
-import 'package:oeroen/features/iuran/domain/usecases/listen_active_iuran.dart';
-import 'package:oeroen/features/iuran/domain/usecases/listen_transaction_iuran.dart';
 import 'package:oeroen/features/transaction/domain/models/warga_transaction.dart';
 import 'package:oeroen/features/transaction/domain/usecases/listen_transactions_in_desa.dart';
 
 class BerandaController extends GetxController {
-  final ListenActiveIuran listenActiveIuran;
-  final ListenTransactionIuran listenPaidIuran;
   final ListenTransactionsInDesa listenTransactionsInDesa;
 
   BerandaController({
-    required this.listenPaidIuran,
-    required this.listenActiveIuran,
     required this.listenTransactionsInDesa,
   });
 

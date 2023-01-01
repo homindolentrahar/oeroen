@@ -7,7 +7,7 @@ abstract class IIuranRepository {
     String categoryFilter = "",
     String sortFilter = "",
     String isPaid = "",
-    String desaCode = "",
+    bool allDesa = true,
   });
 
   Future<Either<AppError, Iuran>> getIuran(String iuranId);

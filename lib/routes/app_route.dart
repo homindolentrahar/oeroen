@@ -15,6 +15,7 @@ import 'package:oeroen/features/desa/presentation/screens/bindings/desa_transact
 import 'package:oeroen/features/desa/presentation/screens/desa_add_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_register_screen.dart';
 import 'package:oeroen/features/desa/presentation/screens/desa_transaction_screen.dart';
+import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_list_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/iuran_list_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/auth_screen.dart';
@@ -39,6 +40,7 @@ import 'package:oeroen/features/desa/presentation/screens/desa_detail_screen.dar
 import 'package:oeroen/core/presentation/screens/main_screen.dart';
 import 'package:oeroen/features/iuran/presentation/screens/bindings/iuran_detail_binding.dart';
 import 'package:oeroen/features/iuran/presentation/screens/iuran_detail_screen.dart';
+import 'package:oeroen/features/iuran/presentation/screens/iuran_screen.dart';
 
 class AppRoute {
   static const String initialRoute = "/";
@@ -57,7 +59,7 @@ class AppRoute {
   static const String mainBerandaRoute = "/beranda";
   static const String adminCrudDesaRoute = "/admin-crud-desa";
   static const String mainDesaRoute = "/desa";
-  static const String iuranRoute = "/iuran";
+  static const String mainIuranRoute = "/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
   static const String recentTransactionRoute = "/recent-transaction";
   static const String desaTransactionRoute = "/desa-transaction";
@@ -177,6 +179,12 @@ class AppRoute {
       binding: AdminCrudDesaBinding(),
     ),
     GetPage(
+      name: mainIuranRoute,
+      page: () => const IuranScreen(),
+      binding: IuranBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
       name: wajibIuranRoute,
       page: () => const WajibIuranScreen(),
       transition: Transition.rightToLeftWithFade,
@@ -206,7 +214,7 @@ class AppRoute {
       binding: DesaDetailBinding(),
     ),
     GetPage(
-      name: "$iuranRoute/:id",
+      name: "$mainIuranRoute/:id",
       page: () => const IuranDetailScreen(),
       binding: IuranDetailBinding(),
     ),
