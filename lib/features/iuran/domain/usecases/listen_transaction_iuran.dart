@@ -11,6 +11,7 @@ class ListenTransactionIuran {
 
   Stream<Either<AppError, List<Iuran>>> call({
     List<IuranFilter> filters = const [],
+    bool allDesa = true,
   }) {
     String categoryFilter = "";
     String sortFilter = "";
@@ -36,6 +37,7 @@ class ListenTransactionIuran {
       categoryFilter: categoryFilter,
       sortFilter: sortFilter,
       isPaid: "true",
+      allDesa: allDesa,
     );
   }
 }

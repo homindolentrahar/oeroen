@@ -7,4 +7,7 @@ extension DateExtensions on DateTime {
 
   String toDisplayDate() =>
       "${DateFormat.Hm().format(this)} • ${DateFormat.yMMMMd().format(this)}";
+
+  String toDisplayDateAlt() =>
+      "${DateFormat.Hm().format(this)}, ${DateFormat('dd MMMM yyyy').format(this)}";
 }

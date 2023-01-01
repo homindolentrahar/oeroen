@@ -5,10 +5,10 @@ import 'package:oeroen/features/iuran/domain/usecases/listen_transaction_iuran.d
 
 class BerandaController extends GetxController {
   final ListenActiveIuran listenActiveIuran;
-  final ListenTransactionIuran listenPaidIuran;
+  final ListenTransactionIuran listenTransactionIuraan;
 
   BerandaController({
-    required this.listenPaidIuran,
+    required this.listenTransactionIuraan,
     required this.listenActiveIuran,
   });
 
@@ -18,7 +18,7 @@ class BerandaController extends GetxController {
 
   @override
   void onInit() {
-    listenPaidIuran().listen(
+    listenTransactionIuraan().listen(
       (either) => either.fold(
         (error) {
           paidIuran = [];

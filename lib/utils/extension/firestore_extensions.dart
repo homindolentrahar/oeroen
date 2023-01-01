@@ -3,14 +3,14 @@ import 'package:oeroen/common/constant/collections.dart';
 
 extension CollectionExt on FirebaseFirestore {
   CollectionReference wargaCollection() =>
-      collection(Collections.WARGA_COLLECTION);
+      collection(Collections.wargaCollection);
 
   CollectionReference iuranCollection() =>
-      collection(Collections.IURAN_COLLECTION);
+      collection(Collections.iuranCollection);
 
   CollectionReference desaCollection() =>
-      collection(Collections.DESA_COLLECTION);
+      collection(Collections.desaCollection);
 
   DocumentReference wargaDoc(String? id) =>
-      collection(Collections.WARGA_COLLECTION).doc(id);
+      collection(Collections.wargaCollection).doc(id);
 }

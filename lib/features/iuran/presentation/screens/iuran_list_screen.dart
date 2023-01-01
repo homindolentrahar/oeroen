@@ -8,6 +8,7 @@ import 'package:oeroen/core/presentation/widgets/iuran_filter_sheet.dart';
 import 'package:oeroen/core/presentation/widgets/iuran_list_item.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran_filter.dart';
 import 'package:oeroen/features/iuran/presentation/widgets/iuran_filter_section.dart';
+import 'package:oeroen/routes/app_route.dart';
 
 class IuranListScreen extends StatelessWidget {
   const IuranListScreen({Key? key}) : super(key: key);
@@ -68,7 +69,12 @@ class IuranListScreen extends StatelessWidget {
                       itemCount: controller.allIuran.length,
                       itemBuilder: (ctx, index) => IuranListItem(
                         data: controller.allIuran[index],
-                        onPressed: (data) {},
+                        onPressed: (data) {
+                          Get.toNamed(
+                            "${AppRoute.mainIuranRoute}/${data.id}",
+                            parameters: {'desa_code': data.desaCode ?? ""},
+                          );
+                        },
                       ),
                       separatorBuilder: (ctx, index) {
                         return const SizedBox(height: 16);

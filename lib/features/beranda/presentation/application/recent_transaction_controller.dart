@@ -15,7 +15,6 @@ class RecentTransactionController extends GetxController {
   });
 
   List<Iuran> paidIuran = [];
-
   RxList<IuranFilter> filters = RxList();
   StreamSubscription<Either<AppError, List<Iuran>>>?
       _listenPaidIuranSubscription;

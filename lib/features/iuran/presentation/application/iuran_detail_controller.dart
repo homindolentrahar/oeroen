@@ -1,13 +1,63 @@
 import 'package:get/get.dart';
+import 'package:oeroen/features/desa/domain/models/desa.dart';
+import 'package:oeroen/features/desa/domain/usecases/get_desa_by_code.dart';
+import 'package:oeroen/features/iuran/domain/models/iuran.dart';
+import 'package:oeroen/features/iuran/domain/usecases/get_iuran.dart';
+import 'package:oeroen/utils/dialog_util.dart';
 
 class IuranDetailController extends GetxController {
-  late String title;
+  IuranDetailController({
+    required this.getIuran,
+    required this.getDesaByCode,
+  });
+
+  final GetIuran getIuran;
+  final GetDesaByCode getDesaByCode;
+
+  Iuran? iuran;
+  Desa? desa;
 
   @override
-  void onInit() {
-    final data = Get.arguments as Map<String, dynamic>;
-    title = data['title'] ?? "";
+  void onReady() {
+    final id = Get.parameters['id'] ?? "";
+    final desaCode = Get.parameters['desa_code'] ?? "";
 
-    super.onInit();
+    DialogUtil.showLoading();
+    Future.wait([
+      getData(id),
+      getDesaData(desaCode),
+    ]).then((value) {
+      DialogUtil.hideLoading();
+
+      update();
+    });
+
+    super.onReady();
+  }
+
+  Future<void> getData(String id) async {
+    final result = await getIuran(id);
+
+    result.fold(
+      (error) {
+        iuran = null;
+      },
+      (data) {
+        iuran = data;
+      },
+    );
+  }
+
+  Future<void> getDesaData(String desaCode) async {
+    final result = await getDesaByCode(desaCode);
+
+    result.fold(
+      (error) {
+        desa = null;
+      },
+      (data) {
+        desa = data;
+      },
+    );
   }
 }

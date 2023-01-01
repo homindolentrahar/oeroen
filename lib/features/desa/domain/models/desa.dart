@@ -12,6 +12,7 @@ class Desa {
   final String? longitude;
   final List<DesaActivity>? activities;
   final List<DesaStakeholder>? stakeholders;
+  final List<DesaPaymentMethod>? payments;
   final List<IuranDesa>? iurans;
 
   Desa({
@@ -28,6 +29,7 @@ class Desa {
     this.longitude,
     this.activities,
     this.stakeholders,
+    this.payments,
     this.iurans,
   });
 }
@@ -85,5 +87,19 @@ class IuranDesa {
     this.amount,
     this.iuranPeriod,
     this.createdAt,
+  });
+}
+
+class DesaPaymentMethod {
+  final String? id;
+  final String? image;
+  final String? name;
+  final String? number;
+
+  DesaPaymentMethod({
+    this.id,
+    this.image,
+    this.name,
+    this.number,
   });
 }
