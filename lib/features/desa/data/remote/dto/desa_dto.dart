@@ -7,6 +7,7 @@ part 'desa_dto.g.dart';
 class DesaDto {
   @JsonKey(ignore: true)
   String? id;
+  final String? adminId;
   final String? uniqueCode;
   final String? name;
   final String? district;
@@ -23,6 +24,7 @@ class DesaDto {
 
   DesaDto({
     this.id,
+    this.adminId,
     this.uniqueCode,
     this.name,
     this.district,
@@ -45,6 +47,7 @@ class DesaDto {
 
   Desa toModel() => Desa(
         id: id,
+        adminId: adminId,
         uniqueCode: uniqueCode,
         name: name,
         district: district,

@@ -13,7 +13,7 @@ class SecureStorageHelper {
     _storage = const FlutterSecureStorage();
   }
 
-  Future<void> clearAll() async {
+  Future<void> clearAllCredentials() async {
     await _storage.deleteAll();
   }
 

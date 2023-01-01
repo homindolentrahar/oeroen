@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
@@ -7,29 +9,38 @@ import 'package:oeroen/routes/app_route.dart';
 import 'package:oeroen/utils/dialog_util.dart';
 import 'package:oeroen/utils/snackbar_util.dart';
 
-class OtpSignController extends GetxController {
-  final IAuthRepository _authRepository;
+class AdminOtpController extends GetxController {
+  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
-  OtpSignController({
-    required IAuthRepository authRepository,
-  }) : _authRepository = authRepository;
+  AdminOtpController({required this.repository});
 
-  final Rx<String> _verificationId = "".obs;
+  final IAuthRepository repository;
+
+  String verificationId = "";
+  String phoneNumber = "";
   final Rx<int> timeout = 0.obs;
 
-  String get verificationId => _verificationId.value;
+  @override
+  void onInit() {
+    final data = Get.arguments as Map<String, dynamic>;
+    verificationId = data['verificationId'];
+    phoneNumber = data['phone'];
 
-  void setInitialVerificationId(String id) {
-    _verificationId.value = id;
+    update();
+
+    startTimeOut();
+
+    super.onInit();
   }
 
-  Future<void> verifyPhoneNumber(String phoneNumber) async {
+  Future<void> verifyPhoneNumber() async {
     DialogUtil.showLoading();
 
-    final result = await _authRepository.verifyPhoneNumber(
+    final result = await repository.verifyPhoneNumber(
       "+62$phoneNumber",
       codeSent: (String verificationId, int? resendToken) {
-        _verificationId.value = verificationId;
+        this.verificationId = verificationId;
+        update();
 
         DialogUtil.hideLoading();
         startTimeOut();
@@ -52,14 +63,13 @@ class OtpSignController extends GetxController {
 
   Future<void> signInWithOtp({
     required String otp,
-    required String verificationId,
   }) async {
     DialogUtil.showLoading();
 
-    final result = await _authRepository.signInWithOtp(
+    final result = await repository.signInWithOtp(
       otpCode: otp,
       verificationId: verificationId,
-      type: AuthRoleType.warga,
+      type: AuthRoleType.admin,
     );
 
     DialogUtil.hideLoading();
@@ -70,7 +80,7 @@ class OtpSignController extends GetxController {
         SnackBarUtil.showError(message: error);
       },
       (unit) {
-        Get.offAllNamed(AppRoute.mainRoute);
+        Get.offAllNamed(AppRoute.adminMainRoute);
       },
     );
   }

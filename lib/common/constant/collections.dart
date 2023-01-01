@@ -1,5 +1,7 @@
 class Collections {
-  static const String WARGA_COLLECTION = "warga";
-  static const String IURAN_COLLECTION = "iuran";
-  static const String DESA_COLLECTION = "desa";
+  static const String usersCollection = "users";
+  static const String adminsCollection = "admins";
+  static const String wargaCollection = "warga";
+  static const String iuranCollection = "iuran";
+  static const String desaCollection = "desa";
 }
