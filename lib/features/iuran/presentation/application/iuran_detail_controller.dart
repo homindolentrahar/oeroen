@@ -3,17 +3,22 @@ import 'package:oeroen/features/desa/domain/models/desa.dart';
 import 'package:oeroen/features/desa/domain/usecases/get_desa_by_code.dart';
 import 'package:oeroen/features/iuran/domain/models/iuran.dart';
 import 'package:oeroen/features/iuran/domain/usecases/get_iuran.dart';
+import 'package:oeroen/features/transaction/domain/models/warga_transaction.dart';
+import 'package:oeroen/features/transaction/domain/usecases/get_transaction.dart';
 import 'package:oeroen/utils/dialog_util.dart';
 
 class IuranDetailController extends GetxController {
   IuranDetailController({
     required this.getIuran,
     required this.getDesaByCode,
+    required this.getTransaction,
   });
 
   final GetIuran getIuran;
   final GetDesaByCode getDesaByCode;
+  final GetTransaction getTransaction;
 
+  WargaTransaction? transaction;
   Iuran? iuran;
   Desa? desa;
 
@@ -36,14 +41,24 @@ class IuranDetailController extends GetxController {
   }
 
   Future<void> getData(String id) async {
-    final result = await getIuran(id);
+    // final result = await getIuran(id);
+
+    // result.fold(
+    //   (error) {
+    //     iuran = null;
+    //   },
+    //   (data) {
+    //     iuran = data;
+    //   },
+    // );
+    final result = await getTransaction(id);
 
     result.fold(
       (error) {
-        iuran = null;
+        transaction = null;
       },
       (data) {
-        iuran = data;
+        transaction = data;
       },
     );
   }
