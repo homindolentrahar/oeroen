@@ -10,4 +10,13 @@ abstract class IDesaRepository {
   Future<Either<AppError, List<Desa>>> getAllDesa();
 
   Future<Either<AppError, Desa>> getDetailDesa(String desaCode);
+
+  Future<Either<AppError, Unit>> addDesa(Desa data);
+
+  Future<Either<AppError, Unit>> updateDesa({
+    required String id,
+    required Map<String, dynamic> data,
+  });
+
+  Future<Either<AppError, Unit>> deleteDesa(String id);
 }

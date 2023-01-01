@@ -96,8 +96,8 @@ class WargaDesaListItem extends StatelessWidget {
   }
 }
 
-class DesaListItem extends StatelessWidget {
-  const DesaListItem({
+class AdminDesaListItem extends StatelessWidget {
+  const AdminDesaListItem({
     super.key,
     required this.data,
     required this.onPressed,

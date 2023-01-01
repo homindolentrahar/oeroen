@@ -8,12 +8,11 @@ import 'package:oeroen/core/presentation/widgets/popup_menu_item_child.dart';
 import 'package:oeroen/core/presentation/widgets/state_handle_widget.dart';
 import 'package:oeroen/core/presentation/widgets/user_avatar.dart';
 import 'package:oeroen/features/auth/presentation/application/auth_controller.dart';
-import 'package:oeroen/features/desa/domain/models/desa.dart';
-import 'package:oeroen/features/desa/presentation/widgets/desa_list_item.dart';
+import 'package:oeroen/features/desa/presentation/widgets/admin_select_desa_sheet.dart';
 import 'package:oeroen/features/transaction/domain/models/warga_transaction.dart';
 import 'package:oeroen/features/transaction/presentation/widget/crud_transaction_form_sheet.dart';
 import 'package:oeroen/features/transaction/presentation/widget/transaction_in_desa_list_item.dart';
-import 'package:oeroen/presentation/widgets/app_text_button.dart';
+import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/routes/app_route.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -91,68 +90,112 @@ class AdminMainScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Get.bottomSheet(
-                            Padding(
-                              padding: const EdgeInsets.all(32),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Desamu",
-                                    style: TextStyle(
-                                      color: AppColor.black,
-                                      fontSize: 16,
-                                      fontFamily: AppFont.semiBold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  SingleChildScrollView(
-                                    child: ListView.separated(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          (controller.allDesa?.length ?? 0) + 1,
-                                      itemBuilder: (ctx, index) {
-                                        if (index ==
-                                            (controller.allDesa?.length ?? 1)) {
-                                          return AppTextButton(
-                                            text: "Tambah Desa",
-                                            icon: SvgPicture.asset(
-                                              "assets/icons/add.svg",
-                                              color: Get.theme.primaryColor
-                                                  .withOpacity(0.75),
+                            AdminSelectDesaSheet(
+                              allDesa: controller.allDesa ?? [],
+                              selectedDesaId: controller.selectedDesaId,
+                              onTambahDesa: () {
+                                Get.toNamed(AppRoute.adminCrudDesaRoute);
+                              },
+                              onDesaSelected: (desa) {
+                                Get.bottomSheet(
+                                  Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: AppColor.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: SvgPicture.asset(
+                                                "assets/icons/ic_desa.svg",
+                                                color: AppColor.dark,
+                                                width: 20,
+                                                height: 20,
+                                              ),
                                             ),
-                                            textColor: Get.theme.primaryColor
-                                                .withOpacity(0.75),
-                                            onPressed: () {
-                                              Get.back();
-                                              Get.toNamed(
-                                                  AppRoute.desaAddRoute);
-                                            },
-                                          );
-                                        } else {
-                                          return DesaListItem(
-                                            isSelected:
-                                                controller.allDesa?[index].id ==
-                                                    controller.selectedDesaId,
-                                            data: controller.allDesa?[index] ??
-                                                Desa(),
-                                            onPressed: (desa) {
-                                              if (desa.id !=
-                                                  controller.selectedDesaId) {
-                                                controller.selectDesa(desa);
-                                              }
-                                            },
-                                          );
-                                        }
-                                      },
-                                      separatorBuilder: (ctx, index) =>
-                                          const SizedBox(height: 16),
+                                            const SizedBox(width: 16),
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    desa.name ?? "",
+                                                    style: Get
+                                                        .textTheme.headline5
+                                                        ?.copyWith(
+                                                      color: AppColor.black,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    desa.uniqueCode ?? "",
+                                                    style: Get
+                                                        .textTheme.bodyText2
+                                                        ?.copyWith(
+                                                      color: AppColor.dark,
+                                                      fontFamily:
+                                                          AppFont.medium,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 16),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.toNamed(
+                                                  AppRoute.adminCrudDesaRoute,
+                                                  arguments: desa,
+                                                );
+                                              },
+                                              child: SvgPicture.asset(
+                                                "assets/icons/ic_edit.svg",
+                                                width: 20,
+                                                height: 20,
+                                                color: AppColor.gray,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 32),
+                                        AppFillButton(
+                                          text: "Pilih Desa",
+                                          onPressed: controller
+                                                      .selectedDesaId ==
+                                                  desa.id
+                                              ? null
+                                              : () {
+                                                  if (desa.id !=
+                                                      controller
+                                                          .selectedDesaId) {
+                                                    controller.selectDesa(desa);
+                                                    Get.back();
+                                                    Get.back();
+                                                    Get.back();
+                                                  }
+                                                },
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                  enableDrag: false,
+                                  backgroundColor: AppColor.light,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                             enableDrag: false,
                             backgroundColor: Get.theme.canvasColor,
@@ -169,7 +212,12 @@ class AdminMainScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              controller.allDesa?[0].name ?? "-",
+                              controller.allDesa
+                                      ?.firstWhere((element) =>
+                                          element.id ==
+                                          controller.selectedDesaId)
+                                      .name ??
+                                  "-",
                               style: Get.textTheme.headline4
                                   ?.copyWith(color: AppColor.black),
                             ),

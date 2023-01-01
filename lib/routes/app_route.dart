@@ -6,6 +6,8 @@ import 'package:oeroen/features/auth/presentation/screens/admin_auth_screen.dart
 import 'package:oeroen/features/auth/presentation/screens/admin_otp_screen.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/admin_auth_binding.dart';
 import 'package:oeroen/features/auth/presentation/screens/bindings/admin_otp_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/admin_crud_desa_screen.dart';
+import 'package:oeroen/features/desa/presentation/screens/bindings/admin_crud_desa_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_add_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_detail_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_register_binding.dart';
@@ -53,6 +55,7 @@ class AppRoute {
   static const String mainRoute = "/main";
   static const String adminMainRoute = "/admin-main";
   static const String mainBerandaRoute = "/beranda";
+  static const String adminCrudDesaRoute = "/admin-crud-desa";
   static const String mainDesaRoute = "/desa";
   static const String iuranRoute = "/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
@@ -166,6 +169,12 @@ class AppRoute {
       page: () => const AdminMainScreen(),
       transition: Transition.fadeIn,
       binding: AdminMainBinding(),
+    ),
+    GetPage(
+      name: adminCrudDesaRoute,
+      page: () => const AdminCrudDesaScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: AdminCrudDesaBinding(),
     ),
     GetPage(
       name: wajibIuranRoute,

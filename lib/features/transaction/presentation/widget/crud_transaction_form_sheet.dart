@@ -128,9 +128,9 @@ class CrudTransactionFormSheet extends StatelessWidget {
                         hintText: "Nominal Iuran",
                         fillColor: AppColor.light,
                         prefix: SvgPicture.asset(
-                          "assets/icons/ic_email.svg",
-                          width: 16,
-                          height: 16,
+                          "assets/icons/ic_money.svg",
+                          width: 20,
+                          height: 20,
                           color: AppColor.gray,
                         ),
                         keyboardType: TextInputType.number,
@@ -139,6 +139,22 @@ class CrudTransactionFormSheet extends StatelessWidget {
                           FormBuilderValidators.required(),
                           FormBuilderValidators.numeric(),
                         ]),
+                      ),
+                      const SizedBox(height: 16),
+                      Visibility(
+                        child: GestureDetector(
+                          child: Row(
+                            children: [
+                              Text(
+                                controller.initialData?.paidUsers?.isEmpty ??
+                                        true
+                                    ? "Belum ada warga yang membayar iuran"
+                                    : "${controller.initialData?.paidUsers?.length} warga telah membayar iuran",
+                                style: Get.textTheme.bodyText2,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 32),
                       AppFillButton(

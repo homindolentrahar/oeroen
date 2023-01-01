@@ -83,6 +83,7 @@ class AdminMainController extends GetxController {
       'unique_code': desa.uniqueCode,
     };
     await SecureStorageHelper.instance.saveDesaCredential(jsonData);
+    getIncomingData();
     update();
   }
 }

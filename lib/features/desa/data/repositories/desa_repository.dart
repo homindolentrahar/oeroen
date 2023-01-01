@@ -140,4 +140,49 @@ class DesaRepository implements IDesaRepository {
       return left(AppError(code: e.toString(), message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<AppError, Unit>> addDesa(Desa data) async {
+    try {
+      await _firestore
+          .desaCollection()
+          .doc(data.id)
+          .set(DesaDto.fromModel(data).toJson());
+
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(AppError(code: e.code, message: e.message.toString()));
+    } on Exception catch (e) {
+      return left(AppError(code: e.toString(), message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AppError, Unit>> deleteDesa(String id) async {
+    try {
+      await _firestore.desaCollection().doc(id).delete();
+
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(AppError(code: e.code, message: e.message.toString()));
+    } on Exception catch (e) {
+      return left(AppError(code: e.toString(), message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AppError, Unit>> updateDesa({
+    required String id,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      await _firestore.desaCollection().doc(id).update(data);
+
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(AppError(code: e.code, message: e.message.toString()));
+    } on Exception catch (e) {
+      return left(AppError(code: e.toString(), message: e.toString()));
+    }
+  }
 }

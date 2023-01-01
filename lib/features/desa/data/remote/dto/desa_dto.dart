@@ -43,6 +43,24 @@ class DesaDto {
   factory DesaDto.fromJson(Map<String, dynamic> json) =>
       _$DesaDtoFromJson(json);
 
+  factory DesaDto.fromModel(Desa model) => DesaDto(
+        id: model.id,
+        adminId: model.adminId,
+        uniqueCode: model.uniqueCode,
+        name: model.name,
+        district: model.district,
+        city: model.city,
+        province: model.province,
+        population: model.population,
+        area: model.area,
+        zipCode: model.zipCode,
+        langitude: model.langitude,
+        longitude: model.longitude,
+        activities: [],
+        iurans: [],
+        stakeholders: [],
+      );
+
   Map<String, dynamic> toJson() => _$DesaDtoToJson(this);
 
   Desa toModel() => Desa(
