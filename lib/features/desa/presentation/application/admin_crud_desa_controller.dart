@@ -34,26 +34,25 @@ class AdminCrudDesaController extends GetxController {
     final userCredential =
         await SecureStorageHelper.instance.getUserCredential();
     final formData = formKey.currentState!.value;
-
-    final result = await addDesaUseCase(
-      Desa(
-        id: const Uuid().v4(),
-        adminId: userCredential,
-        uniqueCode: formData['unique_code'],
-        name: formData['name'],
-        district: formData['district'],
-        city: formData['city'],
-        province: formData['province'],
-        population: int.parse(formData['population']),
-        area: double.parse(formData['area']),
-        zipCode: formData['zip_code'],
-        langitude: formData['langitude'],
-        longitude: formData['longitude'],
-        activities: [],
-        stakeholders: [],
-        iurans: [],
-      ),
+    final desa = Desa(
+      id: const Uuid().v4(),
+      adminId: userCredential,
+      uniqueCode: formData['unique_code'],
+      name: formData['name'],
+      district: formData['district'],
+      city: formData['city'],
+      province: formData['province'],
+      population: int.parse(formData['population']),
+      area: double.parse(formData['area']),
+      zipCode: formData['zip_code'],
+      langitude: formData['langitude'],
+      longitude: formData['longitude'],
+      activities: [],
+      stakeholders: [],
+      iurans: [],
     );
+
+    final result = await addDesaUseCase(desa);
 
     DialogUtil.hideLoading();
 
@@ -62,8 +61,13 @@ class AdminCrudDesaController extends GetxController {
         Get.back();
         SnackBarUtil.showError(message: "Tidak dapat membuat iuran");
       },
-      (_) {
-        Get.back();
+      (_) async {
+        Get.back(
+          result: {
+            'id': desa.id,
+            'unique_code': desa.uniqueCode,
+          },
+        );
         SnackBarUtil.showSuccess(
           title: "Iuran berhasil dibuat",
           message: "Iuranmu akan ditagihkan ke semua warga desamu",

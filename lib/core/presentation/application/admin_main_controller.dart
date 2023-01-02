@@ -34,7 +34,7 @@ class AdminMainController extends GetxController {
     final desaCredential =
         await SecureStorageHelper.instance.getDesaCredential();
 
-    selectedDesaId = desaCredential['id'];
+    selectedDesaId = desaCredential['id'] ?? "";
     getAllDesa().listen(
       (either) {
         status = ControllerStatus.loading;
@@ -83,6 +83,13 @@ class AdminMainController extends GetxController {
       'unique_code': desa.uniqueCode,
     };
     await SecureStorageHelper.instance.saveDesaCredential(jsonData);
+    getIncomingData();
+    update();
+  }
+
+  Future<void> updateSelectDesa(Map<String, dynamic> data) async {
+    selectedDesaId = data['id'] ?? "";
+    await SecureStorageHelper.instance.saveDesaCredential(data);
     getIncomingData();
     update();
   }

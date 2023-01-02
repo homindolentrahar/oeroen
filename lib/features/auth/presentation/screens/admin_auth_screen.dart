@@ -118,6 +118,28 @@ class AdmminAuthScreen extends StatelessWidget {
                                 }
                               },
                             ),
+                            const SizedBox(height: 24),
+                            Divider(
+                              thickness: 2,
+                              color: AppColor.gray.withOpacity(0.25),
+                              indent: 64,
+                              endIndent: 64,
+                            ),
+                            const SizedBox(height: 24),
+                            AppFillButton(
+                              icon: SvgPicture.asset(
+                                "assets/icons/ic_google.svg",
+                                width: 24,
+                                height: 24,
+                              ),
+                              text: "Masuk dengan Google",
+                              textSize: 14,
+                              textColor: AppColor.black,
+                              color: AppColor.white,
+                              onPressed: () {
+                                controller.googleLogin();
+                              },
+                            ),
                           ],
                         ),
                       ],

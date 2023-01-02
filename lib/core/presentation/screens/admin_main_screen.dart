@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:oeroen/common/theme/app_color.dart';
-import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/application/admin_main_controller.dart';
 import 'package:oeroen/core/presentation/widgets/popup_menu_item_child.dart';
 import 'package:oeroen/core/presentation/widgets/state_handle_widget.dart';
 import 'package:oeroen/core/presentation/widgets/user_avatar.dart';
 import 'package:oeroen/features/auth/presentation/application/auth_controller.dart';
+import 'package:oeroen/features/desa/presentation/widgets/admin_select_desa_detail_sheet.dart';
 import 'package:oeroen/features/desa/presentation/widgets/admin_select_desa_sheet.dart';
 import 'package:oeroen/features/transaction/domain/models/warga_transaction.dart';
 import 'package:oeroen/features/transaction/presentation/widget/crud_transaction_form_sheet.dart';
 import 'package:oeroen/features/transaction/presentation/widget/transaction_in_desa_list_item.dart';
-import 'package:oeroen/presentation/widgets/app_fill_button.dart';
 import 'package:oeroen/routes/app_route.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -87,88 +87,28 @@ class AdminMainScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.bottomSheet(
-                            AdminSelectDesaSheet(
-                              allDesa: controller.allDesa ?? [],
-                              selectedDesaId: controller.selectedDesaId,
-                              onTambahDesa: () {
-                                Get.toNamed(AppRoute.adminCrudDesaRoute);
-                              },
-                              onDesaSelected: (desa) {
+                      controller.allDesa != null &&
+                              (controller.allDesa?.isNotEmpty ?? false)
+                          ? GestureDetector(
+                              onTap: () {
                                 Get.bottomSheet(
-                                  Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                color: AppColor.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: SvgPicture.asset(
-                                                "assets/icons/ic_desa.svg",
-                                                color: AppColor.dark,
-                                                width: 20,
-                                                height: 20,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 16),
-                                            Expanded(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    desa.name ?? "",
-                                                    style: Get
-                                                        .textTheme.headline5
-                                                        ?.copyWith(
-                                                      color: AppColor.black,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 4),
-                                                  Text(
-                                                    desa.uniqueCode ?? "",
-                                                    style: Get
-                                                        .textTheme.bodyText2
-                                                        ?.copyWith(
-                                                      color: AppColor.dark,
-                                                      fontFamily:
-                                                          AppFont.medium,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(width: 16),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Get.toNamed(
-                                                  AppRoute.adminCrudDesaRoute,
-                                                  arguments: desa,
-                                                );
-                                              },
-                                              child: SvgPicture.asset(
-                                                "assets/icons/ic_edit.svg",
-                                                width: 20,
-                                                height: 20,
-                                                color: AppColor.gray,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 32),
-                                        AppFillButton(
-                                          text: "Pilih Desa",
-                                          onPressed: controller
+                                  AdminSelectDesaSheet(
+                                    allDesa: controller.allDesa ?? [],
+                                    selectedDesaId: controller.selectedDesaId,
+                                    onTambahDesa: () {
+                                      Get.toNamed(AppRoute.adminCrudDesaRoute);
+                                    },
+                                    onDesaSelected: (desa) {
+                                      Get.bottomSheet(
+                                        AdminSelectDesaDetailSheet(
+                                          desa: desa,
+                                          onTapEdit: () {
+                                            Get.toNamed(
+                                              AppRoute.adminCrudDesaRoute,
+                                              arguments: desa,
+                                            );
+                                          },
+                                          onPilihDesa: controller
                                                       .selectedDesaId ==
                                                   desa.id
                                               ? null
@@ -183,11 +123,19 @@ class AdminMainScreen extends StatelessWidget {
                                                   }
                                                 },
                                         ),
-                                      ],
-                                    ),
+                                        enableDrag: false,
+                                        backgroundColor: AppColor.light,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                   enableDrag: false,
-                                  backgroundColor: AppColor.light,
+                                  backgroundColor: Get.theme.canvasColor,
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10),
@@ -196,41 +144,59 @@ class AdminMainScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                            ),
-                            enableDrag: false,
-                            backgroundColor: Get.theme.canvasColor,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    controller.allDesa
+                                            ?.firstWhereOrNull((element) =>
+                                                element.id ==
+                                                controller.selectedDesaId)
+                                            ?.name ??
+                                        "-",
+                                    style: Get.textTheme.headline4
+                                        ?.copyWith(color: AppColor.black),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SvgPicture.asset(
+                                    "assets/icons/ic_chevron_down.svg",
+                                    width: 20,
+                                    height: 20,
+                                    color: AppColor.black,
+                                  )
+                                ],
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () async {
+                                final desaResult = await Get.toNamed(
+                                    AppRoute.adminCrudDesaRoute);
+
+                                Logger().w("Result: $desaResult");
+
+                                if (desaResult != null) {
+                                  controller.updateSelectDesa(desaResult);
+                                }
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Tambah Desa",
+                                    style: Get.textTheme.headline4
+                                        ?.copyWith(color: AppColor.black),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SvgPicture.asset(
+                                    "assets/icons/add.svg",
+                                    width: 20,
+                                    height: 20,
+                                    color: AppColor.black,
+                                  )
+                                ],
                               ),
                             ),
-                          );
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              controller.allDesa
-                                      ?.firstWhere((element) =>
-                                          element.id ==
-                                          controller.selectedDesaId)
-                                      .name ??
-                                  "-",
-                              style: Get.textTheme.headline4
-                                  ?.copyWith(color: AppColor.black),
-                            ),
-                            const SizedBox(width: 8),
-                            SvgPicture.asset(
-                              "assets/icons/ic_chevron_down.svg",
-                              width: 20,
-                              height: 20,
-                              color: AppColor.black,
-                            )
-                          ],
-                        ),
-                      ),
                       UserAvatar(
                         items: [
                           PopupMenuItem(

@@ -32,7 +32,7 @@ class WargaTransactionRepository implements IWargaTransactionRepository {
 
     var query = _firestore.transactionCollection().where(
           'desa_id',
-          isEqualTo: desaCredential['id'],
+          isEqualTo: desaCredential['id'] ?? "-",
         );
 
     if (categoryFilter.isNotEmpty) {

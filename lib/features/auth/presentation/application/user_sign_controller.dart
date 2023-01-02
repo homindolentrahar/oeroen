@@ -58,7 +58,7 @@ class UserSignController extends GetxController {
     result.fold(
       (error) {
         Logger().e(error);
-        SnackBarUtil.showError(message: error);
+        SnackBarUtil.showError(message: error.message);
       },
       (unit) async {
         final eitherWarga = await getWarga();
