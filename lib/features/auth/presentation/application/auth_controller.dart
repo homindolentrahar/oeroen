@@ -21,7 +21,9 @@ class AuthController extends GetxController {
   })  : _authRepository = authRepository,
         _storage = storage;
 
-  final authStateChanges = Rx<Option<AuthUser>>(none());
+  final authStateChanges = Rx<Future<Option<AuthUser>>>(
+    Future.value(none<AuthUser>()),
+  );
 
   @override
   void onReady() {
@@ -32,32 +34,37 @@ class AuthController extends GetxController {
 
   void onAuthStateChanges() {
     authStateChanges.bindStream(_authRepository.authStateChanges());
-    debounce(authStateChanges, (Option<AuthUser> authState) {
-      authState.fold(
+    debounce(authStateChanges, (Future<Option<AuthUser>> authState) async {
+      (await authState).fold(
         () {
           Get.offAllNamed(AppRoute.authRoute);
         },
         (authUser) async {
           Logger().i("Auth User Verified: ${authUser.isVerified}");
-          if (authUser.isVerified || authUser.providerId == 'phone') {
-            // TODO: Check if the user already join a desa
-            final eitherWarga = await getWarga();
+          if (authUser.role == "warga") {
+            if (authUser.isVerified || authUser.providerId == 'phone') {
+              // TODO: Check if the user already join a desa
+              final eitherWarga = await getWarga();
 
-            eitherWarga.fold(
-              (error) {},
-              (warga) {
-                Logger().i("Warga Desa: ${warga.listDesa?.length}");
-                if (warga.listDesa != null && warga.listDesa!.isNotEmpty) {
-                  Get.toNamed(AppRoute.mainRoute);
-                } else {
-                  Get.toNamed(AppRoute.desaRegisterRoute);
-                }
-              },
-            );
-          } else {
-            if (Get.currentRoute != AppRoute.waitingVerificationRoute) {
-              Get.offAllNamed(AppRoute.waitingVerificationRoute);
+              eitherWarga.fold(
+                (error) {},
+                (warga) {
+                  if (warga.listDesa != null && warga.listDesa!.isNotEmpty) {
+                    Get.offAllNamed(AppRoute.mainRoute);
+                  } else {
+                    Get.offAllNamed(AppRoute.desaRegisterRoute);
+                  }
+                },
+              );
+            } else {
+              if (Get.currentRoute != AppRoute.waitingVerificationRoute) {
+                Get.offAllNamed(AppRoute.waitingVerificationRoute);
+              }
             }
+          } else if (authUser.role == "admin") {
+            Get.offAllNamed(AppRoute.adminMainRoute);
+          } else {
+            Get.offAllNamed(AppRoute.authRoute);
           }
         },
       );

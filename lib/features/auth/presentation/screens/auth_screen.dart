@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/features/auth/presentation/application/user_sign_controller.dart';
+import 'package:oeroen/presentation/widgets/app_text_button.dart';
 import 'package:oeroen/routes/app_route.dart';
 
 const List<String> authType = ["Handphone", "Email"];
@@ -31,6 +32,12 @@ class AuthScreen extends StatelessWidget {
                     "assets/icons/logo.svg",
                     width: 48,
                     height: 48,
+                  ),
+                  AppTextButton(
+                    text: "Masuk sebagai Desa",
+                    onPressed: () {
+                      Get.toNamed(AppRoute.adminAuthRoute);
+                    },
                   ),
                 ],
               ),

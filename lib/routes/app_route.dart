@@ -1,5 +1,13 @@
 import 'package:get/get.dart';
+import 'package:oeroen/core/presentation/screens/admin_main_screen.dart';
+import 'package:oeroen/core/presentation/screens/bindings/admin_main_binding.dart';
 import 'package:oeroen/core/presentation/screens/bindings/main_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/admin_auth_screen.dart';
+import 'package:oeroen/features/auth/presentation/screens/admin_otp_screen.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/admin_auth_binding.dart';
+import 'package:oeroen/features/auth/presentation/screens/bindings/admin_otp_binding.dart';
+import 'package:oeroen/features/desa/presentation/screens/admin_crud_desa_screen.dart';
+import 'package:oeroen/features/desa/presentation/screens/bindings/admin_crud_desa_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_add_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_detail_binding.dart';
 import 'package:oeroen/features/desa/presentation/screens/bindings/desa_register_binding.dart';
@@ -37,15 +45,19 @@ import 'package:oeroen/features/iuran/presentation/screens/iuran_screen.dart';
 class AppRoute {
   static const String initialRoute = "/";
   static const String authRoute = "/auth";
+  static const String adminAuthRoute = "/admin-auth";
   static const String loginEmailRoute = "/login";
   static const String loginPhoneRoute = "/phone-login";
   static const String registerRoute = "/register";
   static const String forgotPasswordRoute = "/forgot-password";
   static const String otpRoute = "/otp";
+  static const String adminOtpRoute = "/admin-otp";
   static const String desaRegisterRoute = "/desa-register";
   static const String desaAddRoute = "/desa-add";
   static const String mainRoute = "/main";
+  static const String adminMainRoute = "/admin-main";
   static const String mainBerandaRoute = "/beranda";
+  static const String adminCrudDesaRoute = "/admin-crud-desa";
   static const String mainDesaRoute = "/desa";
   static const String mainIuranRoute = "/iuran";
   static const String wajibIuranRoute = "/wajib-iuran";
@@ -81,6 +93,12 @@ class AppRoute {
       ],
     ),
     GetPage(
+      name: adminAuthRoute,
+      page: () => const AdmminAuthScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: AdminAuthBinding(),
+    ),
+    GetPage(
       name: otpRoute,
       page: () {
         final data = Get.arguments as Map<String, dynamic>;
@@ -94,6 +112,12 @@ class AppRoute {
       },
       transition: Transition.rightToLeftWithFade,
       binding: OtpBinding(),
+    ),
+    GetPage(
+      name: adminOtpRoute,
+      page: () => const AdminOtpScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: AdminOtpBinding(),
     ),
     GetPage(
       name: registerRoute,
@@ -141,6 +165,18 @@ class AppRoute {
           transition: Transition.fadeIn,
         ),
       ],
+    ),
+    GetPage(
+      name: adminMainRoute,
+      page: () => const AdminMainScreen(),
+      transition: Transition.fadeIn,
+      binding: AdminMainBinding(),
+    ),
+    GetPage(
+      name: adminCrudDesaRoute,
+      page: () => const AdminCrudDesaScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: AdminCrudDesaBinding(),
     ),
     GetPage(
       name: mainIuranRoute,

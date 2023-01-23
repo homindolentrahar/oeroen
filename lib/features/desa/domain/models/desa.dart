@@ -1,5 +1,6 @@
 class Desa {
   final String? id;
+  final String? adminId;
   final String? uniqueCode;
   final String? name;
   final String? district;
@@ -17,6 +18,7 @@ class Desa {
 
   Desa({
     this.id,
+    this.adminId,
     this.uniqueCode,
     this.name,
     this.district,

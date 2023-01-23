@@ -2,10 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:oeroen/common/errors/app_error.dart';
+import 'package:oeroen/core/data/remote/admin_dto.dart';
 import 'package:oeroen/core/data/remote/warga_dto.dart';
+import 'package:oeroen/core/domain/models/warga.dart';
+import 'package:oeroen/core/domain/models/admin.dart';
 import 'package:oeroen/features/auth/data/remote/firebase/firebase_auth_user.dart';
 import 'package:oeroen/features/auth/domain/models/auth_user.dart';
 import 'package:oeroen/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:oeroen/features/desa/data/remote/dto/desa_dto.dart';
 import 'package:oeroen/utils/extension/firestore_extensions.dart';
 import 'package:oeroen/utils/helper/secure_storage_helper.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,22 +30,66 @@ class AuthRepository implements IAuthRepository {
         _firestore = firestore;
 
   @override
-  Stream<Option<AuthUser>> authStateChanges() async* {
+  Future<Option<AuthUser>> getUserById() async {
+    try {
+      final userCredential =
+          await SecureStorageHelper.instance.getUserCredential();
+
+      final user = await _firestore
+          .usersCollection()
+          .withConverter<FirebaseAuthUser>(
+            fromFirestore: (snapshot, _) {
+              final dto = FirebaseAuthUser.fromJson(snapshot.data()!);
+              dto.userId = snapshot.id;
+              return dto;
+            },
+            toFirestore: (user, _) => user.toJson(),
+          )
+          .doc(userCredential)
+          .get();
+
+      return optionOf(user.data()?.toAuthUser());
+    } on FirebaseException catch (e) {
+      Logger().e("Code: ${e.code}, Message: ${e.message}");
+
+      return none();
+    } on Exception catch (e) {
+      Logger().e("Error: ${e.toString()}");
+      return none();
+    }
+  }
+
+  @override
+  Stream<Future<Option<AuthUser>>> authStateChanges() async* {
     yield* _auth.userChanges().map(
-      (user) {
+      (user) async {
         Logger().i("AuthStateChanges: ${user.toString()}");
 
         if (user == null) {
           return none<AuthUser>();
         }
 
+        final userById = await _firestore
+            .usersCollection()
+            .doc(user.uid)
+            .withConverter<FirebaseAuthUser>(
+              fromFirestore: (snapshot, _) {
+                final dto = FirebaseAuthUser.fromJson(snapshot.data()!);
+                dto.userId = snapshot.id;
+                return dto;
+              },
+              toFirestore: (user, _) => user.toJson(),
+            )
+            .get();
+
         final firebaseAuthUser = FirebaseAuthUser.fromUser(user);
+        firebaseAuthUser.role = userById.data()?.role ?? "";
         final authUser = firebaseAuthUser.toAuthUser();
 
         return some<AuthUser>(authUser);
       },
     ).onErrorReturnWith(
-      (error, stackTrace) {
+      (error, stackTrace) async {
         if (error is FirebaseAuthException) {
           Logger().e(error.message.toString());
           return none();
@@ -99,14 +148,22 @@ class AuthRepository implements IAuthRepository {
         password: password,
       )
           .then((credential) async {
-        final authUser = FirebaseAuthUser.fromUser(credential.user);
-        final warga = WargaDto.fromFirebaseUser(authUser);
+        final firebaseAuthUser = FirebaseAuthUser.fromUser(credential.user);
+        firebaseAuthUser.role = "warga";
+
+        await _firestore
+            .usersCollection()
+            .doc(credential.user?.uid ?? "")
+            .set(firebaseAuthUser.toJson());
+
+        final wargaFromAuthUser = WargaDto.fromFirebaseUser(firebaseAuthUser);
         await _firestore
             .wargaCollection()
-            .doc(warga.userId)
-            .set(warga.toJson());
+            .doc(credential.user?.uid ?? "")
+            .set(wargaFromAuthUser.toJson());
 
-        await SecureStorageHelper.instance.saveUserCredential(authUser.userId);
+        await SecureStorageHelper.instance
+            .saveUserCredential(firebaseAuthUser.userId);
       });
 
       return right(unit);
@@ -126,7 +183,8 @@ class AuthRepository implements IAuthRepository {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((credential) async {
-        final warga = await _firestore
+        // Saving credentials to locale storage
+        final dataWarga = await _firestore
             .wargaCollection()
             .doc(credential.user?.uid ?? "")
             .withConverter<WargaDto>(
@@ -138,18 +196,13 @@ class AuthRepository implements IAuthRepository {
               toFirestore: (warga, _) => warga.toJson(),
             )
             .get();
+        final desa = dataWarga.data()?.listDesa?[0];
+        final jsonData = {
+          'id': desa?.id,
+          'unique_code': desa?.uniqueCode,
+        };
 
-        if (warga.data()!.listDesa != null &&
-            warga.data()!.listDesa!.isNotEmpty) {
-          final desa = warga.data()?.listDesa?[0];
-
-          final jsonData = {
-            'id': desa?.desaId,
-            'unique_code': desa?.uniqueCode,
-          };
-
-          await SecureStorageHelper.instance.saveDesaCredential(jsonData);
-        }
+        await SecureStorageHelper.instance.saveDesaCredential(jsonData);
 
         await SecureStorageHelper.instance
             .saveUserCredential(credential.user?.uid);
@@ -164,11 +217,20 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<String, Unit>> signInWithGoogle() async {
+  Future<Either<AppError, Unit>> signInWithGoogle({
+    AuthRoleType type = AuthRoleType.warga,
+  }) async {
     try {
       final googleAccount = await _googleSignIn.signIn();
 
-      if (googleAccount == null) return left("User cancelled the auth process");
+      if (googleAccount == null) {
+        return left(
+          AppError(
+            code: 'cancelled-user',
+            message: "User cancelled the auth process",
+          ),
+        );
+      }
 
       final authentication = await googleAccount.authentication;
       final credential = GoogleAuthProvider.credential(
@@ -177,33 +239,75 @@ class AuthRepository implements IAuthRepository {
       );
 
       await _auth.signInWithCredential(credential).then((credential) async {
-        final authUser = FirebaseAuthUser.fromUser(credential.user);
-        final wargaFromAuthUser = WargaDto.fromFirebaseUser(authUser);
-        final dataWarga = await _firestore
-            .wargaCollection()
+        // Inserting data to user collection
+        // Checking if the user is exists in users collection
+        final userById = await _firestore
+            .usersCollection()
             .doc(credential.user?.uid ?? "")
-            .withConverter<WargaDto>(
-              fromFirestore: (snapshost, _) {
-                final dto = WargaDto.fromJson(snapshost.data()!);
-                dto.userId = credential.user?.uid ?? "";
-                return dto;
-              },
-              toFirestore: (warga, _) => warga.toJson(),
-            )
             .get();
 
-        if (!dataWarga.exists) {
-          await _firestore
-              .wargaCollection()
-              .doc(credential.user?.uid ?? "")
-              .set(wargaFromAuthUser.toJson());
-        } else {
-          if (dataWarga.data()!.listDesa != null &&
-              dataWarga.data()!.listDesa!.isNotEmpty) {
-            final desa = dataWarga.data()?.listDesa?[0];
+        if (!userById.exists) {
+          final firebaseAuthUser = FirebaseAuthUser.fromUser(credential.user);
+          firebaseAuthUser.role =
+              type == AuthRoleType.warga ? "warga" : "admin";
 
+          await _firestore
+              .usersCollection()
+              .doc(credential.user?.uid ?? "")
+              .set(firebaseAuthUser.toJson());
+
+          if (type == AuthRoleType.warga) {
+            final wargaFromAuthUser =
+                WargaDto.fromFirebaseUser(firebaseAuthUser);
+            await _firestore
+                .wargaCollection()
+                .doc(credential.user?.uid ?? "")
+                .set(wargaFromAuthUser.toJson());
+          } else {
+            final adminFromAuthUser =
+                AdminDto.fromFirebaseUser(firebaseAuthUser);
+            await _firestore
+                .adminsCollection()
+                .doc(credential.user?.uid ?? "")
+                .set(adminFromAuthUser.toJson());
+          }
+        } else {
+          if (type == AuthRoleType.warga) {
+            final dataWarga = await _firestore
+                .wargaCollection()
+                .doc(credential.user?.uid ?? "")
+                .withConverter<WargaDto>(
+                  fromFirestore: (snapshost, _) {
+                    final dto = WargaDto.fromJson(snapshost.data()!);
+                    dto.userId = credential.user?.uid ?? "";
+                    return dto;
+                  },
+                  toFirestore: (warga, _) => warga.toJson(),
+                )
+                .get();
+            final desa = dataWarga.data()?.listDesa?[0];
             final jsonData = {
-              'id': desa?.desaId,
+              'id': desa?.id,
+              'unique_code': desa?.uniqueCode,
+            };
+
+            await SecureStorageHelper.instance.saveDesaCredential(jsonData);
+          } else {
+            final dataWarga = await _firestore
+                .wargaCollection()
+                .doc(credential.user?.uid ?? "")
+                .withConverter<WargaDto>(
+                  fromFirestore: (snapshost, _) {
+                    final dto = WargaDto.fromJson(snapshost.data()!);
+                    dto.userId = credential.user?.uid ?? "";
+                    return dto;
+                  },
+                  toFirestore: (warga, _) => warga.toJson(),
+                )
+                .get();
+            final desa = dataWarga.data()?.listDesa?[0];
+            final jsonData = {
+              'id': desa?.id,
               'unique_code': desa?.uniqueCode,
             };
 
@@ -217,9 +321,9 @@ class AuthRepository implements IAuthRepository {
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
-      return left(e.message.toString());
+      return left(AppError(code: e.code, message: e.message.toString()));
     } on Exception catch (e) {
-      return left(e.toString());
+      return left(AppError(code: e.toString(), message: e.toString()));
     }
   }
 
@@ -227,6 +331,7 @@ class AuthRepository implements IAuthRepository {
   Future<Either<String, Unit>> signInWithOtp({
     required String verificationId,
     required String otpCode,
+    AuthRoleType type = AuthRoleType.warga,
   }) async {
     try {
       final phoneCredential = PhoneAuthProvider.credential(
@@ -237,34 +342,78 @@ class AuthRepository implements IAuthRepository {
       await _auth
           .signInWithCredential(phoneCredential)
           .then((credential) async {
-        final authUser = FirebaseAuthUser.fromUser(credential.user);
-        final wargaFromAuthUser = WargaDto.fromFirebaseUser(authUser);
-        final dataWarga = await _firestore
-            .wargaCollection()
+        // Inserting data to user collection
+        // Checking if the user is exists in users collection
+        // Then inserting data based on user role
+        final userById = await _firestore
+            .usersCollection()
             .doc(credential.user?.uid ?? "")
-            .withConverter<WargaDto>(
-              fromFirestore: (snapshost, _) {
-                final dto = WargaDto.fromJson(snapshost.data()!);
-                dto.userId = credential.user?.uid ?? "";
-                return dto;
-              },
-              toFirestore: (warga, _) => warga.toJson(),
-            )
             .get();
 
-        if (!dataWarga.exists) {
-          await _firestore
-              .wargaCollection()
-              .doc(credential.user?.uid ?? "")
-              .set(wargaFromAuthUser.toJson());
-        } else {
-          if (dataWarga.data()!.listDesa != null &&
-              dataWarga.data()!.listDesa!.isNotEmpty) {
-            final desa = dataWarga.data()?.listDesa?[0];
+        if (!userById.exists) {
+          final firebaseAuthUser = FirebaseAuthUser.fromUser(credential.user);
+          firebaseAuthUser.role =
+              type == AuthRoleType.warga ? "warga" : "admin";
 
+          await _firestore
+              .usersCollection()
+              .doc(credential.user?.uid ?? "")
+              .set(firebaseAuthUser.toJson());
+
+          if (type == AuthRoleType.warga) {
+            final wargaFromAuthUser =
+                WargaDto.fromFirebaseUser(firebaseAuthUser);
+            await _firestore
+                .wargaCollection()
+                .doc(credential.user?.uid ?? "")
+                .set(wargaFromAuthUser.toJson());
+          } else {
+            final adminFromAuthUser =
+                AdminDto.fromFirebaseUser(firebaseAuthUser);
+            await _firestore
+                .adminsCollection()
+                .doc(credential.user?.uid ?? "")
+                .set(adminFromAuthUser.toJson());
+          }
+        } else {
+          if (type == AuthRoleType.warga) {
+            final dataWarga = await _firestore
+                .wargaCollection()
+                .doc(credential.user?.uid ?? "")
+                .withConverter<WargaDto>(
+                  fromFirestore: (snapshost, _) {
+                    final dto = WargaDto.fromJson(snapshost.data()!);
+                    dto.userId = credential.user?.uid ?? "";
+                    return dto;
+                  },
+                  toFirestore: (warga, _) => warga.toJson(),
+                )
+                .get();
+            final desa = dataWarga.data()?.listDesa?[0];
             final jsonData = {
-              'id': desa?.desaId,
+              'id': desa?.id,
               'unique_code': desa?.uniqueCode,
+            };
+
+            await SecureStorageHelper.instance.saveDesaCredential(jsonData);
+          } else {
+            final dataDesa = await _firestore
+                .desaCollection()
+                .where('admin_id', isEqualTo: credential.user?.uid ?? "")
+                .withConverter<DesaDto>(
+                  fromFirestore: (snapshot, _) {
+                    final dto = DesaDto.fromJson(snapshot.data()!);
+                    dto.id = snapshot.id;
+                    return dto;
+                  },
+                  toFirestore: (desa, _) => desa.toJson(),
+                )
+                .get();
+
+            final desa = dataDesa.docs.map((e) => e.data()).toList()[0];
+            final jsonData = {
+              'id': desa.id,
+              'unique_code': desa.uniqueCode,
             };
 
             await SecureStorageHelper.instance.saveDesaCredential(jsonData);
@@ -328,14 +477,73 @@ class AuthRepository implements IAuthRepository {
         _auth.signOut(),
         _googleSignIn.signOut(),
       ]);
-      await SecureStorageHelper.instance.clearUserCredential();
-      await SecureStorageHelper.instance.clearDesaCredential();
+      await SecureStorageHelper.instance.clearAllCredentials();
 
       return right(unit);
     } on FirebaseAuthException catch (e) {
       return left(e.message.toString());
     } on Exception catch (e) {
       return left(e.toString());
+    }
+  }
+
+  @override
+  Future<Option<Admin>> getAdminById() async {
+    try {
+      final userCredential =
+          await SecureStorageHelper.instance.getUserCredential();
+
+      final user = await _firestore
+          .adminsCollection()
+          .withConverter<AdminDto>(
+            fromFirestore: (snapshot, _) {
+              final dto = AdminDto.fromJson(snapshot.data()!);
+              dto.adminId = snapshot.id;
+              return dto;
+            },
+            toFirestore: (user, _) => user.toJson(),
+          )
+          .doc(userCredential)
+          .get();
+
+      return optionOf(user.data()?.toModel());
+    } on FirebaseException catch (e) {
+      Logger().e("Code: ${e.code}, Message: ${e.message}");
+
+      return none();
+    } on Exception catch (e) {
+      Logger().e("Error: ${e.toString()}");
+      return none();
+    }
+  }
+
+  @override
+  Future<Option<Warga>> getWargaById() async {
+    try {
+      final userCredential =
+          await SecureStorageHelper.instance.getUserCredential();
+
+      final user = await _firestore
+          .adminsCollection()
+          .withConverter<WargaDto>(
+            fromFirestore: (snapshot, _) {
+              final dto = WargaDto.fromJson(snapshot.data()!);
+              dto.userId = snapshot.id;
+              return dto;
+            },
+            toFirestore: (user, _) => user.toJson(),
+          )
+          .doc(userCredential)
+          .get();
+
+      return optionOf(user.data()?.toModel());
+    } on FirebaseException catch (e) {
+      Logger().e("Code: ${e.code}, Message: ${e.message}");
+
+      return none();
+    } on Exception catch (e) {
+      Logger().e("Error: ${e.toString()}");
+      return none();
     }
   }
 }

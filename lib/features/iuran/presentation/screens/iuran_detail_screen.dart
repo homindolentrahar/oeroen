@@ -5,7 +5,6 @@ import 'package:oeroen/common/theme/app_color.dart';
 import 'package:oeroen/common/theme/app_font.dart';
 import 'package:oeroen/core/presentation/widgets/core_app_bar.dart';
 import 'package:oeroen/core/presentation/widgets/icon_button_location.dart';
-import 'package:oeroen/core/presentation/widgets/paid_type_chip.dart';
 import 'package:oeroen/core/presentation/widgets/section_subtitle.dart';
 import 'package:oeroen/features/desa/domain/models/desa.dart';
 import 'package:oeroen/features/desa/presentation/widgets/pengurus_desa_list_item.dart';
@@ -34,7 +33,7 @@ class IuranDetailScreen extends StatelessWidget {
                 title: "Iuran ${Constants.iuranCategories.firstWhere(
                       (element) =>
                           element.categorySlug ==
-                          controller.iuran?.categorySlug,
+                          controller.transaction?.categorySlug,
                       orElse: () => IuranCategory(),
                     ).categoryName}",
                 backEnabled: true,
@@ -45,7 +44,7 @@ class IuranDetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Periode ${controller.iuran?.createdAt?.toMMMyyyy()}",
+                    "Periode ${controller.transaction?.createdAt?.toMMMyyyy()}",
                     style: Get.textTheme.bodyText1?.copyWith(
                       fontFamily: AppFont.medium,
                       color: AppColor.dark,
@@ -53,33 +52,33 @@ class IuranDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Rp ${controller.iuran?.amount?.toCurrency()}",
+                    "Rp ${controller.transaction?.amount?.toCurrency()}",
                     style: Get.textTheme.headline1?.copyWith(
                       color: AppColor.black,
                     ),
                   ),
                   const SizedBox(height: 16),
-                  PaidTypeChip(
-                    paidSlug: controller.iuran?.isPaid == true ? "paid" : "due",
-                    title: controller.iuran?.isPaid == true
-                        ? "Lunas"
-                        : "Belum Lunas",
-                  ),
-                  Visibility(
-                    visible: controller.iuran?.paidAt != null,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(height: 8),
-                        Text(
-                          "Dibayarkan pada ${controller.iuran?.paidAt?.toDisplayDateAlt()}",
-                          style: Get.textTheme.bodyText2?.copyWith(
-                            color: AppColor.gray,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // PaidTypeChip(
+                  //   paidSlug: controller.transaction?.isPaid == true ? "paid" : "due",
+                  //   title: controller.iuran?.isPaid == true
+                  //       ? "Lunas"
+                  //       : "Belum Lunas",
+                  // ),
+                  // Visibility(
+                  //   visible: controller.iuran?.paidAt != null,
+                  //   child: Column(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       const SizedBox(height: 8),
+                  //       Text(
+                  //         "Dibayarkan pada ${controller.iuran?.paidAt?.toDisplayDateAlt()}",
+                  //         style: Get.textTheme.bodyText2?.copyWith(
+                  //           color: AppColor.gray,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
               const SizedBox(height: 32),

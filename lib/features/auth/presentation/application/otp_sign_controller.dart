@@ -59,6 +59,7 @@ class OtpSignController extends GetxController {
     final result = await _authRepository.signInWithOtp(
       otpCode: otp,
       verificationId: verificationId,
+      type: AuthRoleType.warga,
     );
 
     DialogUtil.hideLoading();

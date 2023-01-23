@@ -9,9 +9,11 @@ class CoreAppBar extends StatelessWidget {
     required this.title,
     this.backEnabled = false,
     this.additionalBackAction,
+    this.action,
   }) : super(key: key);
 
   final String title;
+  final Widget? action;
   final bool backEnabled;
   final VoidCallback? additionalBackAction;
 
@@ -35,10 +37,14 @@ class CoreAppBar extends StatelessWidget {
             ),
           ),
         const SizedBox(width: 16),
-        Text(
-          title,
-          style: Get.textTheme.headline4?.copyWith(color: AppColor.black),
+        Expanded(
+          child: Text(
+            title,
+            style: Get.textTheme.headline4?.copyWith(color: AppColor.black),
+          ),
         ),
+        const SizedBox(width: 16),
+        action ?? const SizedBox.shrink(),
       ],
     );
   }

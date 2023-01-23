@@ -1,52 +1,56 @@
 import 'package:get/get.dart';
-import 'package:oeroen/features/iuran/domain/models/iuran.dart';
-import 'package:oeroen/features/iuran/domain/usecases/listen_active_iuran.dart';
-import 'package:oeroen/features/iuran/domain/usecases/listen_transaction_iuran.dart';
+import 'package:oeroen/features/transaction/domain/models/warga_transaction.dart';
+import 'package:oeroen/features/transaction/domain/usecases/listen_transactions_in_desa.dart';
 
 class BerandaController extends GetxController {
-  final ListenActiveIuran listenActiveIuran;
-  final ListenTransactionIuran listenTransactionIuraan;
+  final ListenTransactionsInDesa listenTransactionsInDesa;
 
   BerandaController({
-    required this.listenTransactionIuraan,
-    required this.listenActiveIuran,
+    required this.listenTransactionsInDesa,
   });
 
-  List<Iuran> activeIuran = [];
-  List<Iuran> paidIuran = [];
+  List<WargaTransaction>? transactions;
+  List<WargaTransaction>? paidTransactions;
   double activeAmount = 0.0;
 
   @override
   void onInit() {
-    listenTransactionIuraan().listen(
-      (either) => either.fold(
+    listenIncomingData();
+
+    super.onInit();
+  }
+
+  void listenIncomingData() {
+    listenTransactionsInDesa(
+      isPaid: true,
+    ).listen((either) {
+      either.fold(
         (error) {
-          paidIuran = [];
+          paidTransactions = [];
           update();
         },
         (list) {
-          paidIuran = list;
+          paidTransactions = list;
+
           update();
         },
-      ),
-    );
-    listenActiveIuran().listen(
-      (either) => either.fold(
+      );
+    });
+    listenTransactionsInDesa().listen((either) {
+      either.fold(
         (error) {
-          activeIuran = [];
+          transactions = [];
           update();
         },
         (list) {
-          activeIuran = list;
+          transactions = list;
           activeAmount = list.fold(
             0.0,
             (previousValue, element) => previousValue += element.amount ?? 0.0,
           );
           update();
         },
-      ),
-    );
-
-    super.onInit();
+      );
+    });
   }
 }

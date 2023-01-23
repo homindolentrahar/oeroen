@@ -7,6 +7,7 @@ class AuthUser {
   final DateTime? createdAt;
   final DateTime? lastSignedInAt;
   final bool isVerified;
+  final String? role;
 
   AuthUser({
     this.userId,
@@ -17,5 +18,6 @@ class AuthUser {
     this.createdAt,
     this.lastSignedInAt,
     this.isVerified = false,
+    this.role,
   });
 }
